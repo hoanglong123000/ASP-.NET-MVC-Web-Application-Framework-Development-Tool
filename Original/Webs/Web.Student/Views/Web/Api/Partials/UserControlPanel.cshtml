@@ -1,0 +1,8 @@
+﻿@{
+    var domain = "http://id.spress.vn";
+}
+<li><a href="@(domain + "/")"><i class="icon-cog5"></i> Tài khoản của tôi</a></li>
+<li>
+    <form action="@(domain + "/auth/logout")" method="post" id="logout_form" role="form"></form>
+    <a href="javascript:{}" onclick="document.getElementById('logout_form').submit(); "><i class="icon-switch2"></i> Đăng xuất</a>
+</li>

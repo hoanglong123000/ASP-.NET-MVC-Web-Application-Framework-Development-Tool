@@ -1,0 +1,117 @@
+﻿@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Core.Executes.General.Groups
+@using Service.Core.Executes.General.JobTitles
+@using Service.Utility.Variables
+@model Service.AuthSharing.Executes.General.JobPositions.LocalJobPositionViewModel
+@{
+    var groups = ViewData["Groups"] as List<BaseItem>;
+    var JobTitles = ViewData["JobTitles"] as List<BaseItem>;
+}
+
+<input type="hidden" name="Id" value="@Model.Id" /> 
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Tên vị trí",
+    Name = "Name",
+    Value = Model.Name,
+    Required = true,
+    LabelCol = 3
+})
+
+@AppHelper.SelectInline(new ControlAttribute()
+{
+    Title = "Chức danh",
+    Name = "JobTitleId",
+    Value = Model.JobTitleId.HasValue ? Model.JobTitleId.Value + "" : "",
+    LabelCol = 3,
+    List = JobTitles.Select(x => new SelectOption() { Text = x.Name, Value = x.Id.ToString() }).ToList(),
+    //HasViewMoreBtn = true,
+    HasDefaultOption = true
+})
+@AppHelper.SelectInline(new ControlAttribute()
+{
+    Title = "Nhóm người dùng",
+    Name = "GroupId",
+    Value = Model.GroupId.HasValue ? Model.GroupId.Value + "" : "",
+    LabelCol = 3,
+    List = groups.Select(x => new SelectOption() { Text = x.Name, Value = x.Id + "" }).ToList(),
+    HasDefaultOption = true
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "STT",
+    Name = "Priority",
+    Value = Model.Priority + "",
+    LabelCol = 3
+})
+
+<div class="form-group form-group-sm">
+    <label class="col-md-3"></label>
+    <div class="col-md-9">
+        @AppHelper.CheckboxInline(new ControlAttribute()
+       {
+           Title = "Áp dụng",
+           Name = "Active",
+           Value = "true",
+           OnlyControl = true,
+           Check = Model.Active
+       })
+    </div>
+</div>
+<script>
+    function initJobPositionForm(table) {
+        $('#JobPositionForm').ultraForm({
+            uiType: 0,
+            action: '/general/jobpositionEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                }, 
+                {
+                    name: 'Name',
+                    type: 'text',
+                    required: {
+                        message: 'Vui lòng nhập tên vị trí'
+                    }
+                },
+                {
+                    name: 'JobTitleId',
+                    type: 'select2',
+                    option: {}
+                },
+                {
+                    name: 'Active',
+                    type: 'checkbox'
+                },
+                {
+                    name: 'GroupId',
+                    type: 'select2',
+                    option: {}
+                },
+                {
+                    name: 'Priority',
+                    type: 'number',
+                    option: {
+                        min: 0,
+                        max: 10000
+                    }
+                }
+            ],
+            beforSubmit: function (form) {
+
+            },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    table.hideModal();
+                    table.loadData();
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+    }
+</script>

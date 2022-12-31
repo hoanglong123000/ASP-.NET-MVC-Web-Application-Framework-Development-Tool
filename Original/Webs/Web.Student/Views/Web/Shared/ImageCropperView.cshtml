@@ -1,0 +1,33 @@
+﻿
+<div class="row">
+    <div class="col-md-6">
+        <h6 class="text-bold no-margin-top">Bước 1. Tải ảnh từ máy</h6>
+        <p class="">Tải ảnh từ máy của Anh/Chị. Bỏ qua bước này nếu ảnh đã được tải lên.</p>
+        <input type="file" class="file-styled file-styled-cropper" id="inputImage">
+        <h6 class="text-bold">Bước 2. Chỉnh sửa ảnh</h6>
+        <p class="">
+            Click giữ chuột trái và kéo ô bên dưới đến đúng vị trí ảnh cần cắt. <br />
+            Có thể phóng to, thu nhỏ ảnh scan bằng cách lăn "con lăn chuột".
+        </p>
+        <div class="image-cropper-container content-group" style="height: 400px;">
+            <img src="" alt="" class="cropper" id="cropper-image" style="width: 100%" />
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h6 class="text-bold no-margin-top">Bước 3. Xem lại kết quả sau khi chỉnh sửa</h6>
+        <div class="content-group text-center">
+            <div class="eg-preview">
+                <div class="preview preview-lg"></div>
+                <div class="preview preview-md"></div>
+                <div class="preview preview-sm"></div>
+                <div class="preview preview-xs"></div>
+            </div>
+        </div>
+        <h6 class="text-bold">Bước 4. Lưu ảnh</h6>
+        <p class="">Nhấn vào nút bên dưới để tiến hành lưu ảnh.</p>
+        <button class="btn btn-lg btn-primary btn-block" style="width: 250px; margin: auto" id="btn-save-cropper"
+                data-loading-text="<i class='icon-spinner4 fa-spin'></i> Đang xử lý ...">
+            <i class="icon-floppy-disk position-left" style="font-size: 13px"></i> Lưu lại
+        </button>
+    </div>
+</div>

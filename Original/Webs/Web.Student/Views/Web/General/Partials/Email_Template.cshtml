@@ -1,0 +1,23 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Core.Components
+@using Service.Utility.Components
+@{
+	var baseData = ViewData["BaseData"] as Web.Student.Models.BaseData;
+	var version = Session["Version"] as string;
+	var settings = baseData.Settings;
+}
+
+<div class="panel panel-flat no-border no-margin-bottom" id="list_panel">
+	<div class="apply-list"></div>
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+	BundleType.ListGroup,
+	BundleType.SummernoteMedia,
+	BundleType.Slimscroll
+})
+ 
+<script src="~/assets/js/web/general/email-template.js"></script>

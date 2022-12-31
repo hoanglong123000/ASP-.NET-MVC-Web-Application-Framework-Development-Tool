@@ -1,0 +1,119 @@
+﻿@using  Web.Student.Models
+@using Service.Core.Components
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var featureGroups = baseData.FeatureGroups;
+    var auth = baseData.AuthData;
+
+}
+<!-- Main sidebar -->
+<div class="sidebar sidebar-main ">
+    <div class="sidebar-content">
+        <!-- Main navigation -->
+        <div class="sidebar-category sidebar-category-visible">
+            <div class="category-content no-padding">
+                <ul class="navigation navigation-main ">
+                    <li>
+                        <a href="/Education/BrandList">
+                            <i class="icon-cash2"></i>Brand
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/Education/ClothList"> <i class="icon-cash2"></i>Cloth</a>
+                    </li>
+
+                    <li>
+                        <a href="/Type/TypeList"><i class="icon-cash2"></i>Type</a>
+                    </li>
+
+                    <li>
+                        <a href="/Education/SizeofList"><i class="icon-cash2"></i>Size</a>
+                    </li>
+
+                    <li class="">
+                        <a href="#" class="has-ul">
+                            <i class="icon-file-text2 position-left"></i>
+                            <span>Danh mục</span>
+                        </a>
+                        <ul class="hidden-ul">
+                            <li>
+                                <a href="/general/employees">
+                                    <i class="icon-users position-left"></i> Danh mục người dùng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/orgs">
+                                    <i class="icon-tree6 position-left"></i>Danh mục phòng ban
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/jobpositions">
+                                    <i class="icon-file-text2 position-left"></i>Danh mục vị trí công tác
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/jobtitles">
+                                    <i class="icon-file-text2 position-left"></i>Danh mục chức danh
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/groups">
+                                    <i class="icon-file-text2 position-left"></i>Nhóm người dùng
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/emails">
+                                    <i class="icon-file-text2 position-left"></i>Email
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/general/optionvalues">
+                                    <i class="icon-file-text2 position-left"></i>Danh mục khác
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <a href="/general/setting">
+                            <i class="icon-gear position-left"></i>Cài đặt
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <!-- /main navigation -->
+        <hr class="mb-5 mt-5" />
+        <ul class="navigation navigation-accordion">
+            <li><a href="/employee/logoff"><i class="icon-switch2"></i> <span>Đăng xuất</span></a></li>
+        </ul>
+    </div>
+</div>
+<!-- /main navbar -->
+<script>
+    var pn = $(location).attr('pathname');
+    console.log(pn);
+    var tarr = pn.split('/');
+    console.log(tarr);
+    if (tarr[1] == 'portal') {
+        $('.sidebar-main .tabbable > ul a:eq(1)').tab('show');
+    } else {
+        $('.sidebar-main .tabbable > ul a:eq(0)').tab('show');
+    }
+    $('.navigation-main li').each(function () {
+        var li = $(this);
+        var href = li.find('> a').attr('href');
+        if (href == pn) {
+            li.addClass('active');
+            li.parents('.hidden-ul').css('display', 'block');
+        } else {
+            var hasChild = li.find('> span.hidden[view="' + pn + '"]').length;
+            if (hasChild > 0) {
+                li.addClass('active');
+            }
+        }
+    });
+</script>

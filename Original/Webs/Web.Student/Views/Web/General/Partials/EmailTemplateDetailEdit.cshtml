@@ -1,0 +1,132 @@
+﻿
+
+@using Service.Utility.Components
+@using Service.Core.Executes.General.OptionValues
+@using Service.Core.Executes.General.Processes
+@model Service.AuthSharing.Executes.General.LocalEmailTemplates.LocalEmailTemplateViewModel
+
+<form class="form-horizontal" id="EmailTemplateDetailForm">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="p-15">
+        <div class="row">
+            <div class="col-md-9">
+                @AppHelper.InputInline(new ControlAttribute()
+                {
+                    Title = "Tiêu đề email",
+                    Value = Model.Subject,
+                    Name = "Subject",
+                    LabelCol = 3
+                })
+                @AppHelper.Summernote(new ControlAttribute()
+                {
+                    Title = "Nội dung",
+                    Value = Model.Detail,
+                    Name = "DetailStr",
+                    LabelCol = 3
+                })
+                <div class="form-group no-margin" style="height: 30px; margin-bottom: 0">
+                    <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit" type="button">
+                        <i class="fa fa-save"></i> Lưu lại
+                    </button>
+
+                    <button class="btn btn-sm btn-fill btn-success m-r-5 btn-test" type="button">
+                        <i class="icon-pulse2 position-left"></i> Test
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h6 class="text-bold no-margin-top">Từ khóa</h6>
+                <table class="table table-bordered">
+                    <tbody>
+                        @{
+                            if (Model.AttributeList != null)
+                            {
+                                foreach (var c in Model.AttributeList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@c.Code</strong>
+                                            <p>@c.Name</p>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        } 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+
+
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    function testEmail(callback) {
+        var tem = 'testEmailModal';
+        app.createPartialModal({
+            modal: {
+                id: tem,
+                width: '800px',
+                title: 'Test email'
+            },
+            url: '/general/testemailtemplate',
+            data: {
+                id: model.Id,
+                dataType: 'html'
+            } 
+        }, function () {
+            callback();
+            initTestEmailForm(function () {
+                $('#' + tem).modal('hide');
+            });
+        })
+    }
+
+    function initEmailTemplateDetailForm(callback) {
+        console.log(34343);
+        $('#EmailTemplateDetailForm').ultraForm({
+            uiType: 1,
+			action: '/general/EmailTemplateDetailEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                },
+                {
+                    name: 'Subject',
+                    type: 'text'
+                },
+                {
+                    name: 'DetailStr',
+                    type: 'summernote',
+                    option: {
+                        height: 400
+                    }
+                }
+            ],
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    app.notify('success', 'Lưu thành công');
+                    callback(form.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+
+            }
+        });
+
+        $('.btn-test').click(function () {
+            var btn = $(this);
+            btn.button('loading');
+            testEmail(function () {
+                btn.button('reset');
+            });
+        });
+    }
+</script>

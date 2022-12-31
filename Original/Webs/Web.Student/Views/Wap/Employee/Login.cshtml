@@ -1,0 +1,57 @@
+﻿@using Portal.Models
+@using Service.Core.Components 
+@model  Portal.Models.LoginModel
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/2.0/Wap/Layouts/Signin.cshtml";
+    var message = "";
+    var baseData = ViewData["BaseData"] as BaseData;
+    var bg = baseData.Settings.GetValue("general", "logo_web");
+}
+
+<!-- Content area -->
+<div class="content" style="max-width: 400px; margin: 0 auto auto auto; padding-top: 0">
+    <!-- Advanced login -->
+    <div class="panel panel-body login-form no-border" style="margin-top: 30px">
+        <form class="" id="LoginForm" method="POST" action="/employee/login?returnUrl=@Model.ReturnUrl">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="ru" value="@Model.ReturnUrl"/>
+            <div class="text-center">
+                <img src="@bg" style="max-width: 50%"/>
+                <h5 class="content-group">
+                    Đăng nhập
+                </h5>
+            </div>
+            @if (!string.IsNullOrEmpty(message))
+            {
+                <span class="text-danger" style="margin: 10px 0; display: block">@message</span>
+            }
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            <div class="form-group has-feedback has-feedback-left">
+                @Html.TextBoxFor(m => m.LoginName, new {@class = "form-control", @placeholder = "Nhập email"})
+                <div class="form-control-feedback">
+                    <i class="icon-user text-muted"></i>
+                </div>
+                @Html.ValidationMessageFor(m => m.LoginName, "", new {@class = "text-danger"})
+            </div>
+
+            <div class="form-group has-feedback has-feedback-left">
+                <input type="password" class="form-control" name="password" placeholder="Mật khẩu">
+                <div class="form-control-feedback">
+                    <i class="icon-lock2 text-muted"></i>
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new {@class = "text-danger"})
+            </div> 
+            <div class="form-group">
+                <button type="submit" class="btn bg-blue btn-block">Đăng nhập <i class="icon-arrow-right14 position-right"></i></button>
+            </div>
+        </form>
+    </div> 
+</div> 
+
+<script>
+    $('body').addClass('login-page');
+    $(document).ready(function () { 
+        $('.styled').uniform();
+    });
+</script>

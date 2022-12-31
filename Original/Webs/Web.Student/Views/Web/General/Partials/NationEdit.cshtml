@@ -1,0 +1,49 @@
+﻿@using Service.Utility.Components
+@model  DBContext.AuthSharing.Entities.LocalNation
+
+<input type="hidden" name="Id" value="@Model.Id" />
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Tên quốc gia",
+	Value = Model.Name,
+	Name = "Name",
+	LabelCol = 4,
+	Required = true
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Mã tỉnh",
+	Value = Model.MaThue + "",
+	Name = "MaThue",
+	LabelCol = 4
+})
+<script>
+	function initNationForm(callback) {
+		$('#NationForm').ultraForm({
+			uiType: 1,
+			action: '/general/NationEdit',
+			actionType: 'ajax',
+			props: [
+				{
+					name: 'Id',
+					type: 'hidden'
+				},
+
+				{
+					name: 'Name',
+					type: 'text',
+					required: {
+						message: 'Vui lòng nhập tên quốc gia'
+					}
+				},
+				{
+					name: 'MaThue',
+					type: 'text'
+				}
+			],
+			afterSubmit: function (form) {
+				callback();
+			}
+		});
+	}
+</script>

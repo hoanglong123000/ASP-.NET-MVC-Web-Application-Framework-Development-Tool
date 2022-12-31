@@ -1,0 +1,48 @@
+﻿  
+@using Service.Core.Components
+@using Service.Utility.Components
+@{
+    var baseData = ViewData["BaseData"] as CMS.Models.BaseData;
+    var groups = baseData.FeatureGroups;
+    var DOMAIN_API = baseData.Settings.GetValue("general", "domain_api");
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="VlwHRdh-wzfUcWmmw11Xj9fj55dypOVJkPGTy7xKiok" />
+    <title>@ViewBag.Title</title>
+    <script>
+        var browser = '@baseData.Browser';
+        var roles = @Html.Raw(Json.Encode(groups));
+        var auth = @Html.Raw(Json.Encode(baseData.AuthData));
+        var DOMAIN_API = '';
+        var isAdmin = false;
+        var isHRM = false;
+        var notify = false;
+    </script>
+
+    @BundleHelper.Generate(new List<BundleType>()
+    {
+        BundleType.Wap,
+        BundleType.FontOpenSans,
+        BundleType.Select2
+    })
+<script src="~/assets/test/app.components.js"></script>
+    <link href="~/assets/test/wap.min.css" rel="stylesheet" /> 
+    <link href="~/assets/css/customize-wap.min.css" rel="stylesheet" />
+</head>
+<body> 
+    @Html.Partial("~/Views/Wap/Shared/header.cshtml", true)
+    <div class="page-container">
+        <div class="page-content">
+            @Html.Partial("~/Views/Wap/Shared/navbar.cshtml")
+            <div class="content-wrapper"> 
+                @RenderBody()
+                @Html.Partial("~/Views/Wap/Shared/footer.cshtml")
+            </div>
+        </div>
+    </div>
+</body>
+</html>

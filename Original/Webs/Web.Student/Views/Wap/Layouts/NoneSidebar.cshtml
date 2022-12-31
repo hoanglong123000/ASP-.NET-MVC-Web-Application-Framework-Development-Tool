@@ -1,0 +1,44 @@
+﻿@using Portal.Models
+@using Service.Utility.Components
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var groups = baseData.FeatureGroups;
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="VlwHRdh-wzfUcWmmw11Xj9fj55dypOVJkPGTy7xKiok" />
+    <title>@ViewBag.Title</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&amp;subset=vietnamese" rel="stylesheet">
+
+    @BundleHelper.Generate(new List<BundleType>()
+    {
+        BundleType.Wap
+    })
+
+    <script>
+        var roles = @Html.Raw(Json.Encode(groups));
+    </script>
+
+</head>
+<body>
+<div id="Wapaby_plugin_include">
+    @RenderSection("assets", required: false)
+</div>
+@Html.Partial("~/Views/Wap/Shared/header.cshtml", false)
+
+<!-- Page container -->
+<div class="page-container">
+    <!-- Page content -->
+    <div class="page-content">
+        <div class="container mt-20">
+            @RenderBody()
+            @Html.Partial("~/Views/Wap/Shared/footer.cshtml")
+        </div>
+    </div>
+</div>
+</body>
+</html>

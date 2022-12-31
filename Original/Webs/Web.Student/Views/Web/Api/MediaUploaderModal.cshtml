@@ -1,0 +1,34 @@
+﻿
+<div class="modal fade uploader-modal" id="mediaUploadingModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="margin-top: 50px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="myModalLabel" data-bind="text: 'Đã upload (' + postNumber() + '/' + files().length + ')'"></h5>
+            </div>
+            <div class="modal-body" style="padding: 0">
+                <ul data-bind="foreach: files" style="margin: 0">
+                    <li data-bind="css: { error : !valid() }">
+                        <div class="cover">
+                            <i class="fa fa-photo" data-bind="css: { 'fa-photo' : type() == 'image', 'fa-play-circle-o' : type() == 'video' }"></i>
+                        </div>
+                        <div class="info">
+                            <label>
+                                <span class="name" data-bind="text: name" style="display: initial"></span>
+                                <span class="pull-right text-info" data-bind="text: status, visible: valid"></span>
+                            </label>
+                            <div class="" data-bind="visible: !valid()">Kích thước file quá lớn hoặc định dạng không cho phép</div>
+                            <div class="progress progress-xs m-t-sm bg-white" data-bind="visible: valid">
+                                <div class="progress-bar bg-info" style="width: 0%" data-bind="style: { width: uploadPercent() + '%' }" data-toggle="tooltip"></div>
+                            </div>
+                            <span data-bind="text: size,visible: valid"></span>
+                            <div class="status" data-bind="visible: valid()">
+                                <i class="fa fa-check" data-bind="css:{ 'fa-spinner fa-spin' : uploadPercent() < 100, 'fa-check': uploadPercent() == 100 }"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

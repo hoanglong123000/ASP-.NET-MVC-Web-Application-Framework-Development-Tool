@@ -1,0 +1,80 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Clothesmn.Brands.BrandViewModel
+
+
+<form id="BrandForm" class="form form-horizontal">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+           
+            @AppHelper.InputInline(new ControlAttribute()
+            {
+                Title = "Tên Hãng",
+                Name = "Namebrand",
+                Value = Model.Namebrand,
+                LabelCol = 4,
+                Required = true,
+            })
+
+        </div>   
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                <i class="fa fa-remove"></i> EXIT
+            </button>
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
+                <i class="fa fa-save"></i> SAVE
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+	
+
+    var model = @Html.Raw(Json.Encode(Model));
+    function initBrandForm(callback) {
+        $('#BrandForm').ultraForm({
+            uiType: 1,
+            action: '/Education/BrandEdit',
+            actionType: 'ajax',
+            props: [
+                { name: 'Id', type: 'hidden' },
+
+                
+
+                {
+                    name: 'Namebrand', type: 'text',
+                    required: {
+                        message: 'BRAND NAME'
+                    }
+                },
+
+                
+                
+                
+                
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>
+

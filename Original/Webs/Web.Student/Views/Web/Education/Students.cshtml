@@ -1,0 +1,24 @@
+﻿
+@using Service.Utility.Components
+@{
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+}
+<div class="p-15" id="Student_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                @AppHelper.NavbarTools(new[] { "add", "reload" })
+                <li>
+                    <button class="btn btn-delete-multi btn-default" type="button">
+                        <i class="icon-trash position-left text-danger"></i> Xóa
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="apply-table mt-15"></div>
+</div>
+@BundleHelper.Generate(new List<BundleType>() {
+    BundleType.SummernoteMedia
+})
+<script src="~/assets/js/web/Education/Student.js"></script> 

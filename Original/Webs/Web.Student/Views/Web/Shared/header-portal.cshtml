@@ -1,0 +1,130 @@
+﻿@using  Web.Student.Helpers
+@using  Web.Student.Models
+@using Service.Core.Components
+@model bool
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var user = baseData.AuthData;
+}
+
+<div class="navbar navbar-default header-highlight" style="">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/" style="padding: 5px 20px">
+            <img src="~/assets/file/Logo.png" style="height: 30px;"/>
+        </a>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav">
+            <li class="navbar-breadcrumb">
+
+                <div class="breadcrumb-line">
+                    <a class="breadcrumb-elements-toggle">
+                        <i class="icon-menu-open"></i>
+                    </a>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="index.html">
+                                <i class="icon-home2 position-left"></i> Trang chủ
+                            </a>
+                        </li>
+                        @{
+                            var breadbrums = new BreadcrumbModel
+                            {
+                                List = baseData.FeatureGroups
+                            }.Get(baseData.PathAndQuery);
+                            foreach (var b in breadbrums)
+                            {
+                                <li><a href="@(b.Feature.ViewAction != "x" ? b.Feature.ViewAction : "#")">@b.Feature.SidebarName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="">
+                <a href="/portal/index">
+                    <i class="icon-home4 position-left"></i> Cổng thông tin
+                </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-bell3"></i>
+                    <span class="visible-xs-inline-block position-right">Thông báo</span>
+                    <span class="badge bg-danger-400">2</span>
+                </a>
+
+                <div class="dropdown-menu dropdown-content width-350">
+                    <div class="dropdown-content-heading">
+                        Thông báo
+                        <ul class="pull-right icons-list">
+                            <li class="display-block">
+                                <a href="#" class="text-semibold text-primary-700" id="btn_read_all_notify"
+                                   style="text-transform: initial">
+                                    <i class="icon-spinner10 position-left"></i>
+                                    Đánh đấu tất cả là đã đọc
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="media-list dropdown-content-body">
+                        <li class="media">
+                            <div class="media-left"><a href="#" class="btn border-primary text-primary btn-flat btn-icon btn-rounded btn-sm"><i class="icon-spinner11"></i></a></div>
+                            <div class="media-body">
+                                <a href="#">David Linner</a> requested money back for a double debit card charge
+                                <div class="media-annotation">12 minutes ago</div>
+                            </div>
+                        </li>
+
+                        <li class="media">
+                            <div class="media-left"><a href="#" class="btn border-danger text-danger btn-flat btn-icon btn-rounded btn-sm"><i class="icon-infinite"></i></a></div>
+                            <div class="media-body">
+                                User <a href="#">Christopher Wallace</a> is on hold and awaiting for staff reply
+                                <div class="media-annotation">16 minutes ago</div>
+                            </div>
+                        </li>
+
+                        <li class="media">
+                            <div class="media-left"><a href="#" class="btn border-slate text-slate btn-flat btn-icon btn-rounded btn-sm"><i class="icon-cash3"></i></a></div>
+                            <div class="media-body">
+                                All sellers have received monthly payouts
+                                <div class="media-annotation">4 hours ago</div>
+                            </div>
+                        </li>
+
+                        <li class="media">
+                            <div class="media-left"><a href="#" class="btn border-success text-success btn-flat btn-icon btn-rounded btn-sm"><i class="icon-checkmark3"></i></a></div>
+                            <div class="media-body">
+                                Ticket #43683 has been closed by <a href="#">Victoria Wilson</a>
+                                <div class="media-annotation">Apr 28, 21:39</div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="dropdown-content-footer">
+                        <a href="/portal/notifications" data-popup="tooltip" title=""
+                           data-original-title="Xem tất cả thông báo">
+                            <i class="icon-menu display-block"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
+            @if (user != null)
+            {
+                <li class="dropdown dropdown-user">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="@AppHelper.GuidImage("users", 0, user.EmployeeId)" class="img-circle img-sm" alt=""/>
+                        @user.FullName <i class="caret"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="/profile/index"><i class="icon-user"></i> Hồ sơ cá nhân</a></li>
+                        <li><a href="/employee/logoff"><i class="icon-switch2"></i> Đăng xuất</a></li>
+                    </ul>
+                </li>
+            }
+
+
+        </ul>
+    </div>
+</div>

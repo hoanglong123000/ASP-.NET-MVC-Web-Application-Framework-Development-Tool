@@ -1,0 +1,20 @@
+﻿@using  Web.Student.Models
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var version = baseData.Version;
+}
+
+<div class="modal fade" id="mediaManagerModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="" role="document">
+        <div class="modal-content">
+            <div class="modal-header pt-15">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">Thư viện ảnh</h5>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                @Html.Partial("~/Views/"+ version +"/Web/Api/MediaControlPanelContent.cshtml")
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/"+ version +"/Web/Api/MediaUploaderModal.cshtml")

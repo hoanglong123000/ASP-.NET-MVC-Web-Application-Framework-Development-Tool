@@ -1,0 +1,90 @@
+﻿@using  Web.Student.Helpers
+@using  Web.Student.Models
+@using Service.Core.Components
+@using Service.Core.Executes.Category.JobPositions
+@using Service.Core.Executes.General.Organizations
+@using Service.Core.Executes.General.OptionValues
+@model Service.Core.Executes.Employees.Employees.SearchEmployeeModel
+@{
+                /**/
+
+                ViewBag.Title = "Hồ sơ nhân sự";
+                Layout = "~/Views/2.0/Web/Layouts/Default.cshtml";
+                var baseData = ViewData["BaseData"] as BaseData;
+                var jobPositions = ViewData["JobPositions"] as List<JobPositionViewModel>;
+                var organizations = ViewData["Organizations"] as List<OrganizationViewModel>; 
+                var lstTrangThaiCongViec = ViewData["LstTrangThaiCongViec"] as List<OptionValueViewModel>;
+                var vt = ViewData["ViewType"] as string;
+}
+<div class="p-15">
+    <div class="panel-footer main-toolbar ml-5">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                <li>
+                    <div class="btn-group">
+                        <button class="btn btn-link dropdown-toggle btn_add_quick"  type="HoSoNhanVien">
+                            <i class="icon-plus3 position-left text-success"></i> Thêm mới nhân sự 
+                        </button>  
+                    </div>
+                </li>
+                <li>
+                    <div class="btn-group">
+                        <button class="btn btn-link dropdown-toggle btn_edit_quick" >
+                            <i class="icon-pencil7 position-left text-warning"></i> Cập nhật 
+                        </button> 
+                    </div>
+                </li>
+                @AppHelper.NavbarTools(new[] { "delete", "reload" }) 
+                        
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="showDeleted" class="styled" />
+                            Hiển thị nhân sự đã xóa
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="wababy-table mt-15" id="advance_grid"></div> 
+</div> 
+
+<div class="modal fade" id="importUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="modal fade" id="viewProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hồ sơ nhân viên</h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{ 
+    BundleType.Number,
+    BundleType.Select2,
+    BundleType.JqueryUi,
+    BundleType.Cropper,
+    BundleType.Fancytree
+})
+<script>
+    var vt = '@vt';
+    var searchModel = @Html.Raw(Json.Encode(Model));
+</script> 
+<script src="~/assets/js/web/employee/gird-view.js"></script>
+<script src="~/assets/js/web/template/import-data.js"></script>
+<script src="~/assets/js/web/general/compose-email.js"></script>
+<script src="~/assets/js/web/employee/index.js"></script>

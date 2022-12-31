@@ -1,0 +1,26 @@
+﻿@using  Web.Student.Models
+@using Service.Core.Components
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+     
+    <script>
+        var browser = '@baseData.Browser';
+        var isAdmin = '@baseData.IsAdmin';
+        var DOMAIN_API = '@baseData.Settings.GetValue("general","domain_api")'; 
+    </script>
+    @BundleHelper.Generate(new List<BundleType>()
+    {
+        BundleType.Web
+    })
+    <link href="~/assets/css/export.min.css" rel="stylesheet" />
+</head>
+<body style="background: #fff">
+    @RenderBody()
+</body>
+</html>

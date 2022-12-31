@@ -1,0 +1,40 @@
+﻿@using Portal.Models
+@using Service.Core.Components
+@model Portal.Models.LoginModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/2.0/Web/Layouts/Signin.cshtml";
+    var baseData = ViewData["BaseData"] as BaseData;
+    var bg = baseData.Settings.GetValue("general", "logo_web");
+}
+
+<!-- Page container -->
+<div class="" style="">
+
+    <!-- Page content -->
+    <div class="page-content" style="">
+
+        <!-- Main content -->
+        <div class="content-wrapper">
+            <!-- Content area -->
+            <div class="content" style="">
+                <div class="panel panel-body login-form">
+                    <div class="text-center mb-15">
+                        <img src="@bg" style="max-width: 250px" />
+                    </div>
+                    <h5>Chào mừng đến với cổng Portal !</h5>
+                    <p>
+                        Hiện tại cổng Portal chưa thể thao tác trên điện thoại và tablet. <br />
+                        Anh/Chị vui lòng sử dụng <strong>Máy tính bàn</strong> hoặc <strong>laptop</strong> để thao tác. <br />
+                        Xin cám ơn
+                    </p>
+                </div>
+            </div>
+            <!-- /content area -->
+        </div>
+        <!-- /main content -->
+    </div>
+    <!-- /page content -->
+
+</div>
+<!-- /page container -->

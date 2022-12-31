@@ -1,0 +1,29 @@
+﻿
+@model SanPham 
+
+
+<input name="MaSp" value="@Model.MaSp" type="hidden" />
+
+<input name="TenHocSinh" class="form-control" value="@Model.TenHocSinh" />
+<button class="btn" id="btn_add_HS">Thêm</button>
+
+<script>
+    function KhoiTaoDoanCodeThemHocSinh() {
+        $('#btn_add_HS').click(function () {
+            var newTenHS = $('input[name="TenHocSinh"]').val();
+            var maSp = $('input[name="MaSp"]').val();
+            $.ajax({
+                url: '/Test/TaoTenHocSinh',
+                method: 'POST',
+                data: {  
+                    tenHS: newTenHS,
+                    maSp: maSp
+                },
+                success: function (ketQua) {
+                    console.log(ketQua);
+                }
+            })
+
+        });
+    }
+</script>

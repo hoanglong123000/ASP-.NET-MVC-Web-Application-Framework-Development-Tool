@@ -1,0 +1,101 @@
+﻿
+.compo-date {
+    width: 100%;
+
+    .btn-group {
+        width: 100%;
+
+        > .btn {
+            text-align: left;
+            width: 100%;
+            position: relative;
+            background: #fff;
+            height:32px;
+            span {
+                width: 95%;
+                padding-left: 25px;
+                display: block;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            i {
+                position: absolute;
+
+                &.icon-calendar2 {
+                    top: 7px;
+                }
+
+                &.caret {
+                    right: 10px;
+                    top: 8px;
+                }
+            }
+        }
+    }
+}
+
+.form-group-sm {
+    .compo-date {
+        .btn-group {
+            > .btn {
+                padding: 5px 12px;
+
+                i {
+                    top: 8px;
+                }
+            }
+        }
+    }
+}
+
+.compo-date-mask {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    min-height: 100%;
+    min-width: 100%;
+    height: auto;
+    width: auto;
+    opacity: 0;
+    z-index: 1048;
+    background-color: #fff;
+    filter: alpha(opacity=0);
+}
+
+.compo-date-drop {
+    width: 400px;
+    margin-top: -1px;
+    position: absolute;
+    z-index: 1050;
+    top: 100%;
+    background: #fff;
+    max-height: 300px;
+    color: #000;
+    border: 1px solid #dfdfdf;
+    border-radius: 0 0 4px 4px;
+    -webkit-box-shadow: 0 4px 5px rgba(0,0,0,.15);
+    box-shadow: 0 4px 5px rgba(0,0,0,.15);
+
+    .day-list {
+        overflow-y: auto;
+        max-height: 298px;
+
+        a {
+            padding: 6px 20px;
+
+            i {
+                font-size: 12px;
+            }
+
+            &:hover {
+                background: #03A9F4;
+                color: #fff;
+            }
+        }
+    }
+}

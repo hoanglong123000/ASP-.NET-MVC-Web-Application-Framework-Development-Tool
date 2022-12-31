@@ -1,0 +1,41 @@
+﻿@using  Web.Student.Helpers
+@using  Web.Student.Models
+@using Service.Core.Components
+@using Service.Core.Executes.Employees.Employees
+@{
+    var user = ViewData["User"] as EmployeeViewModel;
+    ViewBag.Title = user.FullName + " - Thông tin lý lịch";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+
+}
+
+<div class="container">
+    <h1>Thông tin lý lịch nhân sự</h1> 
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/1_ThongTinChung.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/2_QuanHeGiaDinh.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/3_DaoTao.cshtml")   
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/4_KinhNghiemLamViec.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/5_QuaTrinhCongTac.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/6_HopDongLaoDong.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/7_KhenThuongKyLuat.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/8_Kpi.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/9_NangLuc.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/10_SucKhoe.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/11_TamTuNguyenVong.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/12_ThamGiaHoatDong.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/13_NghiPhep.cshtml")
+    @Html.Partial("~/Views/"+ version +"/Web/Employee/Partials/Detail/14_NghiViec.cshtml") 
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{ 
+    BundleType.Number,
+    BundleType.Select2,
+    BundleType.JqueryUi,
+    BundleType.CompoTree,
+    BundleType.AnyTime,
+})
+
+<script>
+    var id = '@user.Id'; 
+</script>

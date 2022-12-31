@@ -1,0 +1,18 @@
+﻿@using  Web.Student.Helpers
+
+<div class="panel panel-flat no-border no-margin-bottom" id="user_group_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                @AppHelper.NavbarTools(new[] { "add", "edit", "delete", "reload" })
+                <li>
+                    <a href="/help/" class="btn-help btn">
+                        <i class="icon-info22 position-left"></i> Trợ giúp
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="apply-table"></div>
+</div>
+<script src="~/assets/js/web/setting/group-user.js"></script>

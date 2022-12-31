@@ -1,0 +1,147 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using HRM.Models
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.EmailTemplates
+
+@model EmailTemplateViewModel
+
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var settings = baseData.Settings;
+    var version = Session["Version"] as string;
+}
+
+<form class="form-horizontal form" id="testForm">
+    @AppHelper.InputInline(new ControlAttribute()
+    {
+        Title = "Tiêu đề",
+        Name = "Subject",
+        LabelCol = 2,
+        Required = true,
+        Value = Model.Subject
+    })
+    @AppHelper.InputInline(new ControlAttribute()
+   {
+       Title = "Người nhận",
+       Name = "Receivers",
+       LabelCol = 2,
+       PlaceHolder = "Các email cách nhau dấu chấm phẩy (;)",
+       Required = true
+   })
+    @AppHelper.InputInline(new ControlAttribute()
+  {
+      Title = "CC",
+      Name = "CCs",
+      LabelCol = 2,
+      PlaceHolder = "Các email cách nhau dấu chấm phẩy (;)"
+  })
+    @AppHelper.SummernoteInline(new ControlAttribute()
+   {
+       Title = "Nội dung",
+       Name = "BodyHtml",
+       LabelCol = 2,
+       Required = true,
+       Value = Model.Detail
+   })
+
+    <h6 class="text-bold">Từ khóa</h6>
+
+    <table class="table table-sm table-bordered">
+        <tr>
+            <th class="text-center" style="width: 250px">Từ khóa</th>
+            <th class="text-center">Nội dung</th>
+        </tr>
+        @{
+            foreach (var a in Model.AttributeList)
+            {
+                <tr>
+                    <td>@a.Code</td>
+                    <td>
+                        <input class="form-control hastag" name="@a.Code" value="" placeholder="Nhập nội dung thay thế" />
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+
+    <div class="form-group mt-15" style="height: 30px; margin-bottom: 0">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-primary  btn-submit" type="button"
+                    data-loading-text="<i class='icon-spinner10 fa-spin'></i> Đang gửi ">
+                Gửi
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    function initTestEmailForm(callback) {
+        var tf = '#testForm';
+        $(tf).ultraForm({
+            uiType: 1,
+            action: '/setting/TestEmail',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Subject',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập tiêu đề'
+                    }
+                },
+                {
+                    name: 'Receivers',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập người nhận'
+                    }
+                },
+                {
+                    name: 'CCs',
+                    type: 'text'
+                },
+                {
+                    name: 'BodyHtml',
+                    type: 'summernote',
+                    option: {
+                        serverUrl: DOMAIN_API
+                    },
+                    required: {
+                        message: 'Nhập nội dung'
+                    }
+                }
+            ],
+            autoSubmit: false,
+            validCallback: function (data, btn) {
+                data = app.formDataToJson(data);
+                data.attributes = [];
+                var tags = $(tf + ' .hastag');
+                $(tags).each(function () {
+                    var t = $(this);
+                    data.attributes.push({
+                        attr: t.attr('name'),
+                        val: t.val()
+                    });
+                });
+
+                btn.button('loading');
+
+                app.postData('/email/testEmailTemplate',
+                    data,
+                    function (result) {
+                        if (result.Success) {
+                            app.notify('success', 'Gửi thành công');
+                            callback();
+                        } else {
+                            app.notify('warning', result.Message);
+                        }
+                        btn.button('reset');
+                    });
+            } 
+        });
+    }
+</script>

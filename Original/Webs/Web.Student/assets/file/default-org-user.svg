@@ -1,0 +1,13 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222 45">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e6e6e6;
+      }
+    </style>
+  </defs>
+  <title>default-org-user</title>
+  <circle class="cls-1" cx="22.5" cy="22.5" r="22.5"/>
+  <rect class="cls-1" x="62" y="3" width="160" height="15"/>
+  <rect class="cls-1" x="62" y="26" width="75" height="15"/>
+</svg>

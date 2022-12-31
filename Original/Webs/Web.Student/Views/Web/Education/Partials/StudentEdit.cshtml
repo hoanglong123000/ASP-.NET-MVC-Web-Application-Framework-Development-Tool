@@ -1,0 +1,216 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Educations.Students.StudentViewModel
+
+@{
+	var groups = new List<BaseItem>()
+{
+		new BaseItem{Id = 1, Name = "Nhóm 1"},
+		new BaseItem{Id = 2, Name = "Nhóm 2"},
+		new BaseItem{Id = 3, Name = "Nhóm 3"}
+	};
+
+	
+}
+
+<form id="StudentForm" class="form form-horizontal">
+
+	<input type="hidden" name="Id" value="@Model.Id" />
+
+	<div class="row">
+		<div class="col-md-6">
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Ảnh đại diện",
+				Name = "Avatar",
+				Value = Model.Avatar + "",
+				LabelCol = 4,
+				Type = "file"
+			})
+
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Email",
+				Name = "Email",
+				Value = Model.Email + "",
+				LabelCol = 4,
+				Required = true,
+			})
+
+			<div class="form-group form-group-sm">
+				<label class="control-label col-md-4">
+					Giới tính
+					<span class="text-danger">(*)</span>
+				</label>
+				<div class="col-md-8">
+					@AppHelper.RadioInline(new ControlAttribute()
+					{
+						Title = "Nam",
+						Name = "GioiTinh",
+						Value = "1",
+						Check = Model.GioiTinh == 1,
+						OnlyControl = true
+					})
+					@AppHelper.RadioInline(new ControlAttribute()
+				   {
+					   Title = "Nữ",
+					   Name = "GioiTinh",
+					   Value = "2",
+					   Check = Model.GioiTinh == 2,
+					   OnlyControl = true
+				   })
+				</div>
+			</div>
+
+			@AppHelper.TextareaInline(new ControlAttribute()
+			{
+				Title = "Tóm tắt",
+				Name = "TomTat",
+				Value = Model.TomTat.BrToNewLine() + "",
+				LabelCol = 4,
+				Row = 4
+			})
+
+		</div>
+		<div class="col-md-6">
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Họ tên",
+				Name = "Name",
+				Value = Model.Name + "",
+				LabelCol = 4,
+				Required = true,
+			})
+
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Ngày sinh",
+				Name = "NgaySinh",
+				Value = Model.NgaySinh.FormatDate(),
+				LabelCol = 4,
+				Required = true,
+				Feedback = "icon-calendar2"
+			})
+
+			@AppHelper.SelectInline(new ControlAttribute()
+		   {
+			   Title = "Nhóm học sinh",
+			   Name = "GroupId",
+			   Value = Model.GroupId + "",
+			   LabelCol = 4,
+			   Required = true,
+			   HasDefaultOption = true,
+			   List = groups.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+	   })
+
+
+		</div>
+		<div class="col-md-12">
+			@AppHelper.SummernoteInline(new ControlAttribute()
+		   {
+			   Title = "Mô tả",
+			   Name = "MoTa",
+			   Value = Model.MoTa + "",
+			   LabelCol = 2,
+		   })
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 text-right">
+			<button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+				<i class="fa fa-remove"></i> Thoát
+			</button>
+			<button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+					data-loading-text="<i class='icon-spinner4 fa-spin'></i> Đang xử lý ...">
+				<i class="fa fa-save"></i> Lưu lại
+			</button>
+		</div>
+	</div>
+</form>
+
+<script>
+
+	
+    var model = @Html.Raw(Json.Encode(Model));
+    function initStudentForm(callback) {
+        $('#StudentForm').ultraForm({
+            uiType: 1,
+            action: '/Education/StudentEdit',
+            actionType: 'ajax',
+            props: [
+                { name: 'Id', type: 'hidden' },
+
+                {
+                    name: 'Avatar',
+                    type: 'file',
+                    option: {
+                        uploadFirst: true,
+                        url: ''
+                    },
+                    acceptFormats: ['jpg', 'png', 'jpeg']
+                },
+
+                {
+                    name: 'Name', type: 'text',
+                    required: {
+                        message: 'Nhập Họ tên'
+                    }
+                },
+
+                {
+                    name: 'Email',
+                    type: 'text',
+                    email: {
+                        message: 'Địa chỉ email chưa hợp lệ'
+                    },
+                    required: {
+                        message: 'Nhập Email'
+                    }
+                },
+                {
+                    name: 'NgaySinh',
+                    type: 'datepicker',
+                    required: {
+                        message: 'Nhập Ngày sinh'
+                    }
+                },
+
+                {
+                    name: 'GioiTinh',
+                    type: 'radio'
+                },
+                {
+                    name: 'GroupId',
+                    type: 'select2',
+                    option: {},
+                    required: { message: 'Chọn nhóm học sinh' }
+                },
+                {
+                    name: 'MoTaHtml',
+                    type: 'summernote',
+                    option: {
+                        url: ''
+                    }
+                },
+                {
+                    name: 'TomTat',
+                    type: 'text'
+                },
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>
+<script src="~/assets/js/web/Education/Class.js"></script>

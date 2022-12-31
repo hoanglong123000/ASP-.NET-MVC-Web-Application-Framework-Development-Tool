@@ -1,0 +1,34 @@
+﻿
+
+<div class="modal fade" id="mediaRenameFileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 350px;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">Sửa tên file</h5>
+            </div>
+            <div class="modal-body" style="overflow: hidden; padding: 15px">
+                <div class="form-group">
+                    <label>Vui lòng nhập tên mới cho file: </label>
+                    <input id="media_rename_file_control" data-bind="value: renameFileText,
+                           valueUpdate:'afterkeydown' " class="form-control" type="text" />
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-default m-r-5 btn-sm" type="button" data-dismiss="modal">Hủy</button>
+                    <button class="btn btn-sm btn-info" data-bind="click: submitRenameFile,enable: renameFileText().length > 0">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="mediaGetLinkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" style="width: 350px;" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="overflow: hidden">
+                <div class="form-group" style="margin-bottom: 0;padding: 15px;">
+                    <input id="media_file_link_control" class="form-control" type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@using DBContext.Entities
+@using Service.Core.Components
+@using Service.Core.Variables
+
+@{
+    ViewBag.Title = "Danh mục công trường";
+    Layout = "~/Views/" + version + "/Web/Layouts/Test.cshtml";
+
+    var countries = ViewData["Countries"] as QueryResult<Country>;
+}
+ 
+<div>test</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+    BundleType.Web
+})
+
+<script>
+    var token =
+        'lxWF85Qn6s7JMFHUJ6j8UbIvuNxV5P1fbrxUPveZs6pV-LQOKwXAWe31d5R2s5mTbMhtoUDKGnhiKCx3tmLjSKSJY99IgUN9dlt4SxkBHh7opPB7wNYv_vVzNoKgQbYOyTyaKHvSTE0U-9Qwd04dEiow00u9I2j4FFof8q9bjNoTUAxqxix0MOOEZyqwFaI_spzk_TyolzBHCg7xFDIYgQWMESbA-FPtiTaNHw6lxBpIMidq8b7eiFYHBe-7yGdozdntZR0RPlt2OinCbOVJvVGliVS9Xea3PqT7ILVaqQk';
+    $(document).ready(function() {
+        $.ajax({
+            url: 'http://localhost:52127/token',
+            type :'POST',
+            data: {
+                username: 'admin',
+                password: 'HrmRicons@2o19',
+                grant_type: 'password'
+            }, 
+            success: function(result) {
+                console.log(result);
+            }
+        }); 
+    })
+
+</script>

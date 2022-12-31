@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D129C74-7773-4C4D-B2FB-A7803AA03A19}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Service.Education</RootNamespace>
+    <AssemblyName>Service.Education</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DBContext.AuthSharing">
+      <HintPath>..\..\..\packages\ShareServices\DBContext.AuthSharing.dll</HintPath>
+    </Reference>
+    <Reference Include="DBContext.Core">
+      <HintPath>..\..\..\packages\ShareServices\DBContext.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DBContext.SSO">
+      <HintPath>..\..\..\packages\ShareServices\DBContext.SSO.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Service.AuthSharing">
+      <HintPath>..\..\..\packages\ShareServices\Service.AuthSharing.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ShareServices\Service.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.SSO">
+      <HintPath>..\..\..\packages\ShareServices\Service.SSO.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.Utility">
+      <HintPath>..\..\..\packages\Service.Utility\Service.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Components\AuthComponent.cs" />
+    <Compile Include="Executes\Base\BaseService.cs" />
+    <Compile Include="Executes\Base\EducationService.cs" />
+    <Compile Include="Executes\Clothesmn\Brands\BrandCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Brands\BrandMany.cs" />
+    <Compile Include="Executes\Clothesmn\Brands\BrandModels.cs" />
+    <Compile Include="Executes\Clothesmn\Brands\BrandOne.cs" />
+    <Compile Include="Executes\Clothesmn\Clothes\ClothCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Clothes\ClothMany.cs" />
+    <Compile Include="Executes\Clothesmn\Clothes\ClothModels.cs" />
+    <Compile Include="Executes\Clothesmn\Clothes\ClothOne.cs" />
+    <Compile Include="Executes\Clothesmn\Sizes\SizeCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Sizes\SizeMany.cs" />
+    <Compile Include="Executes\Clothesmn\Sizes\SizeModels.cs" />
+    <Compile Include="Executes\Clothesmn\Sizes\SizeOne.cs" />
+    <Compile Include="Executes\Clothesmn\Types\TypeCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Types\TypeMany.cs" />
+    <Compile Include="Executes\Clothesmn\Types\TypeModels.cs" />
+    <Compile Include="Executes\Clothesmn\Types\TypeOne.cs" />
+    <Compile Include="Executes\Educations\Students\StudentCommand.cs" />
+    <Compile Include="Executes\Educations\Students\StudentMany.cs" />
+    <Compile Include="Executes\Educations\Students\StudentModels.cs" />
+    <Compile Include="Executes\Educations\Students\StudentOne.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Executes\General\" />
+    <Folder Include="Executes\Report\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DBContexts\DBServer\DBServer.csproj">
+      <Project>{d35aec9d-fe5e-4542-891a-514798a4ed89}</Project>
+      <Name>DBServer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+</Project>

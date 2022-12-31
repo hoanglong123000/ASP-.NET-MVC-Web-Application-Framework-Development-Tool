@@ -1,0 +1,60 @@
+﻿@using Service.Utility.Components 
+@{
+    ViewBag.Title = "Quản lý nhân viên";
+    Layout = "~/Views/2.0/Wap/Layouts/Default.cshtml"; 
+    var vt = ViewData["ViewType"] as string;
+}
+
+@*<div class="panel no-border no-border-radius mt-10">
+    <div class="panel-body p-5 main-actions">
+        <a href="/cb/timekeeping" class="btn btn-link btn-float has-text mr-10 ">
+            <i class="icon-alarm-check icon-2x text-primary"></i>
+            <span>Chấm công</span>
+        </a>
+        <a href="#" class="btn btn-link btn-float has-text mr-10">
+            <i class="icon-profile text-primary icon-2x"></i>
+            <span>Hồ sơ</span>
+        </a>
+        <a href="#" class="btn btn-link btn-float has-text">
+            <i class="icon-clipboard3 text-primary icon-2x"></i>
+            <span>Công việc</span>
+        </a>
+        <a href="#" class="btn btn-link btn-float has-text">
+            <i class="icon-bell3 text-primary icon-2x"></i>
+            <span>Thông báo</span>
+        </a>
+    </div>
+</div>
+<div id="advance_list"></div>*@
+
+<div class="modal fade" id="importUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 450px">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<div class="modal fade" id="viewProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hồ sơ nhân viên</h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+    BundleType.Number,
+    BundleType.Select2,
+    BundleType.JqueryUi,
+    BundleType.Fancytree
+})
+
+<script src="~/assets/js/2.0/web/employee/gird-view.js"></script>
+<script src="~/assets/js/2.0/web/template/import-data.js"></script>
+<script src="~/assets/js/2.0/web/general/compose-email.js"></script> 
+<script src="~/assets/js/wap/employee/index.js"></script>

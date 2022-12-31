@@ -1,0 +1,54 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using HRM.Models
+@using Service.Core.Components
+@using Service.Utility.Components
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+
+    var version = Session["Version"] as string;
+    var tab = ViewData["Tab"] as string;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable tab-content-bordered" style="">
+            <ul class="nav nav-tabs nav-tabs-highlight" id="setting_navi">
+                <li class="">
+                    <a href="/setting/index?type=email&tab=config" tab="config" class="text-bold">Cài đặt gửi email</a>
+                </li>
+                <li>
+                    <a href="/setting/index?type=email&tab=template" tab="template" class="text-bold">Email template</a>
+                </li>
+
+                <li>
+                    <a href="/setting/index?type=email&tab=task" tab="task" class="text-bold">Lịch sử gửi email</a>
+                </li>
+                <li>
+                    <a href="/setting/index?type=email&tab=testcauhinh" tab="test" class="text-bold">Test cấu hình email</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane has-padding active no-padding">
+                    @Html.Partial("~/Views/"+ version  +"/Web/Setting/Partials/Email_" + tab + ".cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@BundleHelper.Generate(new List<BundleType>() { 
+    BundleType.Summernote
+})
+<script>
+    var t = '@tab';
+    $(document).ready(function() {
+        $('#setting_navi a').each(function () {
+
+            if ($(this).attr('tab') == t) {
+                console.log($(this).attr('tab'));
+                $(this).closest('li').addClass('active');
+            }
+        });
+    });
+</script> 

@@ -1,0 +1,201 @@
+﻿@using  Web.Student.Models
+@using Service.Core.Variables
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var version = baseData.Version;
+}
+<div class="gallery-panel">
+    <div class="row" style="margin: 0">
+        <div class="col-md-12" style="padding: 0">
+            <div class="tab-content">
+                <div group="" class="tab-pane active" id="gallery_container">
+                    <div class="aside" id="folder_bindings" style="width: 260px; display: none">
+                        <div class="tool-panel">
+                            <ul class="list">
+                                <li>
+                                    <div class="file-button-group">
+                                        <button class="btn btn-default btn-xs reload">
+                                            <i class="fa fa-refresh"></i>
+                                            Làm mới
+                                        </button>
+                                    </div>
+                                </li>
+                                @*<li>
+                                    <div class="file-button-group">
+                                        <button class="btn btn-default btn-xs add-folder">
+                                            <i class="icon-plus2"></i>
+                                            Tạo folder
+                                        </button>
+                                    </div>
+                                </li>*@
+                            </ul>
+                        </div>
+                        <div id="folderTree" class="webaby-tree">
+                            <div class="wtree-content">
+                                <span class="folder_message">
+                                    <span class="not-allow" style="display: none">
+                                        Không xác định được người dùng.
+                                        Vui lòng <a href="@("/auth/login")" target="_blank" class="text-bold">Đăng nhập</a> và
+                                        <a href="javascript:void(0)"  class="text-bold" id="reload_folders">Thử lại</a>
+                                    </span>
+                                    <span class="" style="display: none">
+                                        Không tìm thấy folder.
+                                    </span>
+                                </span>
+                                <ul class="wtree-children wtree"></ul>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="folder-progress">
+
+                            </div>
+                        </div>
+                        @Html.Partial("~/Views/"+ version +"/Web/Api/MediaFolderModal.cshtml")
+                    </div>
+                    <div class="medias" id="media_bindings" style="margin-left: 260px">
+                        <div class="tool-panel">
+                            <ul class="" style="margin-bottom: 0">
+
+                                <li>
+                                    <div class="file-button-group">
+                                        <button class="btn btn-danger btn-xs">
+                                            <i class="fa fa-cloud-upload"></i>
+                                            <span>Tải file lên</span>
+                                        </button>
+                                        <input type="file" multiple="" class="input-file-upload" />
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="btn-group dropdown">
+                                        <button class="btn btn-default btn-xs" data-toggle="dropdown" type="button" aria-expanded="true">
+                                            <span data-bind="text: sortType">A - Z</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javasciprt:void(0)" data-bind="click: function(data, event) { sort('A - Z', data, event)}">A - Z</a>
+                                            </li>
+                                            <li>
+                                                <a href="javasciprt:void(0)" data-bind="click: function(data, event) { sort('Z - A', data, event)}">Z - A</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-group m-b input-group-xs">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <input class="form-control input-sm" data-bind="value: keyword,valueUpdate :'afterkeydown', event: { keyup: search }" type="text" placeholder="Tìm kiếm">
+                                    </div>
+                                </li>
+                                <li>
+                                    <a style="display: none"
+                                       data-bind="click: removeMany,visible: activeFiles().length > 0 && folderType() != 'shared'"
+                                       href="javascript:void(0)" title="Xóa" class="btn remove-many btn-custom btn-xs">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                    <div class="btn-group dropdown" data-bind="visible: activeFiles().length == 1">
+                                        <button class="btn btn-custom btn-xs" data-toggle="dropdown" type="button" aria-expanded="true">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:void(0)" data-bind="click: download">
+                                                    <i class="fa fa-cloud-download"></i> Xem ảnh gốc
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" data-bind="click: rename, visible: folderType() != 'shared'">
+                                                    <i class="fa fa-i-cursor"></i> Sửa tên
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" data-bind="click: getlink">
+                                                    <i class="fa fa-link"></i> Lấy link
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                @*<li>
+                                        <div class="type-list btn-group dropdown pull-right">
+                                            <button class="btn btn-default btn-xs" data-toggle="dropdown" type="button" aria-expanded="true">
+                                                <i class="fa fa-th" data-bind="attr:{ class:'fa ' + listType() }"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="javascript:void(0)" data-bind="click: function(data, event) { selectTypeList('fa-th', data, event)}"><i class="fa fa-th"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" data-bind="click: function(data, event) { selectTypeList('fa-list-ul', data, event)}"><i class="fa fa-list-ul"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>*@
+                            </ul>
+                        </div>
+                        <div class="media-content" data-bind="css: { 'fa-list-ul' : listType() == 'fa-list-ul' }">
+                            <ul class="list" data-bind="foreach: folders, visible: folders().length > 0">
+                                <li style="display: none" class="media-item folder"
+                                    data-bind="css:{ active : active() },
+                                    click: $root.selectFolder,
+                                    visible: visible,
+                                    attr: { id : id }">
+                                    <div class="thumb">
+                                        <div class="folder-group">
+                                            <div class="fa fa-folder text-orange-400"></div>
+                                            <i class="fa fa-user" data-bind="visible: shared()"></i>
+                                        </div>
+                                    </div>
+                                    <div class="info">
+                                        <div class="name">
+                                            <span data-bind="text: name"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="list" data-bind="foreach: files">
+                                <li style="display: none" class="media-item file"
+                                    data-bind="css:{ active : active() },
+                                    click: $root.selectFile,
+                                    visible: visible,
+                                    attr: { id : id },
+                                    style: { width: width() + 'px', height: height() + 'px' }">
+                                    <div class="fa-active">
+                                        <i class="fa fa-check"></i>
+                                    </div>
+                                    <div class="thumb">
+                                        <div class="dummy"></div>
+                                        <div class="img-container">
+                                            <img src="" data-bind="attr: { src: mdPath, format: format }, visible: format() == 'image'" />
+                                        </div>
+                                        <i class="fa" data-bind="attr:{ class: 'fa fa-file-' + format() + '-o'  },visible: format() != 'image'"></i>
+                                        <div class="detail" data-bind="text: detail() + ' - ' + name(),visible: format() == 'image'"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="empty">
+                                <i class="icon-images3"></i>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="folder-progress"></div>
+                            <div class="actions">
+                                <!--                <p>
+                                                        Ảnh đã chọn: <span data-bind="">2</span>
+                                                    </p>-->
+                                <button type="button" data-bind="click: selectFilesComplete" class="btn btn-primary btn-sm  pull-right btn-fill" style="margin-left: 5px">Hoàn tất</button>
+                                <button type="button" class="btn btn-default btn-sm  pull-right" data-dismiss="modal">Thoát</button>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        @Html.Partial("~/Views/"+ version +"/Web/Api/MediaControlModal.cshtml")
+                        <div class="overflow" id="media_overview" style="display: none">
+                            <div class="loading"></div>
+                        </div>
+                    </div>
+                    <div class="resize-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

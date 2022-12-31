@@ -1,0 +1,132 @@
+﻿@using  Web.Student.Models
+@using Service.Utility.Variables 
+@using Service.Core.Components 
+@using Service.Utility.Components
+@model bool
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var auth = baseData.AuthData;
+    var settings = baseData.Settings;
+    var active = ViewData["ActiveProject"] as BaseItem;
+    var title = ViewBag.HeaderTitle != null ? ViewBag.HeaderTitle : ViewBag.Title;
+
+}
+<div class="navbar navbar-default header-highlight top-header " style="">
+    <div class="navbar-header ">
+        <a class="navbar-brand" href="/" style="">
+            <span class="text-bold">QUẢN LÝ</span>
+        </a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-mobile">
+        <ul class="nav navbar-nav"> 
+            <li>
+                <a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a>
+            </li>
+            <li class=" ">
+                <div class="header-title text-bold">@Html.Raw(title)</div>
+            </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+
+            @if (auth != null)
+            {
+                var img = "";
+                <li class="dropdown dropdown-user">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <div class="media">
+                            <div class="media-left"> 
+                                <img src="~/assets/file/default-user.png" class="img-circle img-sm"/>
+                            </div>
+                            <div class="media-body">
+                                <span class="media-heading text-semibold no-margin-bottom" style="width: 190px">@auth.FullName</span>
+                            </div>
+                            <div class="media-right media-middle no-padding-left">
+                                <i class="caret"></i>
+                            </div>
+                        </div>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-right" style="">
+                        <li>
+                            <a href="http://huongdan.issvn.net" target="_blank">
+                                <i class="icon-info22 position-left"></i> Hướng dẫn
+                            </a>
+                        </li>
+                        <li>
+                            @*<a href="/employee/logoff" class="btn btn-link btn-float has-text"><i class="icon-bswitch2 text-primary"></i><span>Đăng xuất</span></a>*@
+                            <a href="/employee/logoff">
+                                <i class="icon-switch2"></i>
+                                <span>Đăng xuất</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    var pn = $(location).attr('pathname');
+    var tarr = pn.split('/');
+    var t1, t2;
+    $('.main-navbar li').each(function () {
+        var li = $(this);
+        var href = li.find('> a').attr('href');
+        if (href == pn) {
+            li.addClass('active');
+            li.parents('.hidden-ul').css('display', 'block');
+        } else {
+            var hasChild = li.find('> span.hidden[view="' + pn + '"]').length;
+            if (hasChild > 0) {
+                li.addClass('active');
+            }
+        }
+    });
+
+    var arrloaivanban = [], globalTimeout;
+
+    function initSearchCbEmpModal(id, callback) {
+        var scbum = 'searchCbEmpModal';
+        app.createPartialModal({
+            url: '/base/GetPartialView',
+            data: {
+                module: 'general',
+                partialName: 'SearchCbUserModal'
+            },
+            modal: {
+                width: '80%',
+                id: scbum,
+                title: 'Tra cứu thông tin nhân sự',
+                noPaddingBody: true
+            }
+        }, function () {
+            setTimeout(function () {
+                initSearchCbEmpForm(id);
+            }, 500);
+            callback();
+        });
+    }
+
+    $(document).ready(function () {
+        $('.btn-search-cb-emp').click(function () {
+            var btn = $(this);
+            btn.button('loading');
+            initSearchCbEmpModal(null,
+                function () {
+                    btn.button('reset');
+                });
+        });
+
+
+        $('#project_selector').select2({}).change(function (v) {
+            console.log(v.val);
+
+            window.location.href = '/project/index?projectid=' + v.val;
+        });
+    });
+
+</script>

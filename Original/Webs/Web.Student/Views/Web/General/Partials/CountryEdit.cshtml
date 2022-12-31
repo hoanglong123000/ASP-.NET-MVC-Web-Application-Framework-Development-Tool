@@ -1,0 +1,53 @@
+﻿@using Service.Utility.Components
+@model DBContext.AuthSharing.Entities.LocalCountry
+
+<input type="hidden" name="Id" value="@Model.Id" />
+<input type="hidden" name="Nation" value="@Model.Nation" />
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Tên tỉnh/thành phố",
+    Value = Model.Name,
+    Name = "Name",
+    LabelCol = 4,
+    Required = true
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Mã tỉnh",
+    Value = Model.MaThue + "",
+    Name = "MaThue",
+    LabelCol = 4
+})
+<script>
+    function initCountryForm(callback) {
+        $('#CountryForm').ultraForm({
+            uiType: 1,
+            action: '/general/CountryEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                },
+                {
+                    name: 'Nation',
+                    type: 'hidden'
+                },
+                {
+                    name: 'MaThue',
+                    type: 'text' 
+                },
+                {
+                    name: 'Name',
+                    type: 'text',
+                    required: {
+                        message: 'Vui lòng nhập tên tỉnh/thành phố'
+                    }
+                }
+            ],
+            afterSubmit: function (form) {
+                callback();
+            }
+        });
+    }
+</script>

@@ -1,0 +1,50 @@
+﻿@using DBServer.Entities 
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.OptionValues
+@model Service.Core.Executes.Edutcation.Classes.ClassViewModel
+@{
+    
+}
+<input type="hidden" name="Id" value="@Model.Id" />
+
+<div class="row">
+    <div class="col-md-12">@AppHelper.InputInline(new ControlAttribute()
+{Title = "Tên lớp",
+Name = "Name",
+Value = Model.Name + "" ,
+LabelCol = 4 ,
+Required = true,
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{Title = "Khối",
+Name = "Khoi",
+Value = Model.Khoi + "" ,
+LabelCol = 4 ,
+Required = true,
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{Title = "Mã lớp",
+Name = "Code",
+Value = Model.Code + "" ,
+LabelCol = 4 ,
+Required = true,
+})
+</div>
+</div>
+
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    function initClassForm(callback) {$('#ClassForm').ultraForm({uiType: 1,action: '/Edutcation/ClassEdit',actionType: 'ajax',props: [
+{ name: 'Id',type: 'hidden'}, 
+
+{ name: 'Name' , type: 'text', required: { message: 'Nhập Tên lớp' }}, 
+
+{ name: 'Khoi' ,  type : 'number', required: { message: 'Nhập Khối' }}, 
+
+{ name: 'Code' , type: 'text', required: { message: 'Nhập Mã lớp' }}, 
+], initCallback: function (form) {},beforSubmit: function (form) { },afterSubmit: function(result) { 
+ if(result.Success) { callback(result.Data); } else { app.notify('warning', result.Message); } } }); };
+</script>

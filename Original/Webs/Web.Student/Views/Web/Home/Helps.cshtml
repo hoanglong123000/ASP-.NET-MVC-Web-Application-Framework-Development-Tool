@@ -1,0 +1,38 @@
+﻿@using  Web.Student.Helpers
+@using  Web.Student.Models
+@using Service.Core.Components
+
+@{
+    ViewBag.Title = "Tài liệu hướng dẫn";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+    var baseData = ViewData["BaseData"] as BaseData;
+}
+
+<div class="page-header page-header-default no-margin-bottom" style="">
+    <div class="breadcrumb-line">
+        <a class="breadcrumb-elements-toggle"><i class="icon-menu-open"></i></a>
+        <ul class="breadcrumb">
+            <li><a href="index.html"><i class="icon-home2 position-left"></i> Trang chủ</a></li>
+            <li class="active">Tài liệu hướng dẫn</li>
+        </ul>
+    </div>
+    <div class="navbar navbar-default navbar-xs">
+        <div class="navbar-collapse collapse" id="navbar-filter">
+            <ul class="nav navbar-nav main-tools">
+                @AppHelper.NavbarTools(new[] { "add" })
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="panel panel-flat no-border">
+    <div class="panel-body">
+        <div id="webabyTable"></div>
+    </div>
+</div>
+@BundleHelper.Generate(new List<BundleType>()
+{
+    BundleType.Select2,
+    BundleType.SummernoteMedia
+})
+
+<script src="~/assets/js/web/general/helps.js"></script>

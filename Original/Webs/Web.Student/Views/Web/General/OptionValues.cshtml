@@ -1,0 +1,63 @@
+﻿
+@using Service.Utility.Components
+@{
+	Layout = "~/Views/Web/Layouts/Default.cshtml";
+	ViewBag.Title = "Danh mục khác";
+}
+
+<div class="tabbable tabbable-page-view tabbable-sm" id="option_value_panel">
+	<ul class="nav nav-tabs nav-tabs-highlight">
+		<li class="active">
+			<a href="#bottom-tab1" data-toggle="tab" index="1">
+				<span class="shape shape-left"></span>
+				<span class="shape shape-right"></span>
+				Danh mục khác
+			</a>
+		</li>
+		<li>
+			<a href="#bottom-tab2" data-toggle="tab" index="2">
+				<span class="shape shape-left"></span>
+				<span class="shape shape-right"></span>
+				Quốc gia / tỉnh thành phố
+			</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<div class="tab-pane active p-15" id="bottom-tab1">
+			<div class="panel-footer main-toolbar">
+				<div class="heading-elements">
+					<ul class="nav navbar-nav">
+						@AppHelper.NavbarTools(new[] { "add", "reload" })
+					</ul>
+				</div>
+			</div>
+			<div class="apply-table mt-15"></div>
+		</div>
+
+		<div class="tab-pane" id="bottom-tab2">
+			<div class="apply-list"></div>
+		</div>
+		<div class="tab-pane p-15" id="bottom-tab3">
+			<div class="panel-footer main-toolbar">
+				<div class="heading-elements">
+					<ul class="nav navbar-nav">
+						@AppHelper.NavbarTools(new[] { "add", "reload" })
+					</ul>
+				</div>
+			</div>
+			<div class="apply-table mt-15"></div>
+		</div>
+	</div>
+</div>
+@BundleHelper.Generate(new List<BundleType>()
+{
+	BundleType.Slimscroll,
+	BundleType.ListGroup
+})
+
+<script>
+    $('.breadcrumb').addClass('breadcrumb-bg'); 
+</script>
+
+<script src="~/assets/js/web/general/optionvalues.js"></script>

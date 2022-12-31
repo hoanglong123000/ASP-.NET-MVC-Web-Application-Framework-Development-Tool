@@ -1,0 +1,54 @@
+﻿@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model DBContext.AuthSharing.Entities.LocalDistrict
+<input type="hidden" name="Id" value="@Model.Id" />
+<input type="hidden" name="CountryId" value="@Model.CountryId" />
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Tên quận/huyện",
+	Value = Model.Name,
+	Name = "Name",
+	LabelCol = 4,
+	Required = true
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Mã phường",
+	Value = Model.MaThue + "",
+	Name = "MaThue",
+	LabelCol = 4
+})
+<script>
+	function initDistrictForm(callback) {
+		$('#DistrictForm').ultraForm({
+			uiType: 1,
+			action: '/general/districtEdit',
+			actionType: 'ajax',
+			props: [
+				{
+					name: 'Id',
+					type: 'hidden'
+				},
+				{
+					name: 'CountryId',
+					type: 'hidden'
+				},
+				{
+					name: 'Name',
+					type: 'text',
+					required: {
+						message: 'Vui lòng nhập tên quận/huyện'
+					}
+				}, {
+					name: 'MaThue',
+					type: 'text'
+				}
+			],
+			afterSubmit: function (form) {
+				callback();
+			}
+		});
+	}
+</script>

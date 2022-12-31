@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+    var bodyclass = ViewBag.BodyClass;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&amp;subset=vietnamese" rel="stylesheet">
+    @RenderSection("styles", required: false)
+    <title></title>
+</head>
+<body class="@bodyclass">
+    @RenderBody()
+</body>
+</html>

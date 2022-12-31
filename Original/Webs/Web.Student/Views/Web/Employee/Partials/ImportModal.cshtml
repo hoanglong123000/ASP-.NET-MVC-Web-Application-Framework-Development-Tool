@@ -1,0 +1,59 @@
+﻿@model Service.Core.Executes.Employees.Employees.EmployeeViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel">Import danh sách người dùng</h4>
+</div>
+<div class="modal-body">
+    <form id="import_user_form"  enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="list list-unstyled">
+                    <li>Định dạng file cho phép: <span class="text-semibold text-success">xls, xlsx</span></li>
+                    <li>
+                        File mẫu: <a href="/employee/" target="_blank" class="text-semibold">Tải về</a>
+                    </li>
+                </ul>
+                <div class="form-group">
+                    <input type="file" name="file" class="file-styled" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 15px 0 0 0">
+            <button type="button" class="btn btn-default" id="btn_close" data-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary btn-submit"  data-loading-text="<i class='icon-spinner10 spinner position-left'></i>Đang xử lý">
+                <i class="icon-import position-left"></i>Import
+            </button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function initImportForm(view) {
+        var iuf = $('#import_user_form').ultraForm({
+            uiType: 0,
+            action: '/employee/import',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'file',
+                    type: 'file',
+                    required: {
+                        message: 'Vui lòng chọn file import'
+                    },
+                    acceptFormats: ['xls', 'xlsx']
+                }
+            ],
+            beforSubmit: function (data) {
+                $('#import_user_form #btn_close').prop('disabled', true);
+            },
+            afterSubmit: function (form) {
+                $('#importUserModal').modal('hide');
+                view.loadData();
+            }
+        });
+    }
+</script>

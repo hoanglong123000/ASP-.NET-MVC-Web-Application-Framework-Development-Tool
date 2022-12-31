@@ -1,0 +1,47 @@
+﻿
+.timesheet-table {
+
+    thead {
+        th {
+        }
+    }
+
+    .row-org {
+        background-color: #e0f2f1 !important;
+        border-color: #00897b;
+
+        .org {
+            .expand {
+                height: 18px;
+                cursor: pointer;
+                display: inline-table;
+                width: 18px;
+
+                &:hover {
+                    background: #dfdfdf;
+                }
+            }
+
+            .level-2 {
+                padding-left: 27px
+            }
+        }
+    }
+
+    .row-emp {
+        background: #fff !important;
+
+        .emp {
+        }
+
+        td {
+            &:hover {
+                background: #f0f0f0;
+            }
+        }
+    }
+
+    .buffer-bl {
+        height: 15px !important;
+    }
+}

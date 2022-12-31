@@ -1,0 +1,68 @@
+﻿ 
+@using  Web.Student.Models
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var auth = baseData.AuthData;
+}
+
+<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document" style="width: 350px;">
+        <div class="modal-content">
+            <div class="modal-body">
+                <!-- Simple login form -->
+                <form class="" id="LoginForm" method="POST" action="/employee/login?returnUrl=@baseData.PathAndQuery">
+                    <div class="text-center">
+                        <div class="alert alert-primary no-border">
+                            Phiên làm việc của Anh/Chị đã hết hạn, vui lòng đăng nhập lại để tiếp tục công việc.
+                        </div> 
+                        <img src="~/assets/shared/img/logo.PNG"style="max-width: 200px" />
+                        <h5 class="content-group">
+                            Đăng nhập
+                        </h5>
+                    </div>
+                    <div class="form-group has-feedback has-feedback-left">
+                        <input type="text" class="form-control" value="@auth.LoginName" name="LoginName" placeholder="Tên đăng nhập">
+                        <div class="form-control-feedback">
+                            <i class="icon-user text-muted"></i>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback has-feedback-left">
+                        <input type="password" name="Password" class="form-control" placeholder="Mật khẩu">
+                        <div class="form-control-feedback">
+                            <i class="icon-lock2 text-muted"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-block btn-submit">
+                            Đăng nhập <i class="icon-circle-right2 position-right"></i>
+                        </button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#LoginForm').ultraForm({
+            uiType: 0,
+            actionType: 'post',
+            props: [
+                {
+                    name: 'LoginName',
+                    type: 'hidden',
+                    required: {
+                        message: 'Vui lòng nhập tên đăng nhập'
+                    }
+                },
+                {
+                    name: 'Password',
+                    type: 'password',
+                    required: {
+                        message: 'Vui lòng nhập mật khẩu'
+                    }
+                }
+            ]
+        });
+    });
+</script>

@@ -1,0 +1,18 @@
+﻿
+@using Service.Utility.Components
+@{
+    ViewBag.Title = "Danh mục vị trí công tác";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+}
+<div class="p-15" id="job_position_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                @AppHelper.NavbarTools(new[] { "add", "reload" })
+            </ul>
+        </div>
+    </div>
+    <div class="apply-table mt-15"></div>
+</div>
+ 
+<script src="~/assets/js/web/general/jobpositions.js"></script>

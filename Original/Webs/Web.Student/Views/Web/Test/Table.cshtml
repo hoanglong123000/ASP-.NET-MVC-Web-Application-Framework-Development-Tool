@@ -1,0 +1,253 @@
+﻿@using DBContext.Entities
+@using Service.Core.Components
+@using Service.Core.Variables
+
+@{
+    ViewBag.Title = "Danh mục công trường";
+    Layout = "~/Views/" + version + "/Web/Layouts/Test.cshtml";
+
+    var countries = ViewData["Countries"] as QueryResult<Country>;
+}
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap&subset=vietnamese" rel="stylesheet">
+<link href="~/assets/test/kpi-table.min.css" rel="stylesheet" />
+
+<div class="p-15">
+    <div class="panel panel-flat no-border">
+        <div class="panel-body">
+            <table class="kpi-table ">
+                <colgroup>
+                    <col style="width: 34px;">
+                    <col style="width: 45px;">
+                    <col style="">
+                    <col style="width: 60px;">
+
+                    <col style="width: 200px;">
+                    <col style="width: 140px;">
+                    <col style="width: 140px;">
+
+                    <col style="width: 90px;">
+                    <col style="width: 90px;">
+                    <col style="width: 70px;">
+                    <col style="width: 70px;">
+
+                    <col style="width: 100px;">
+                    <col style="width: 100px;">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th rowspan="2">STT</th>
+                    <th rowspan="2">Mục tiêu</th>
+                    <th rowspan="2">Trọng số</th>
+                    <th rowspan="2">Phương pháp đo</th>
+                    <th rowspan="2">Nguồn dữ liệu chứng minh</th>
+                    <th rowspan="2">Đơn vị tính</th>
+                    <th rowspan="2">Kế hoạch</th>
+                    <th rowspan="2">Thực hiện</th>
+                    <th rowspan="2">Tỷ lệ hoàn thành</th>
+                    <th rowspan="2">Kết quả</th>
+                    <th colspan="2">Đính kèm</th>
+                </tr>
+                <tr>
+                    <th>Đăng ký</th>
+                    <th>Kết quả</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr class="tr-lv1">
+                        <td></td>
+                        <td><span>I</span></td>
+                        <td><span>Thái độ - hành vi</span></td>
+                        <td><span>20%</span></td>
+                        <td colspan="6"></td>
+                        <td>0%</td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <textarea class="" disabled="">1</textarea>
+                        </td>
+                        <td>
+                            <textarea class="" disabled="disabled">
+                            Đảm bảo không vi phạm các hành vi được nêu tại Phục lục Tiêu chí hành vi thái độ của Quy 
+                            chế vận hành KPIs. Khi đánh giá kết quả, liệt kê tất cả hành vi được cộng,trừ điểm theo 
+                            quy chế ở đây
+                            </textarea>
+                        </td>
+                        <td>
+                            <textarea>100%</textarea>
+                        </td>
+                        <td>
+                            <textarea>
+                            Thực tế >= Kế  hoạch: KQ= 100%
+
+                            Thực tế < Kế hoạch: KQ=thực tế/Kế hoạch
+                            </textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea>Phần trăm</textarea>
+                        </td>
+                        <td>
+                            <textarea>100</textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                    </tr>
+                    <tr class="tr-lv1">
+                        <td></td>
+                        <td>I</td>
+                        <td><span>Thái độ - hành vi</span></td>
+                        <td>20%</td>
+                        <td colspan="6"></td>
+                        <td>0%</td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr class="tr-lv2"> 
+                        <td class="" colspan="3">
+                            <span>Phòng Quản trị Nguồn nhân lực</span>
+                            <button class="btn btn-add-child">
+                                <i class="icon-plus3"></i>
+                            </button>
+                        </td>
+                        <td colspan="6"></td>
+                        <td>0%</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="btn btn-default btn-delete">
+                                <i class="icon-x text-danger"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <textarea class="" disabled="">1</textarea>
+                        </td>
+                        <td>
+                            <textarea class="">
+                            Đảm bảo không vi phạm các hành vi được nêu tại Phục lục Tiêu chí hành vi thái độ của Quy 
+                            chế vận hành KPIs. Khi đánh giá kết quả, liệt kê tất cả hành v 
+                            </textarea>
+                        </td>
+                        <td>
+                            <textarea>100%</textarea>
+                        </td>
+                        <td>
+                            <textarea>
+                            Thực tế >= Kế  hoạch: KQ= 100%
+
+                            Thực tế < Kế hoạch: KQ=thực tế/Kế hoạch
+                            </textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea>Phần trăm</textarea>
+                        </td>
+                        <td>
+                            <textarea>100</textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                        <td>
+                            <textarea></textarea>
+                        </td>
+                    </tr>
+                    <tr class="tr-lv2"> 
+                        <td class="" colspan="3">
+                            <span>Phòng Quản trị Nguồn nhân lực</span>
+                            <button class="btn btn-add-child">
+                                <i class="icon-plus3 "></i>
+                            </button>
+                        </td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td>0%</td>
+                        <td colspan="3"></td>
+                    </tr>
+                <tr>
+                    <td>
+                        <button class="btn btn-default btn-delete">
+                            <i class="icon-x text-danger"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <textarea class="" disabled="">1</textarea>
+                    </td>
+                    <td>
+                        <textarea class="">
+                            Đảm bảo không vi phạm các hành vi được nêu tại Phục lục Tiêu chí hành vi thái độ của Quy 
+                            chế vận hành KPIs. Khi đánh giá kết quả, liệt kê tất cả hành v 
+                            </textarea>
+                    </td>
+                    <td>
+                        <textarea>100%</textarea>
+                    </td>
+                    <td>
+                        <textarea>
+                            Thực tế >= Kế  hoạch: KQ= 100%
+
+                            Thực tế < Kế hoạch: KQ=thực tế/Kế hoạch
+                            </textarea>
+                    </td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <textarea>Phần trăm</textarea>
+                    </td>
+                    <td class="edit">
+                        <textarea>100</textarea>
+                    </td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                </tr>
+                <tr class="tr-total">
+                    <td></td>
+                    <td></td>
+                    <td>Tổng kết</td>
+                    <td>100%</td>
+                    <td colspan="6"></td>
+                    <td>0%</td>
+                    <td colspan="2"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

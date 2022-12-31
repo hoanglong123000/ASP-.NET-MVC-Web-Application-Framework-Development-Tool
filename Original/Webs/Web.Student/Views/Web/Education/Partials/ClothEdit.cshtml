@@ -1,0 +1,174 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Clothesmn.Clothes.ClothViewModel
+
+
+@{
+    var groupSize = ViewData["SizeList"] as List<BaseItem>;
+
+    var groupType = new List<TypeClothe>();
+    using(var l = new DBServer.Entities.ServerDBContext())
+    {
+        groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
+    }
+
+
+    var groupBrand = new List<Brand>();
+    using (var l = new DBServer.Entities.ServerDBContext())
+    {
+        groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
+    }
+
+}
+
+
+<form id="ClothForm" class="form form-horizontal">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+
+            @AppHelper.InputInline(new ControlAttribute()
+            {
+                Title = "Name",
+                Name = "Name",
+                Value = Model.Name,
+                LabelCol = 4,
+                Required = true,
+
+            })
+
+            @AppHelper.SelectInline(new ControlAttribute()
+           {
+               Title = "Size",
+               Name = "SizeId",
+               Value = Model.SizeId.ToString(),
+               LabelCol = 4,
+               Required = true,
+               HasDefaultOption = true,
+               List = groupSize.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
+
+           })
+
+
+            @AppHelper.SelectInline(new ControlAttribute()
+           {
+               Title = "Type",
+               Name = "TypeId",
+               Value = Model.TypeId.ToString(),
+               LabelCol = 4,
+               Required = true,
+               HasDefaultOption = true,
+               List = groupType.Select(x => new SelectOption { Text = x.NameofType, Value = x.Id + "" }).ToList()
+           })
+
+
+            @AppHelper.SelectInline(new ControlAttribute()
+           {
+               Title = "Brand",
+               Name = "BrandId",
+               Value = Model.BrandId.ToString(),
+               LabelCol = 4,
+               Required = true,
+               HasDefaultOption = true,
+               List = groupBrand.Select(x => new SelectOption { Text = x.Namebrand, Value = x.Id + "" }).ToList()
+           })
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                <i class="fa fa-remove"></i> EXIT
+            </button>
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
+                <i class="fa fa-save"></i> SAVE
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+
+    var model = @Html.Raw(Json.Encode(Model));
+    function initClothForm(callback) {
+        $('#ClothForm').ultraForm({
+            uiType: 1,
+            action: '/Education/ClothEdit',
+            actionType: 'ajax',
+            props: [
+
+                { name: 'Id', type: 'hidden' },
+
+
+
+                {
+                    name: 'Name', type: 'text',
+                    required: {
+                        message: 'Name cannot be empty!'
+                    }
+                },
+
+                {
+                    name: 'SizeId',
+                    type: 'select2',
+                    option: {
+                    },
+                    required: {
+                        message: 'Size cannot be empty!'     
+                    }
+                },
+
+                {
+                    name: 'BrandId',
+                    type: 'select2',
+                    option: {
+
+                    },
+                    required: {
+                        message: 'Brand cannot be empty!'
+                    }
+                    
+                    
+                },
+
+                {
+                    name: 'TypeId',
+                    type: 'select2',
+                    option: {
+                    },
+                    required: {
+                        message: 'Type cannot be empty'
+                    }
+                    
+                },
+
+
+
+
+
+
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>
+
+

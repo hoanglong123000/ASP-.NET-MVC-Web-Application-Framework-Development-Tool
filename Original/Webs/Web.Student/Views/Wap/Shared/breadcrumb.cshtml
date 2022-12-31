@@ -1,0 +1,33 @@
+﻿ 
+@using Portal.Models
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+}
+
+<div class="page-header page-header-default mb-5">
+    <div class="page-header-content pl-10 pr-10">
+        <div class="page-title pt-5 pb-5">
+            <ul class="breadcrumb">
+                <li>
+                    <a href="index.html" class="text-muted">
+                        Trang chủ
+                    </a>
+                </li>
+                @{
+                    var breadbrums = new BreadcrumbModel
+                    {
+                        List = baseData.FeatureGroups
+                    }.Get(baseData.PathAndQuery);
+                    foreach (var b in breadbrums)
+                    {
+                        <li><a href="@(b.Feature.ViewAction != "x" ? b.Feature.ViewAction : "#")"  class="text-muted">@b.Feature.Name</a></li>
+                    }
+                }
+            </ul>
+            <h6>
+                <span class="text-semibold">@ViewBag.Title</span>
+            </h6>
+        </div>
+    </div>
+</div>
+ 

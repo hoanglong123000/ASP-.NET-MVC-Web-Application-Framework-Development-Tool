@@ -1,0 +1,61 @@
+﻿
+@using  Web.Student.Models
+@{
+    var baseData = ViewData["BaseData"] as BaseData; 
+    var auth = baseData.AuthData; 
+}
+
+<div class="right-navbar" id="rightNavbar" style="display: none">
+    <div class="sidebar-overlay"></div>
+    <div class="sidebar-content">
+        <div class="wrap">
+            <div class="auth-content panel-body bg-blue no-border-radius">
+                <div class="media">
+                    <div class="media-left">
+                        <img src="~/assets/file/default-user.png" class="img-circle img-lg" style="width: 60px; " />
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading">@auth.FullName</h6> 
+                    </div>
+
+                    <div class="media-right media-middle">
+                        <ul class="icons-list">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon-arrow-down5"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="/employee/edit?tab=avatar"><i class="icon-quill2"></i> Cập nhật ảnh đại diện</a></li>
+                                    <li><a href="/employee/edit?tab=signature"><i class="icon-quill2"></i> Cập nhật chữ ký</a></li>
+                                    <li><a href="/employee/logoff"><i class="icon-switch2"></i> Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <ul>
+                     
+                    <li>
+                        <a href="/employee/logoff">
+                            <i class="icon-switch2 icon-left"></i> <span>Đăng xuất</span>
+                        </a>
+                    </li>
+                </ul> 
+            </div> 
+        </div>
+    </div>
+</div>
+
+<script>
+    var pn = $(location).attr('pathname');
+    var tarr = pn.split('/');
+    $('.navigation-main li').each(function () {
+        var href = $(this).find('> a').attr('href');
+        if (href == pn) {
+            $(this).addClass('active');
+            $(this).parents('.hidden-ul').css('display', 'block');
+        }
+    });
+</script>

@@ -1,0 +1,17 @@
+﻿@using System.Web.Optimization
+@{
+    Layout = null;
+    var bodyclass = ViewBag.BodyClass;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    @RenderSection("styles", required: false)
+    <title></title>
+</head>
+<body class="@bodyclass">
+    @RenderBody()
+</body>
+</html>

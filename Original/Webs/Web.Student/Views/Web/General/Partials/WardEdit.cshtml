@@ -1,0 +1,57 @@
+﻿@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model DBContext.AuthSharing.Entities.LocalWard
+
+<input type="hidden" name="Id" value="@Model.Id" />
+<input type="hidden" name="DistrictId" value="@Model.DistrictId" />
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Tên phường/xã",
+	Value = Model.Name,
+	Name = "Name",
+	LabelCol = 4,
+	Required = true
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+	Title = "Mã phường",
+	Value = Model.MaThue + "",
+	Name = "MaThue",
+	LabelCol = 4
+})
+<script>
+	function initWardForm(callback) {
+		console.log(44);
+		$('#WardForm').ultraForm({
+			uiType: 1,
+			action: '/general/WardEdit',
+			actionType: 'ajax',
+			props: [
+				{
+					name: 'Id',
+					type: 'hidden'
+				},
+				{
+					name: 'DistrictId',
+					type: 'hidden'
+				},
+				{
+					name: 'Name',
+					type: 'text',
+					required: {
+						message: 'Vui lòng nhập tên phường/xã'
+					}
+				},
+				{
+					name: 'MaThue',
+					type: 'text'
+				}
+			],
+			afterSubmit: function (form) {
+				callback();
+			}
+		});
+	}
+</script>

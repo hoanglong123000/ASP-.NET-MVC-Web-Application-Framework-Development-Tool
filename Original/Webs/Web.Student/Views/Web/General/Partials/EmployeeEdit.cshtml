@@ -1,0 +1,162 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.OptionValues
+@using Service.Utility.Variables
+
+@model Service.AuthSharing.Executes.Employees.Employees.LocalEmployeeViewModel
+@{
+    var orgs = ViewData["Orgs"] as List<BaseItem>;
+    var pos = ViewData["Pos"] as List<BaseItem>;
+}
+
+<h6 class="text-bold">1.Thông tin cá nhân</h6>
+ 
+<input type="hidden" name="Id" value="@Model.Id" />
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "MSNV",
+    Name = "StaffCode",
+    Value = Model.StaffCode + "",
+    LabelCol = 4,
+    Required = true,
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Họ tên",
+    Name = "FullName",
+    Value = Model.FullName + "",
+    LabelCol = 4,
+    Required = true,
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Ảnh đại diện",
+    Name = "Avatar",
+    Value = Model.Avatar + "",
+    LabelCol = 4,
+    Type = "file"
+})
+
+@AppHelper.SelectInline(new ControlAttribute()
+{
+    Title = "Bộ phận",
+    Name = "OrganizationId",
+    Value = Model.OrganizationId + "",
+    LabelCol = 4,
+    HasDefaultOption = true,
+    List = orgs.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+})
+
+@AppHelper.SelectInline(new ControlAttribute()
+{
+    Title = "Vị trí công tác",
+    Name = "JobPositionId",
+    Value = Model.JobPositionId + "",
+    LabelCol = 4,
+    HasDefaultOption = true,
+    List = pos.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Điện thoại",
+    Name = "DiDong",
+    Value = Model.DiDong + "",
+    LabelCol = 4,
+})
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Email",
+    Name = "EmailCongTy",
+    Value = Model.EmailCongTy + "",
+    LabelCol = 4,
+})
+
+<h6 class="text-bold mt-20">2. Thông tin đăng nhập</h6>
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Tên đăng nhập",
+    Name = "LoginName",
+    Value = Model.LoginName + "",
+    LabelCol = 4,
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Mật khẩu",
+    Name = "Password",
+    Value = "",
+    LabelCol = 4,
+    Type = "password"
+})
+<script>
+    var model = @Html.Raw(Json.Encode(Model));
+    function initEmployeeForm(callback) {
+        $('#EmployeeForm').ultraForm({
+            uiType: 1,
+            action: '/general/EmployeeEdit',
+            actionType: 'ajax',
+            props: [
+                { name: 'Id', type: 'hidden' },
+                {
+                    name: 'StaffCode', type: 'text',
+                    required: {
+                        message: 'Nhập msnv'
+                    }
+                },
+                {
+                    name: 'FullName', type: 'text',
+                    required: {
+                        message: 'Nhập Họ tên'
+                    }
+                },
+                {
+                    name: 'Avatar',
+                    type: 'file',
+                    option: {
+                        uploadFirst: true
+                    },
+                    acceptFormats: 'image'
+                },
+                {
+                    name: 'OrganizationId',
+                    type: 'select2',
+                    option: {}
+                },
+                {
+                    name: 'JobPositionId',
+                    type: 'select2',
+                    option: {}
+                },
+                {
+                    name: 'EmailCongTy',
+                    type: 'email'
+                },
+                {
+                    name: 'DiDong',
+                    type: 'text'
+                },
+                {
+                    name: 'LoginName',
+                    type: 'text'
+                },
+                {
+                    name: 'Password',
+                    type: 'password'
+                }
+            ],
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+    }
+</script>

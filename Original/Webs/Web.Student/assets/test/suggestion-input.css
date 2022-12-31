@@ -1,0 +1,22 @@
+﻿.suggestion-input {
+  position: relative;
+  width: 100%; }
+  .suggestion-input .suggests {
+    position: absolute;
+    top: 31px;
+    max-height: 300px;
+    right: 0;
+    left: 0;
+    border-radius: 0;
+    z-index: 10;
+    background: #fff;
+    border: 1px solid #51cbee;
+    border-style: solid;
+    border-width: 1px;
+    border-color: transparent #51cbee #51cbee #51cbee;
+    overflow-y: auto; }
+    .suggestion-input .suggests a {
+      padding: 5px 20px; }
+      .suggestion-input .suggests a:hover, .suggestion-input .suggests a.active {
+        background: #2196f3;
+        color: #fff; }

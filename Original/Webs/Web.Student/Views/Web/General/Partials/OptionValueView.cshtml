@@ -1,0 +1,16 @@
+﻿@using  Web.Student.Helpers 
+
+<div class="panel panel-flat no-border no-margin-bottom" id="option_value_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                @AppHelper.NavbarTools(new[] { "add", "edit", "delete", "reload" })
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body no-padding">
+        <div class="apply-table"></div>
+    </div>
+</div>
+
+<script src="~/assets/js/web/general/optionvalues.js"></script>

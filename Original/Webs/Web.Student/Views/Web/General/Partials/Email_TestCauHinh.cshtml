@@ -1,0 +1,114 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities
+@using Service.Utility.Components 
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.EmailTemplates
+ 
+@{
+    var baseData = ViewData["BaseData"] as Web.Student.Models.BaseData;
+    var settings = baseData.Settings;
+    var version = Session["Version"] as string;
+}
+
+<div class="p-15">
+    <form class="form-horizontal form" id="testForm">
+        @AppHelper.InputInline(new ControlAttribute()
+        {
+            Title = "Tiêu đề",
+            Name = "Subject",
+            LabelCol = 2,
+            Required = true
+        })
+        @AppHelper.InputInline(new ControlAttribute()
+       {
+           Title = "Người nhận",
+           Name = "Receivers",
+           LabelCol = 2,
+           PlaceHolder = "Các email cách nhau dấu chấm phẩy (;)",
+           Required = true
+       })
+        @AppHelper.InputInline(new ControlAttribute()
+      {
+          Title = "CC",
+          Name = "CCs",
+          LabelCol = 2,
+          PlaceHolder = "Các email cách nhau dấu chấm phẩy (;)"
+      })
+        @AppHelper.SummernoteInline(new ControlAttribute()
+       {
+           Title = "Nội dung",
+           Name = "BodyHtml",
+           LabelCol = 2,
+           Required = true,
+           Value = ""
+       })
+
+        <div class="form-group mt-15" style="height: 30px; margin-bottom: 0">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-sm btn-primary  btn-submit" type="button"
+                        data-loading-text="<i class='icon-spinner10 fa-spin'></i> Đang gửi ">
+                    Gửi
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var tf = '#testForm';
+        $(tf).ultraForm({
+            uiType: 1,
+            action: '/setting/TestEmail',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Subject',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập tiêu đề'
+                    }
+                },
+                {
+                    name: 'Receivers',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập người nhận'
+                    }
+                },
+                {
+                    name: 'CCs',
+                    type: 'text'
+                },
+                {
+                    name: 'BodyHtml',
+                    type: 'summernote',
+                    option: {
+                        serverUrl: DOMAIN_API
+                    },
+                    required: {
+                        message: 'Nhập nội dung'
+                    }
+                }
+            ],
+            autoSubmit: false,
+            validCallback: function (data, btn) {
+                data = app.formDataToJson(data);
+
+                btn.button('loading');
+
+                app.postData('/email/testEmailTemplate',
+                    data,
+                    function (result) {
+                        if (result.Success) {
+                            app.notify('success', 'Gửi thành công');
+                        } else {
+                            app.notify('warning', result.Message);
+                        }
+                        btn.button('reset');
+                    });
+            }
+        });
+    }) 
+</script>

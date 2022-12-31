@@ -1,0 +1,293 @@
+﻿@using Service.Core.Components
+@model Service.Core.Executes.Kpi.KpiCompanies.KpiCompanyViewModel
+@{
+    Layout = null;
+    var now = DateTime.Now;
+    var quy = 0;
+    if (now.Month % 3 == 0)
+    {
+        quy = now.Month / 3;
+    }
+    else
+    {
+        quy = (now.Month / 3) + 1;
+    }
+}
+<html>
+<head>
+
+    <style type="text/css">
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+
+        body {
+            line-height: 1;
+        }
+
+        ol, ul {
+            list-style: none;
+        }
+
+        blockquote, q {
+            quotes: none;
+        }
+
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.428571429;
+            color: #333333;
+            background-color: #ffffff;
+        }
+
+        b {
+            font-weight: bold;
+        }
+
+        .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
+            padding: 8px;
+            line-height: 1.428571429;
+            vertical-align: top;
+            border-top: 1px solid #dddddd;
+        }
+
+        .table thead > tr > th, .table tbody > tr > th {
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        .btn-primary {
+            color: #ffffff;
+            background-color: #428bca;
+            border-color: #357ebd;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .table tbody > tr > th {
+            vertical-align: middle;
+        }
+
+        a {
+            text-decoration: unset;
+        }
+    </style>
+     
+</head>
+<body style="margin-top: 5px; padding: 0; width: 100%; font-size: 1em;color:black;">
+    <table cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td>
+                <h1 style="font-size: 25px; text-align:  center">KPIs CẤP CÔNG TY</h1>
+            </td>
+        </tr>
+    </table>
+
+    <hr style="border: 1px solid #000; width: 100%; margin: 10px 0" />
+
+    <table style="width:100%; font-size:16px;">
+        <tr style="width: 100%; font-size: 15px;">
+            <td style="padding-left: 10px;">
+                <p><strong><em><u>Kính gửi:</u></em>&nbsp;&nbsp; Anh/Chị Ban Giám Đốc</strong></p>
+            </td>
+        </tr>
+        <tr style="width: 100%; font-size: 13px;">
+            <td style="padding-left: 10px;">
+                Căn cứ <b>quy định thực hiện theo KPIs Cấp Công ty đã được ban hành</b>.
+                Dựa theo phạm vi công việc và phân công nhiệm vụ của phòng ban.
+            </td>
+        </tr>
+        <tr style="width: 100%; font-size: 13px;">
+            <td style="padding-left: 10px;">Kính đề nghị Ban Giám Đốc<b> Xem xét duyệt đăng ký </b>với các nội dung như sau:</td>
+        </tr>
+        <tr style="width: 100%; font-size: 13px;">
+            <td style="padding-left: 10px;"></td>
+        </tr>
+    </table>
+    <table style="width: 100%; font-size: 13px; margin-top: 10px" class="table">
+        <colgroup>
+            <col style="width: 40px;" />
+            <col style="width: 200px;" />
+            <col style="width: 80px;" />
+            <col style="width: 70px;" />
+            <col style="width: 70px;" />
+            <col style="width: 120px;" />
+            <col style="width: 120px;" />
+            <col style="width: 100px;" />
+            <col style="width: 120px;" />
+            <col style="width: 150px;" />
+            <col style="width: 100px;" />
+            <col style="width: 80px;" />
+            <col style="width: 50px;" />
+            <col style="width: 50px;" />
+        </colgroup>
+        <tbody>
+            <tr>
+                <th rowspan="4" colspan="2" class="boxEdit" style="font-size: 16pt; color: #f3332e; text-align: center">
+                    NĂM KPI<br />
+                    <span style="width: 100%; font-size: 26px; color: #8e2bf1; border: 0px; text-align: center; box-shadow: none; resize: none;" rows="1" placeholder="" id="txtnam" name="nam">@now.Year</span>
+                </th>
+                <td colspan="12" style="border: 1px solid #000; font-size: 18pt; background-color: azure; color: #8e2bf1; text-align: center">
+                    KPIs CẤP CÔNG TY
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align: left; border: 1px solid #000">
+                    <div>Bộ phận soạn thảo: @Model.BoPhanSoanThao</div>
+                </td>
+
+                <td colspan="11" style="text-align: left; border: 1px solid #000">
+                    <div>Biểu mẫu: &nbsp;&nbsp;<b>QP04FM13</b></div>
+                </td>
+            <tr>
+            <tr>
+                <td colspan="3" style="text-align: left; border: 1px solid #000;">Ngày ban hành:</td>
+                <td colspan="3" style="text-align: left; border: 1px solid #000;">Ngày cập nhật: @Model.UpdatedDate.FormatDate() </td>
+                <td colspan="6" style="text-align: left; border: 1px solid #000;">Lần cập nhật: 00/01 </td>
+            </tr>
+
+            <tr style="margin: 0 auto;">
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Stt</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Mục tiêu</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Trọng số</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Đơn vị tính</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Chỉ tiêu</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Cách tính</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Phương pháp đo</th>
+                <th style="border: 1px solid #000; text-align: center" rowspan="3">Nguồn chứng minh</th>
+                <th style="border: 1px solid #000;  text-align: center" rowspan="3">Đối tượng nhận mục tiêu</th>
+                <th style="border: 1px solid #000;text-align: center" rowspan="3">Ghi chú</th>
+                <th style="border: 1px solid #000;  text-align: center" rowspan="3">Nguyên tắc tính</th>
+                <th style="border: 1px solid #000; background: #ffc; text-align: center" colspan="3">Quý @quy</th>
+            </tr>
+            <tr>
+                <th style="border: 1px solid #000; background: #ffc;text-align: center" rowspan="2">Trọng số</th>
+                <th style="border: 1px solid #000; background: #ffc; text-align: center" colspan="2">KPIs kế hoạch</th>
+            </tr>
+            <tr>
+                <th style="border: 1px solid #000;background: #ffc; width: 5%; text-align: center">X</th>
+                <th style="border: 1px solid #000; background: #ffc;width: 6%; text-align: center">Y</th>
+            </tr>
+            @{
+                var tk = Model.Details.FirstOrDefault(x => x.Summary);
+                if (tk != null)
+                {
+                    <tr style="background-color: #ff0">
+                        <td style="text-align: center; font-weight: bold">@tk.STT</td>
+                        <td colspan="13" style="font-weight: bold">@tk.MucTieu</td>
+                    </tr>
+                }
+                foreach (var item in Model.Details)
+                {
+                    if (item.ParentId == null && !item.Summary)
+                    {
+                        var childs = Model.Details.Where(x => x.ParentId == item.KpiEvaluationCriteriaId).ToList();
+                        <tr style="background-color: #eceff1">
+                            <td style="text-align: center; font-weight: bold">@item.STT</td>
+                            <td colspan="13" style="font-weight: bold">@item.MucTieu</td>
+                        </tr>
+                        foreach (var child in childs)
+                        {
+                        <tr>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: center">@child.STT</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.MucTieu</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.Nam_TrongSo</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.DonViTinh</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.ChiTieu</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.CachTinh</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left">@Html.Raw(child.CongThucDo)</td> 
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: center">@child.NguonChungMinh</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.DoiTuongNhanMucTieu</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.GhiChu</td>
+                            <td style="font-size: 12px; border: 1px solid #000; text-align: left"> @child.NguyenTacTinh</td>
+                            @{
+                                var ts = quy == 1 ? child.Quy1_TrongSo :
+                                    quy == 2 ? child.Quy2_TrongSo :
+                                        quy == 3 ? child.Quy3_TrongSo : child.Quy4_TrongSo;
+                                var khx = quy == 1 ? child.Quy1_KpisKeHoach_X :
+                                    quy == 2 ? child.Quy2_KpisKeHoach_X :
+                                        quy == 3 ? child.Quy3_KpisKeHoach_X : child.Quy4_KpisKeHoach_X;
+                                var khy = quy == 1 ? child.Quy1_KpisKeHoach_Y :
+                                    quy == 2 ? child.Quy2_KpisKeHoach_Y :
+                                        quy == 3 ? child.Quy3_KpisKeHoach_Y : child.Quy4_KpisKeHoach_Y;
+                            }
+                            <td style="font-size: 12px; border: 1px solid #000;background: #ffc; text-align: center">@ts</td>
+                            <td style="font-size: 12px; border: 1px solid #000;background: #ffc; text-align: center">@khx</td>
+                            <td style="font-size: 12px; border: 1px solid #000;background: #ffc; text-align: center">@khy</td>
+                        </tr>
+                        }
+                    }
+
+                }
+            }
+        </tbody>
+
+
+    </table>
+
+    <table style="width: 850px; margin-top: 10px;">
+        <tr>
+            <td style="">
+                <a href="@Model.AgreeLink" class="btn btn-primary" style="color: #fff">
+                    Đồng ý Duyệt KPI
+                </a> &nbsp;&nbsp;
+                <a href="@Model.DisagreeLink" class="btn btn-primary" style="color: #fff">
+                    Không đồng ý
+                </a>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</body>
+</html>

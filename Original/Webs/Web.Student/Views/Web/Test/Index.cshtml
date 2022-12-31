@@ -1,0 +1,112 @@
+﻿
+@using Service.Core.Components
+@using Service.Utility.Variables
+
+@{
+    ViewBag.Title = "Danh mục công trường";
+    Layout = "~/Views/2.0/Web/Layouts/Test.cshtml";
+}
+
+<div class="container" style="">
+
+    <button class="btn " id="btn_new" abc="1" masp="1" xya="2" >Thêm dòng</button>
+
+    <table id="myTable" class="table">
+    </table>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Modal title
+                </h4>
+            </div>
+            <div class="modal-body">
+                aefaefaef
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     
+    function ChayaThu() {
+        console.log(123);
+    }
+    function ChayThu() {
+        console.log(123);
+    }
+    function ChayThu() {
+        console.log(123);
+    }
+    function ChayThu() {
+        console.log(123);
+    }
+    function ChayThu() {
+        console.log(123);
+    }
+    function ChayThu() {
+        console.log(123);
+    }
+
+    $(document).ready(function () { // khi html của web được tải từ trình duyệt hoàn tất
+         
+        // lay danh sach
+
+        // google
+        $.ajax({
+            url: '/Test/GetFeedbackList',
+            data: { // tham so truyen len de filter
+                //   name: ''
+            },
+            success: function (data) {
+
+                for (var i = 0; i < data.Many.length; i++) {
+                    var item = data.Many[i];
+
+                    var tr = '<tr>';
+                    tr += '<td>' + item.Note + '</td>';
+                    tr += '<td>' + item.Title + '</td>';
+                    tr += '</tr>';
+
+                    $('#myTable').append(tr);
+                }
+
+                //$(data.Many).each(function () {
+                //    var item = this;
+                //})
+            }
+        })
+
+        // lam chuc nang thêm mới
+
+        $('#btn_new').click(function () {
+
+            var masp = $(this).attr('masp');
+             
+            $('#myModal').modal('show');
+
+            $.ajax({
+                url: '/test/FormThemSanPham',
+                data: { 
+                    dataType: 'html',
+                    masp: masp
+                },
+                success: function (doanCode) {
+                    $('#myModal .modal-body').html(doanCode);
+
+                    KhoiTaoDoanCodeThemHocSinh();
+
+                }
+            })
+
+        })
+    });
+</script>

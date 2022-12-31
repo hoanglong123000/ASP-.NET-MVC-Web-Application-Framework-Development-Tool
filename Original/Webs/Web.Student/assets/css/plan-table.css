@@ -1,0 +1,29 @@
+﻿.table thead th {
+  background-color: #1e88e5 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important; }
+  .table thead th.bg-primary-300 {
+    background-color: #64b5f6 !important; }
+
+.table tbody tr.tr-group {
+  background: #dfdfdf;
+  font-weight: bold; }
+
+.table tbody tr:last-child td {
+  border-bottom: 1px solid #ddd !important; }
+
+.table tbody td.edit {
+  border: 2px solid #0094ff !important; }
+  .table tbody td.edit .select2-choices {
+    border-radius: 2px;
+    border: none;
+    overflow: auto;
+    background-image: none !important; }
+
+.table tbody td.even {
+  background: #f9f9f9; }
+
+.table tbody td {
+  font-size: 12px; }
+  .table tbody td:hover {
+    background: #e0f2ff; }

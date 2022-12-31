@@ -1,0 +1,34 @@
+﻿@using Web.Student.Models
+@using Service.AuthSharing.Components
+@using Service.Utility.Components
+@{
+	var baseData = ViewData["BaseData"] as BaseData;
+	var bg = baseData.LocalSettings.GetValue("general", "login_bg");
+}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="google-site-verification" content="VlwHRdh-wzfUcWmmw11Xj9fj55dypOVJkPGTy7xKiok" />
+	<title>@ViewBag.Title</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+
+	<script>
+        var browser = '@baseData.Browser';
+        var isAdmin = '@baseData.IsAdmin';
+        var DOMAIN_API = '';
+        var PORTAL_API = '';
+	</script>
+
+	@BundleHelper.Generate(new List<BundleType>()
+	{
+		BundleType.Web
+	})
+	@*<link href="~/assets/css/customize.min.css" rel="stylesheet" />*@
+</head>
+<body class="login-page login-container" style="background: url(/assets/file/adobe-photoshop-hd-wal.jpg)">
+	@RenderBody()
+</body>
+</html>

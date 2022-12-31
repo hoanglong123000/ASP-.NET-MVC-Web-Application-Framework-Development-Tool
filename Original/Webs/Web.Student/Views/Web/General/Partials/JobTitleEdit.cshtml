@@ -1,0 +1,64 @@
+﻿@using Service.Utility.Components
+@using Service.Core.Executes.General.Groups
+@model Service.AuthSharing.Executes.General.JobTitles.LocalJobTitleViewModel
+@{
+    Layout = null;
+    var groups = new List<int>();
+    for (int i = 1; i <= 6; i++)
+    {
+        groups.Add(i);
+    }
+}
+
+<input type="hidden" name="Id" value="@Model.Id" />
+ 
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Tên chức danh",
+    Name = "Name",
+    Value = Model.Name,
+    Required = true,
+    LabelCol = 4
+}) 
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "STT sắp xếp",
+    Name = "Priority",
+    Value = Model.Priority + "",
+    LabelCol = 4
+})
+<script>
+    function initJobTitleForm(table) {
+        console.log(4);
+        $('#JobTitleForm').ultraForm({
+            uiType: 1,
+            action: '/general/JobTitleEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                }, 
+                {
+                    name: 'Name',
+                    type: 'text',
+                    required: {
+                        message: 'Vui lòng nhập tên chức vụ'
+                    }
+                },
+                {
+                    name: 'Priority',
+                    type: 'number',
+                    option: {
+                        min: 0,
+                        max: 10000
+                    }
+                }
+            ],
+            afterSubmit: function (form) {
+                table.hideModal();
+                table.loadData();
+            }
+        });
+    }
+</script>

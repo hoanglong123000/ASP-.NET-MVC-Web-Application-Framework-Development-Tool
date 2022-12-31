@@ -1,0 +1,64 @@
+﻿@using  Web.Student.Helpers
+@using DBServer.Entities 
+@using Service.Core.Executes.Category.JobPositions
+@using Service.Core.Executes.General.OptionValues
+@model Service.Core.Executes.Employees.Employees.EmployeeViewModel
+@{
+    var jobPositions = ViewData["JobPositions"] as List<JobPositionViewModel>;
+    var lstTrangThaiCongViec = ViewData["LstTrangThaiCongViec"] as List<OptionValueViewModel>;
+    var countries = ViewData["Countries"] as List<Country>;
+    var banks = ViewData["Banks"] as List<Bank>;
+    var healthCares = ViewData["HealthCares"] as List<HealthCareViewModel>;
+}
+
+<input type="hidden" value="@Model.Id" name="Id" />
+<div class="tabbable">
+    <div class="ultra-wizard-form">
+        <div class="tabbable">
+            <ul class="nav nav-tabs wizard-tabs nav-justified custom-size" id="nav_tab">
+                <li class="active" style="width: 200px;">
+                    <a href="#candidate_tab1" data-toggle="tab" aria-expanded="false">1. THÔNG TIN CÁ NHÂN</a>
+                </li>
+                <li class="" style="width: 210px;">
+                    <a href="#candidate_tab2" data-toggle="tab" aria-expanded="true">2. TRÌNH ĐỘ HỌC VẤN</a>
+                </li>
+                <li class="" style="width: 240px;">
+                    <a href="#candidate_tab3" data-toggle="tab" aria-expanded="false">3. KINH NGHIỆM LÀM VIỆC</a>
+                </li>
+                <li class="" style="width: 200px;">
+                    <a href="#candidate_tab4" data-toggle="tab" aria-expanded="true">4. QUAN HỆ GIA ĐÌNH</a>
+                </li>
+                <li class="" style="width: 150px;">
+                    <a href="#candidate_tab4" data-toggle="tab" aria-expanded="true">5. BẢO MẬT</a>
+                </li>
+                <li class="" style="width: 150px;">
+                    <a href="#candidate_tab4" data-toggle="tab" aria-expanded="true">6. QUYỀN HẠN</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active p-15" id="ue-tab1">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_ThongTinCaNhan.cshtml", Model)
+                </div>
+                <div class="tab-pane" id="ue-tab2">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_TrinhDoHocVan.cshtml")
+                </div>
+
+                <div class="tab-pane" id="ue-tab3">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_KinhNghiemLamViec.cshtml")
+                </div>
+
+                <div class="tab-pane" id="ue-tab4">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_ThongTinGiaDinh.cshtml")
+                </div>
+                <div class="tab-pane" id="ue-tab5">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_BaoMat.cshtml")
+                </div>
+                <div class="tab-pane" id="ue-tab6">
+                    @Html.Partial("~/Views/"+ version +"/Web/employee/Partials/UserEdit/UserEdit_QuyenHan.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/assets/js/web/employee/user-edit.js"></script>

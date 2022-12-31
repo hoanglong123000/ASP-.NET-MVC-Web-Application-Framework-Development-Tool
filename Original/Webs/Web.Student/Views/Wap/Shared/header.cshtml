@@ -1,0 +1,18 @@
+﻿ 
+@using  Web.Student.Models
+@using Service.Core.Components
+@model bool
+@{
+    var baseData = ViewData["BaseData"] as BaseData;
+    var user = baseData.AuthData;
+}
+<div class="navbar navbar-default" style="">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav nav-left">
+            <li><a class="navbar-mobile-main-toggle"><i class="icon-menu7"></i></a></li>
+        </ul>
+        <a class="navbar-brand" href="/" style="">
+            <img src="@baseData.Settings.GetValue("general", "logo_web")" style="" />
+        </a> 
+    </div> 
+</div>

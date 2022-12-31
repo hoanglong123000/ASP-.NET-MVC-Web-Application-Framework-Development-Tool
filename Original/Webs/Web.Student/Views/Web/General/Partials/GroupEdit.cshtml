@@ -1,0 +1,459 @@
+﻿
+@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.FeatureGroups
+@using Service.Core.Executes.General.Features
+@using Service.Core.Executes.General.OptionValues
+@model Service.Core.Executes.General.Groups.GroupViewModel
+@{ 
+	var features = ViewData["Features"] as List<FeatureViewModel>;
+	features = features.Where(x => x.Type == 0).ToList();  
+}
+
+<input type="hidden" value="@Model.Id" name="Id" />
+<div class="tabbable">
+	<ul class="nav nav-tabs nav-tabs-bottom no-margin-bottom">
+		<li class="active"><a href="#su_tab1" data-toggle="tab">Thông tin nhóm</a></li>
+		<li><a href="#su_tab2" data-toggle="tab">Quyền theo chức năng/ nhiệm vụ</a></li>
+		<li><a href="#su_tab3" data-toggle="tab">Quyền dữ liệu</a></li>
+	</ul>
+</div>
+<div class="tab-content">
+	<div class="tab-pane active p-15" id="su_tab1">
+		<fieldset>
+			<div class="alert alert-danger" style="display: none"></div>
+			<input type="hidden" name="id" value="@Model.Id" />
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Mã nhóm",
+				Name = "Code",
+				Value = Model.Code,
+				Required = true,
+				LabelCol = 3,
+				ControlCol = 5
+			})
+			@AppHelper.InputInline(new ControlAttribute()
+		   {
+			   Title = "Tên nhóm",
+			   Name = "Name",
+			   Value = Model.Name,
+			   Required = true,
+			   LabelCol = 3,
+			   ControlCol = 5
+		   })
+				@AppHelper.TextareaInline(new ControlAttribute()
+		   {
+			   Title = "Mô tả",
+			   Name = "Description",
+			   Value = Model.Description,
+			   Row = 3,
+			   LabelCol = 3,
+			   ControlCol = 5
+		   })
+			@AppHelper.InputInline(new ControlAttribute()
+			{
+				Title = "Thứ tự",
+				Name = "Priority",
+				Value = Model.Priority + "",
+				Row = 3,
+				LabelCol = 3,
+				ControlCol = 5
+			})
+		</fieldset>
+	</div>
+	<div class="tab-pane p-15" id="su_tab2">
+		@AppHelper.CheckboxInline(new ControlAttribute()
+		{
+			Title = "Cho phép truy cập",
+			Name = "AllowHrm",
+			Value = "true",
+			Check = Model.AllowHrm
+		})
+		<div class="form-group mt-15 no-margin-left">
+			<h6 class="text-bold">Chức năng</h6>
+			<button class="btn btn-xs" type="button" id="check_hrm_all">Chọn tất cả</button>
+			<button class="btn btn-xs" type="button" id="clear_hrm_all">Bỏ chọn tất cả</button>
+		</div>
+		<div class="table-responsive" style="max-height: 485px">
+			<table class="table table-xs table-bordered table-hover table-striped">
+				<thead>
+					<tr>
+						<th>Chức năng</th>
+						<th style="width: 50px; text-align: center">Xem</th>
+						<th style="width: 85px; text-align: center">Thêm mới</th>
+						<th style="width: 50px; text-align: center">Sửa</th>
+						<th style="width: 50px; text-align: center">Xóa</th>
+					</tr>
+				</thead>
+				<tbody id="table_01">
+					@foreach (var s in features)
+					{
+						if (s.Visible)
+						{
+							if (s.ParentId == null)
+							{
+								var r = Model.FeatureGroups.FirstOrDefault(x => x.FeatureId == s.Id) ?? new FeatureGroupViewModel()
+								{
+									AllowUpdate = false,
+									AllowView = false,
+									AllowDelete = false,
+									AllowCreate = false,
+									Feature = s
+								};
+								<tr Feature="@s.Id">
+									<td><i class="fa fa-minus-square-o position-left" style="font-size: 14px"></i>@s.SidebarName</td>
+									<td class="text-center">
+										@if (r.Feature.HasView)
+										{
+											<input type="checkbox" parent="@s.ParentId" dataid="@s.Id" class="styled" name="allowView" GroupUser="@Model.Id" @(r.AllowView ? "checked=\"checked\"" : "") />
+										}
+									</td>
+
+									<td class="text-center">
+										@if (r.Feature.HasAdd)
+										{
+											<input type="checkbox" parent="@s.ParentId" dataid="@s.Id" class="styled" name="allowCreate" GroupUser="@Model.Id" @(r.AllowCreate ? "checked=\"checked\"" : "")>
+										}
+									</td>
+									<td class="text-center">
+										@if (r.Feature.HasEdit)
+										{
+											<input type="checkbox" parent="@s.ParentId" dataid="@s.Id" class="styled" name="allowUpdate" GroupUser="@Model.Id" @(r.AllowUpdate ? "checked=\"checked\"" : "")>
+										}
+
+									</td>
+									<td class="text-center">
+										@if (r.Feature.HasDelete)
+										{
+											<input type="checkbox" parent="@s.ParentId" dataid="@s.Id" class="styled" name="allowDelete" GroupUser="@Model.Id" @(r.AllowDelete ? "checked=\"checked\"" : "")>
+										}
+
+									</td>
+								</tr>
+								foreach (var s1 in features)
+								{
+									if (s1.Visible && s1.ParentId == s.Id)
+									{
+										var r1 = Model.FeatureGroups.FirstOrDefault(x => x.FeatureId == s1.Id) ?? new FeatureGroupViewModel()
+										{
+											AllowUpdate = false,
+											AllowView = false,
+											AllowDelete = false,
+											AllowCreate = false,
+											Feature = s1
+										};
+										<tr Feature="@s1.Id">
+											<td>
+												<span style="margin-left: 40px"></span> <i class="fa fa-minus-square-o position-left" style="font-size: 14px"></i>@s1.SidebarName
+											</td>
+											<td class="text-center">
+												@if (r1.Feature.HasView)
+												{
+													<input type="checkbox" parent="@s1.ParentId" dataid="@s1.Id" class="styled" name="allowView" GroupUser="@Model.Id" @(r1.AllowView ? "checked=\"checked\"" : "") />
+												}
+											</td>
+
+											<td class="text-center">
+												@if (r1.Feature.HasAdd)
+												{
+													<input type="checkbox" parent="@s1.ParentId" dataid="@s1.Id" class="styled" name="allowCreate" GroupUser="@Model.Id" @(r1.AllowCreate ? "checked=\"checked\"" : "")>
+												}
+											</td>
+											<td class="text-center">
+												@if (r1.Feature.HasEdit)
+												{
+													<input type="checkbox" parent="@s1.ParentId" dataid="@s1.Id" class="styled" name="allowUpdate" GroupUser="@Model.Id" @(r1.AllowUpdate ? "checked=\"checked\"" : "")>
+												}
+
+											</td>
+											<td class="text-center">
+												@if (r1.Feature.HasDelete)
+												{
+													<input type="checkbox" parent="@s1.ParentId" dataid="@s1.Id" class="styled" name="allowDelete" GroupUser="@Model.Id" @(r1.AllowDelete ? "checked=\"checked\"" : "")>
+												}
+
+											</td>
+										</tr>
+										foreach (var s2 in features)
+										{
+											if (s2.Visible && s2.ParentId == s1.Id)
+											{
+												var r2 = Model.FeatureGroups.FirstOrDefault(x => x.FeatureId == s2.Id) ?? new FeatureGroupViewModel()
+												{
+													AllowUpdate = false,
+													AllowView = false,
+													AllowDelete = false,
+													AllowCreate = false,
+													Feature = s2
+												};
+												<tr Feature="@s2.Id">
+													<td>
+														<span style="margin-left: 80px"></span> @s2.SidebarName
+													</td>
+													<td class="text-center">
+														@if (r2.Feature.HasView)
+														{
+															<input type="checkbox" parent="@s2.ParentId" dataid="@s2.Id" class="styled" name="allowView" GroupUser="@Model.Id" @(r2.AllowView ? "checked=\"checked\"" : "") />
+														}
+													</td>
+
+													<td class="text-center">
+														@if (r2.Feature.HasAdd)
+														{
+															<input type="checkbox" parent="@s2.ParentId" dataid="@s2.Id" class="styled" name="allowCreate" GroupUser="@Model.Id" @(r2.AllowCreate ? "checked=\"checked\"" : "")>
+														}
+													</td>
+													<td class="text-center">
+														@if (r2.Feature.HasEdit)
+														{
+															<input type="checkbox" parent="@s2.ParentId" dataid="@s2.Id" class="styled" name="allowUpdate" GroupUser="@Model.Id" @(r2.AllowUpdate ? "checked=\"checked\"" : "")>
+														}
+
+													</td>
+													<td class="text-center">
+														@if (r2.Feature.HasDelete)
+														{
+															<input type="checkbox" parent="@s2.ParentId" dataid="@s2.Id" class="styled" name="allowDelete" GroupUser="@Model.Id" @(r2.AllowDelete ? "checked=\"checked\"" : "")>
+														}
+
+													</td>
+												</tr>
+												foreach (var s3 in features)
+												{
+													if (s3.Visible && s3.ParentId == s2.Id)
+													{
+														var r3 = Model.FeatureGroups.FirstOrDefault(x => x.FeatureId == s3.Id) ?? new FeatureGroupViewModel()
+														{
+															AllowUpdate = false,
+															AllowView = false,
+															AllowDelete = false,
+															AllowCreate = false,
+															Feature = s3
+														};
+														<tr Feature="@s3.Id">
+															<td>
+																<span style="margin-left: 120px"></span> @s3.SidebarName
+															</td>
+															<td class="text-center">
+																@if (r3.Feature.HasView)
+																{
+																	<input type="checkbox" parent="@s3.ParentId" dataid="@s3.Id" class="styled" name="allowView" GroupUser="@Model.Id" @(r3.AllowView ? "checked=\"checked\"" : "") />
+																}
+															</td>
+
+															<td class="text-center">
+																@if (r3.Feature.HasAdd)
+																{
+																	<input type="checkbox" parent="@s3.ParentId" dataid="@s3.Id" class="styled" name="allowCreate" GroupUser="@Model.Id" @(r3.AllowCreate ? "checked=\"checked\"" : "")>
+																}
+															</td>
+															<td class="text-center">
+																@if (r3.Feature.HasEdit)
+																{
+																	<input type="checkbox" parent="@s3.ParentId" dataid="@s3.Id" class="styled" name="allowUpdate" GroupUser="@Model.Id" @(r3.AllowUpdate ? "checked=\"checked\"" : "")>
+																}
+
+															</td>
+															<td class="text-center">
+																@if (r3.Feature.HasDelete)
+																{
+																	<input type="checkbox" parent="@s3.ParentId" dataid="@s3.Id" class="styled" name="allowDelete" GroupUser="@Model.Id" @(r3.AllowDelete ? "checked=\"checked\"" : "")>
+																}
+
+															</td>
+														</tr>
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="tab-pane p-15" id="su_tab3">
+		<div class="form-group form-group-sm">
+			<div class="col-md-12">
+				@AppHelper.RadioInline(new ControlAttribute()
+				{
+					Title = "Chỉ xem được dữ liệu của cá nhân nhân sự đó.",
+					Name = "AllowData",
+					Value = "0",
+					Check = Model.AllowData == 0
+				})
+			</div> <div class="col-md-12">
+				@AppHelper.RadioInline(new ControlAttribute()
+				{
+					Title = "Xem được dữ liệu của nhân sự trong cùng đơn vị, hoặc thuộc quyền quản lý trực tiếp, gián tiếp tương ứng với từng chức năng/nhiệm vụ được cho phép.",
+					Name = "AllowData",
+					Value = "1",
+					Check = Model.AllowData == 1
+				})
+			</div> <div class="col-md-12">
+				@AppHelper.RadioInline(new ControlAttribute()
+				{
+					Title = "Xem được dữ liệu của tất cả nhân sự trong công ty tương ứng với từng chức năng/nhiệm vụ được cho phép.",
+					Name = "AllowData",
+					Value = "2",
+					Check = Model.AllowData == 2
+				})
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+
+<script>
+	var tb1 = '#table_01', tb2 = '#table_02';
+	function initGroupForm(table) {
+		var f = '#UserGroupUserForm';
+		var sb = '#save_btn';
+
+		$('#GroupForm').ultraForm({
+			uiType: 0,
+			action: '/general/GroupEdit',
+			actionType: 'ajax',
+			props: [
+				{
+					name: 'Id',
+					type: 'hidden'
+				},
+				{
+					name: 'Code',
+					type: 'text',
+					required: {
+						message: 'Vui lòng nhập mã quyền hạn'
+					}
+				},
+				{
+					name: 'Name',
+					type: 'text',
+					required: {
+						message: 'Vui lòng nhập tên quyền hạn'
+					}
+				},
+				{
+					name: 'Priority',
+					type: 'text'
+				},
+				{
+					name: 'Description',
+					type: 'text'
+				},
+				{
+					name: 'AllowHrm',
+					type: 'checkbox'
+				},
+				{
+					name: 'AllowPortal',
+					type: 'checkbox'
+				},
+				{
+					name: 'AllowData',
+					type: 'radio'
+				}
+			],
+			autoSubmit: false,
+			validCallback: function (data) {
+				var groups = [];
+				$('#table_01 tr').each(function () {
+					var ditem = {
+						FeatureId: $(this).attr('Feature')
+					};
+					var inputs = $(this).find('input');
+					$(inputs).each(function () {
+						ditem[$(this).attr('name')] = $(this).is(":checked");
+					});
+					groups.push(ditem);
+				});
+				$('#table_02 tr').each(function () {
+					var ditem = {
+						FeatureId: $(this).attr('Feature')
+					};
+					var inputs = $(this).find('input');
+					$(inputs).each(function () {
+						ditem[$(this).attr('name')] = $(this).is(":checked");
+					});
+					groups.push(ditem);
+				});
+				data.append('FeatureGroupstr', JSON.stringify(groups));
+
+				var reports = [];
+				$('#su_tab4 input').each(function () {
+					var ditem = {
+						ReportId: $(this).attr('reportid')
+					};
+					ditem['Allow'] = $(this).is(":checked");
+					reports.push(ditem);
+				});
+				data.append('DashboardReportGroupStr', JSON.stringify(reports));
+				var btn = $('#GroupForm .btn-submit');
+				btn.button('loading');
+				postData('/general/GroupEdit',
+					data,
+					function (data) {
+						btn.button('reset');
+						table.hideModal();
+						table.loadData();
+					}, true);
+			},
+			afterSubmit: function (form) {
+
+			}
+		});
+		$(".styled").uniform({
+			radioClass: 'choice'
+		});
+		$('#check_hrm_all').unbind().click(function () {
+			$(tb1).find('input').prop('checked', true);
+			$.uniform.update();
+		});
+		$('#clear_hrm_all').unbind().click(function () {
+			$(tb1).find('input').prop('checked', false);
+			$.uniform.update();
+		});
+		$('#check_portal_all').unbind().click(function () {
+			$(tb2).find('input').prop('checked', true);
+			$.uniform.update();
+		});
+		$('#clear_portal_all').unbind().click(function () {
+			$(tb2).find('input').prop('checked', false);
+			$.uniform.update();
+		});
+		$(tb1).find('input').change(function () {
+			var checked = $(this).is(":checked");
+			var pId = $(this).attr('parent');
+			if (pId != '' && pId != null && checked) {
+				checkParent(tb1, pId, checked);
+			}
+		});
+		$(tb2).find('input').change(function () {
+			var checked = $(this).is(":checked");
+			var pId = $(this).attr('parent');
+			if (pId != '' && pId != null && checked) {
+				checkParent(tb2, pId, checked);
+			}
+		});
+	}
+
+	function checkParent(tb, id, checked) {
+		var p = $(tb).find('input[dataid="' + id + '"]');
+		p.prop('checked', checked);
+		$.uniform.update();
+		var pId = $(p).attr('parent');
+		if (pId != '' && pId != null && checked) {
+			checkParent(tb, pId, checked);
+		}
+	}
+
+</script>

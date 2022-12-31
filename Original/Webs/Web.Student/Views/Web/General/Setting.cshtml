@@ -1,0 +1,134 @@
+﻿
+@using Service.Utility.Components 
+@using Service.AuthSharing.Components
+
+@{
+	Layout = "~/Views/Web/Layouts/Default.cshtml";
+
+	var baseData = ViewData["BaseData"] as Web.Student.Models.BaseData;
+	var settings = baseData.LocalSettings;
+
+}
+<div class="p-15" id="Student_panel">
+	<div class=" panel panel-body">
+		<form class="" id="GeneralForm" method="post">
+			<h5 class="text-bold no-margin-top mb-15">Cài đặt</h5>
+
+
+			<div class="form-horizontal"> 
+				<div class="content-group-lg">
+					<h6 class="text-bold">Tên miền</h6>
+					<div class="row">
+						<div class="col-md-4">
+							@AppHelper.InputInline(new ControlAttribute()
+							{
+								Title = "Tên miền website HRM",
+								Name = "domain",
+								Value = settings.GetValue("general", "domain"),
+								Required = true,
+								LabelCol = 6
+							})
+						</div>
+						<div class="col-md-4">
+							@AppHelper.InputInline(new ControlAttribute()
+							{
+								Title = "Tên miền cổng API",
+								Name = "domain_api",
+								Value = settings.GetValue("general", "domain_api"),
+								Required = true,
+								LabelCol = 6
+							}) 
+						</div>
+						<div class="col-md-4"> 
+							@AppHelper.InputInline(new ControlAttribute()
+							{
+								Title = "Tên miền website SSO",
+								Name = "domain_sso",
+								Value = settings.GetValue("general", "domain_sso"),
+								Required = true,
+								LabelCol = 6
+							})
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<h6 class="text-bold mt-20">Logo, ảnh bìa</h6>
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label class="control-label text-bold">Logo công ty (lớn)</label>
+						<p class="content-group-sm">
+							Hiển thị khi người dùng truy cập trang quản trị bằng tablet, laptop, hoặc trên PC,...<br />
+							Kích thước yêu cầu: trung bình
+						</p>
+						<div class="row">
+							<div class="col-md-6">
+								@AppHelper.InputThumbnail(new ControlAttribute()
+								{
+									Name = "logoWeb",
+									Value = settings.GetValue("general", "logo_web")
+								})
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label class="control-label text-bold">Logo công ty (nhỏ)</label>
+						<p class="content-group-sm">
+							Hiển thị khi người dùng truy cập trang quản trị bằng điện thoại...<br />
+							Kích thước yêu cầu: trung bình
+						</p>
+						<div class="row">
+							<div class="col-md-6">
+								@AppHelper.InputThumbnail(new ControlAttribute()
+								{
+									Name = "logoWap",
+									Value = settings.GetValue("general", "logo_wap")
+								})
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-3">
+					<div class="form-group">
+						<label class="control-label text-bold">Ảnh bìa trang đăng nhập</label>
+						<p class="content-group-sm">
+							Kích thước yêu cầu: Lớn, chất lượng cao
+						</p>
+						<div class="row">
+							<div class="col-md-6">
+								@AppHelper.InputThumbnail(new ControlAttribute()
+								{
+									Name = "loginBg",
+									Value = settings.GetValue("general", "login_bg")
+								})
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			 
+			<div class="row">
+				<div class="col-md-12 btn-panel">
+					<a href="/" class="btn btn-default btn-sm btn-rounded">Quay lại</a>
+					<button class="btn btn-primary btn-sm btn-submit btn-rounded" type="button"
+							data-loading-text="<i class='icon-spinner4 spinner position-left'></i> Đang xử lý...">
+						<i class="icon-floppy-disk position-left"></i>Lưu thay đổi
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script src="~/assets/js/web/general/setting.js"></script>
+
+<script>
+	$(document).ready(function () {
+
+	});
+</script>

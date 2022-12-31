@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\..\..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="..\..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0D3ACBF4-7F5A-4691-BAE3-CF034A298938}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Service.AuthSharing</RootNamespace>
+    <AssemblyName>Service.AuthSharing</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DBContext.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ShareServices\DBContext.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Service.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ShareServices\Service.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.SSO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\ShareServices\Service.SSO.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.Utility, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Service.Utility\Service.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\Service.SSO\bin\Debug\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\Service.SSO\bin\Debug\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\AuthComponent.cs" />
+    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\EmailComponent.cs" />
+    <Compile Include="Executes\Base\BaseService.cs" />
+    <Compile Include="Executes\Base\AuthSharingService.cs" />
+    <Compile Include="Executes\Email\EmailTaskModels.cs" />
+    <Compile Include="Executes\General\Address\AddressCommand.cs" />
+    <Compile Include="Executes\General\Address\AddressMany.cs" />
+    <Compile Include="Executes\General\Address\AddressModels.cs" />
+    <Compile Include="Executes\General\Address\AddressOne.cs" />
+    <Compile Include="Executes\General\LocalEmailTemplates\EmailTemplateCommand.cs" />
+    <Compile Include="Executes\General\LocalEmailTemplates\EmailTemplateMany.cs" />
+    <Compile Include="Executes\General\LocalEmailTemplates\EmailTemplateModels.cs" />
+    <Compile Include="Executes\General\LocalEmailTemplates\EmailTemplateOne.cs" />
+    <Compile Include="Executes\General\JobPositions\JobPositionCommand.cs" />
+    <Compile Include="Executes\General\JobPositions\JobPositionMany.cs" />
+    <Compile Include="Executes\General\JobPositions\JobPositionModels.cs" />
+    <Compile Include="Executes\General\JobPositions\JobPositionOne.cs" />
+    <Compile Include="Executes\Email\EmailCommand.cs" />
+    <Compile Include="Executes\Email\EmailTaskCommand.cs" />
+    <Compile Include="Executes\Email\EmailTaskMany.cs" />
+    <Compile Include="Executes\Email\EmailTaskOne.cs" />
+    <Compile Include="Executes\Employees\EmployeeAuths\EmployeeAuthCommand.cs" />
+    <Compile Include="Executes\Employees\EmployeeAuths\EmployeeAuthModels.cs" />
+    <Compile Include="Executes\Employees\EmployeeAuths\EmployeeAuthOne.cs" />
+    <Compile Include="Executes\Employees\Employees\EmployeeMany.cs" />
+    <Compile Include="Executes\Employees\Employees\EmployeeCommand.cs" />
+    <Compile Include="Executes\Employees\Employees\EmployeeModels.cs" />
+    <Compile Include="Executes\Employees\Employees\EmployeeOne.cs" />
+    <Compile Include="Executes\Employees\WorkLogs\WorkLogCommand.cs" />
+    <Compile Include="Executes\Employees\WorkLogs\WorkLogMany.cs" />
+    <Compile Include="Executes\Employees\WorkLogs\WorkLogModels.cs" />
+    <Compile Include="Executes\General\LocalSettings\LocalSettingCommand.cs" />
+    <Compile Include="Executes\General\LocalSettings\LocalSettingMany.cs" />
+    <Compile Include="Executes\General\LocalSettings\LocalSettingModels.cs" />
+    <Compile Include="Executes\General\LocalSettings\LocalSettingOne.cs" />
+    <Compile Include="Executes\General\DataControls\DataControlCommand.cs" />
+    <Compile Include="Executes\General\DataControls\SourceModels.cs" />
+    <Compile Include="Executes\General\FeatureGroups\FeatureGroupMany.cs" />
+    <Compile Include="Executes\General\FeatureGroups\FeatureGroupModels.cs" />
+    <Compile Include="Executes\General\Features\FeatureCommand.cs" />
+    <Compile Include="Executes\General\Features\FeatureMany.cs" />
+    <Compile Include="Executes\General\Features\FeatureModels.cs" />
+    <Compile Include="Executes\General\Features\FeatureOne.cs" />
+    <Compile Include="Executes\General\Features\SearchFeatureModel.cs" />
+    <Compile Include="Executes\General\Groups\GroupCommand.cs" />
+    <Compile Include="Executes\General\Groups\GroupMany.cs" />
+    <Compile Include="Executes\General\Groups\GroupModels.cs" />
+    <Compile Include="Executes\General\Groups\GroupOne.cs" />
+    <Compile Include="Executes\General\Groups\SearchGroupUserModel.cs" />
+    <Compile Include="Executes\General\JobTitles\JobTitleCommand.cs" />
+    <Compile Include="Executes\General\JobTitles\JobTitleMany.cs" />
+    <Compile Include="Executes\General\JobTitles\JobTitleModels.cs" />
+    <Compile Include="Executes\General\JobTitles\JobTitleOne.cs" />
+    <Compile Include="Executes\General\OptionValues\OptionValueCommand.cs" />
+    <Compile Include="Executes\General\OptionValues\OptionValueMany.cs" />
+    <Compile Include="Executes\General\OptionValues\OptionValueModels.cs" />
+    <Compile Include="Executes\General\OptionValues\OptionValueOne.cs" />
+    <Compile Include="Executes\General\Organizations\OrganizationCommand.cs" />
+    <Compile Include="Executes\General\Organizations\OrganizationMany.cs" />
+    <Compile Include="Executes\General\Organizations\OrganizationModels.cs" />
+    <Compile Include="Executes\General\Organizations\OrganizationOne.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Variables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="iDiTect.Converter.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">
+      <Project>{abf1d53d-cace-46b8-a71d-37e139869e02}</Project>
+      <Name>DBContext.AuthSharing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <Import Project="..\..\..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\..\..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

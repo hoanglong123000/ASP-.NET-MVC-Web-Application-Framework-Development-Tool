@@ -1,0 +1,131 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities 
+@using Service.Core.Components 
+@using Service.Utility.Components
+@using Service.AuthSharing.Components
+@{
+	var baseData = ViewData["BaseData"] as Web.Student.Models.BaseData;
+	var settings = baseData.LocalSettings;
+	var version = Session["Version"] as string;
+}
+
+<div class="panel panel-flat no-border no-margin-bottom" id="email_task_panel">
+	<div class="panel-heading">
+		<h6 class="panel-title text-bold">Hệ thống gửi emails</h6>
+	</div>
+	<div class="panel-body">
+		<form class="form" id="EmailForm">
+			<h6 class="panel-title text-bold">
+				<a data-toggle="collapse" href="#group2" aria-expanded="true" class="">
+					Cấu hình Email server
+				</a>
+			</h6>
+
+			<p class="content-group-sm">
+				Cấu hình email server và địa chỉ email mặc định giúp hệ thống gửi
+				email đến người dùng thông qua các yêu cầu nghiệp vụ như quên mật khẩu, khảo sát đánh giá ...<br />
+			</p>
+			<div class="row">
+				<div class="col-md-6">
+					@AppHelper.Input(new ControlAttribute()
+					{
+						Title = "SMTP host",
+						Name = "smtp_host",
+						Value = settings.GetValue("general", "smtp_host"),
+						Required = true
+					})
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					@AppHelper.Input(new ControlAttribute()
+					{
+						Title = "Địa chỉ email",
+						Name = "smtp_sender_email",
+						Value = settings.GetValue("general", "smtp_sender_email"),
+						Required = true
+					})
+				</div>
+				<div class="col-md-4">
+					@AppHelper.Password(new ControlAttribute()
+					{
+						Title = "Mật khẩu",
+						Name = "smtp_sender_password",
+						Value = settings.GetValue("general", "smtp_sender_password"),
+						Required = true
+					})
+				</div>
+				<div class="col-md-4">
+					@AppHelper.InputInline(new ControlAttribute()
+					{
+						Title = "Tên đại diện",
+						Name = "smtp_sender_name",
+						Value = settings.GetValue("general", "smtp_sender_name")
+					})
+				</div>
+			</div>
+
+
+			<p class="mb-15 mt-20 text-bold">Emails ngoại lệ.</p>
+			<p class="text-muted">
+				Nhập địa chỉ email của các nhân sự mà Anh/Chị không muốn gửi email ( hoặc CC ) vào ô bên dưới,
+				hệ thống sẽ kiểm tra và vô hiệu hóa các email có người nhận (hoặc CC) tương ứng.
+			</p>
+			<p>Lưu ý: Mỗi email cách nhau bởi dấu CHẤM PHẨY (;)</p>
+
+			<div class="row">
+				<div class="col-md-6">
+					<textarea class="form-control" name="exception_email" rows="5">@settings.GetValue("general", "exception_email")</textarea>
+				</div>
+			</div>
+			<button class="btn btn-primary btn-xs btn-rounded mt-15 btn-submit" type="button">
+				<i class="icon-floppy-disk position-left"></i>Lưu thay đổi
+			</button>
+		</form>
+	</div>
+</div>
+
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+	BundleType.SummernoteMedia
+})
+
+<script>
+
+
+	$(document).ready(function () {
+		var form = $('#EmailForm').ultraForm({
+			uiType: 0,
+			actionType: 'ajax',
+			autoSubmit: false,
+			props: [
+				{ name: 'smtp_host', type: 'text' },
+				{ name: 'smtp_sender_email', type: 'text' },
+				{ name: 'smtp_sender_password', type: 'text' },
+				{ name: 'smtp_sender_name', type: 'text' },
+				{ name: 'exception_email', type: 'text' }
+			],
+			validCallback: function (data, btn) {
+				data = app.formDataToJson(data);
+				var pram = {
+					models: [
+						{ tab: 'general', section: 'smtp_host', value: data.smtp_host },
+						{ tab: 'general', section: 'smtp_sender_email', value: data.smtp_sender_email },
+						{ tab: 'general', section: 'smtp_sender_password', value: data.smtp_sender_password },
+						{ tab: 'general', section: 'smtp_sender_name', value: data.smtp_sender_name },
+						{ tab: 'general', section: 'exception_email', value: data.exception_email }
+					],
+					dataType: 'json'
+				};
+				btn.button('loading');
+				app.postData('/general/SaveSetting',
+					pram,
+					function (result) {
+						btn.button('reset');
+						app.notify('success', 'Lưu thay đổi thành công');
+					});
+			}
+		});
+	});
+</script>

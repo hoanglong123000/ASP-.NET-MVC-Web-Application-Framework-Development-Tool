@@ -1,0 +1,28 @@
+﻿@using  Web.Student.Models
+@using Service.Core.Components
+
+@{
+    ViewBag.Title = "Danh mục menu trái";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+    var baseData = ViewData["BaseData"] as BaseData;
+}
+<div class="panel panel-flat no-border">
+    <div class="panel-body">
+        <h1>Danh mục menu trái</h1>
+        <form class="panel-filter mb-15">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="controls">
+                        <button type="button" class="btn btn-xs btn-primary" id="create_btn">
+                            <i class="icon-plus3"></i> Thêm mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="mt-15" id="webabyTable"></div>
+    </div>
+</div>
+
+
+<script src="~/assets/js/web/general/sidebar.js"></script>

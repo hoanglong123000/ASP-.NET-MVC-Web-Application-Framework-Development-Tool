@@ -1,0 +1,59 @@
+﻿@using  Web.Student.Models
+@using DBContext.Entities
+@using DBServer.Entities
+@using Service.Core.Components 
+@using Service.Utility.Variables
+
+@{
+    ViewBag.Title = "Danh mục công trường";
+    var baseData = ViewData["BaseData"] as BaseData;
+    var version = baseData.Version;
+    Layout = "~/Views/" + version + "/Web/Layouts/Test.cshtml";
+
+    var countries = ViewData["Countries"] as QueryResult<Country>;
+}
+
+<div class="input-group">
+    <span class="input-group-addon"><i class="icon-alarm"></i></span>
+    <input type="text" class="form-control pickatime" placeholder="Try me&hellip;">
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+    BundleType.Web
+})
+
+<script src="~/assets/test/picker.js"></script>
+<script src="~/assets/test/picker.time.js"></script>
+
+<script>
+    //var url = 'https://mhrm.ricons.vn';
+    var url = 'http://localhost:52127';
+
+    var token =
+        'lxWF85Qn6s7JMFHUJ6j8UbIvuNxV5P1fbrxUPveZs6pV-LQOKwXAWe31d5R2s5mTbMhtoUDKGnhiKCx3tmLjSKSJY99IgUN9dlt4SxkBHh7opPB7wNYv_vVzNoKgQbYOyTyaKHvSTE0U-9Qwd04dEiow00u9I2j4FFof8q9bjNoTUAxqxix0MOOEZyqwFaI_spzk_TyolzBHCg7xFDIYgQWMESbA-FPtiTaNHw6lxBpIMidq8b7eiFYHBe-7yGdozdntZR0RPlt2OinCbOVJvVGliVS9Xea3PqT7ILVaqQk';
+    $(document).ready(function() {
+        $.ajax({
+            url: url + '/token',
+            type: 'POST',
+            data: {
+                username: 'admin',
+                password: 'HrmRicons@2o19',
+                grant_type: 'password'
+            },
+            success: function (result) {  
+                $.ajax({
+                    url: url + '/api/employee/suggestions',
+                    type: 'GET',
+                    headers: {
+                        "Authorization": "bearer " + result.access_token
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
+                });
+
+            }
+        }); 
+    });
+</script>

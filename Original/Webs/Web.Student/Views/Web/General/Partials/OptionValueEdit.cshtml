@@ -1,0 +1,114 @@
+﻿@using Service.Utility.Components
+@using Service.Utility.Components
+@using Service.Core.Executes.General.OptionValues
+@using Service.Utility.Variables
+@model DBContext.AuthSharing.Entities.LocalOptionValue
+@{
+    var listLoaiDanhMuc = ViewData["ListLoaiDanhMuc"] as List<BaseItem>;
+}
+<input type="hidden" name="Id" value="@Model.Id" />
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Mã danh mục",
+    Value = Model.Code,
+    Name = "Code",
+    LabelCol = 3,
+    Required = true
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Tên danh mục",
+    Value = Model.Name,
+    Name = "Name",
+    LabelCol = 3,
+    Required = true
+})
+
+@AppHelper.SelectInline(new ControlAttribute()
+{
+    Title = "Loại danh mục",
+    Value = Model.Type,
+    Name = "Type",
+    LabelCol = 3,
+    HasDefaultOption = true,
+    List = listLoaiDanhMuc.Select(x => new SelectOption() { Value = x.Code, Text = x.Name }).ToList()
+})
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "TT mở rộng 1",
+    Value = Model.MoRong1,
+    Name = "MoRong1",
+    LabelCol = 3,
+}) 
+
+@AppHelper.InputInline(new ControlAttribute()
+{
+    Title = "Thứ tự",
+    Value = Model.Priority + "",
+    Name = "Priority",
+    LabelCol = 3,
+})
+<div class="form-group form-group-sm">
+    <label class="col-md-3">&nbsp;</label>
+    <div class="col-md-9">
+        @AppHelper.CheckboxInline(new ControlAttribute()
+        {
+            Title = "Áp dụng",
+            Value = "true",
+            Check = Model.Status == 1,
+            Name = "Active",
+            LabelCol = 3
+        })
+    </div>
+</div> 
+
+<script>
+    function initOptionValueForm(callback) {
+        $('#OptionValueForm').ultraForm({
+            uiType: 1,
+            action: '/general/OptionValueEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                },
+                {
+                    name: 'Code',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập mã danh mục'
+                    }
+                },
+                {
+                    name: 'Name',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập tên danh mục'
+                    }
+                }, 
+                {
+                    name: 'Type',
+                    type: 'select2',
+                    option: {}
+                },  
+                {
+                    name: 'MoRong1',
+                    type: 'text'
+                },
+                {
+                    name: 'Active',
+                    type: 'checkbox'
+                },
+                {
+                    name: 'Priority',
+                    type: 'number'
+                }
+            ], 
+            afterSubmit: function (form) {
+                callback();
+            }
+        });
+    }
+</script>

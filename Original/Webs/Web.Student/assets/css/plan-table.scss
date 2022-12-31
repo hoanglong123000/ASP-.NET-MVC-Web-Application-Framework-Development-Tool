@@ -1,0 +1,55 @@
+﻿
+
+.table {
+    thead {
+        th {
+            background-color: #1e88e5 !important;
+            border-color: rgba(255,255,255,.2) !important;
+            color: #fff !important;
+
+            &.bg-primary-300 {
+                background-color: #64b5f6 !important;
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            &.tr-group {
+                background: #dfdfdf;
+                font-weight: bold;
+            }
+
+            &:last-child {
+                td {
+                    border-bottom: 1px solid #ddd !important;
+                }
+            }
+        }
+
+        td.edit {
+            border: 2px solid #0094ff !important;
+
+            .select2-choices {
+                border-radius: 2px;
+                border: none;
+                overflow: auto;
+                background-image: none !important;
+            }
+        }
+
+        td.even {
+            background: #f9f9f9;
+        }
+
+        td {
+            font-size: 12px;
+            &:hover {
+                background: #e0f2ff;
+            }
+
+            p {
+            }
+        }
+    }
+}

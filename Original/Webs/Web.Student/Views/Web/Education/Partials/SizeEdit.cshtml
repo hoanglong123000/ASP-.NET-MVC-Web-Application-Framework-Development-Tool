@@ -1,0 +1,102 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Clothesmn.SizeTabs.SizeTabViewModel
+
+@{
+    var groups = new List<BaseItem>()
+{
+        new BaseItem{Id = 1, Name = "S"},
+        new BaseItem{Id = 2, Name = "M"},
+        new BaseItem{Id = 3, Name = "L"},
+        new BaseItem{Id = 4, Name = "X"}
+    };
+
+
+}
+
+<form id="SizeForm" class="form form-horizontal">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+
+            @AppHelper.InputInline(new ControlAttribute()
+            {
+                Title = "Size",
+                Name = "NameofSize",
+                Value = Model.NameofSize,
+                LabelCol = 4,
+                Required = true,
+
+            })
+
+            
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                <i class="fa fa-remove"></i> EXIT
+            </button>
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
+                <i class="fa fa-save"></i> SAVE
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+
+    var model = @Html.Raw(Json.Encode(Model));
+    function initSizeForm(callback) {
+        $('#SizeForm').ultraForm({
+            uiType: 1,
+            action: '/Education/SizeEdit',
+            actionType: 'ajax',
+            props: [
+
+                { name: 'Id', type: 'hidden' },
+
+
+
+                {
+                    name: 'NameofSize', type: 'text',
+                    required: {
+                        message: 'Size: '
+                    }
+                }
+
+
+
+
+
+
+
+
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>
+
+
+

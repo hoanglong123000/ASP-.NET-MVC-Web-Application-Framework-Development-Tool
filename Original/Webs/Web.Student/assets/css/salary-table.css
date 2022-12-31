@@ -1,0 +1,143 @@
+﻿.salary-table {
+  position: relative; }
+  .salary-table .areas {
+    position: relative;
+    height: auto; }
+    .salary-table .areas .area {
+      position: absolute;
+      overflow: hidden; }
+      .salary-table .areas .area.area-tl {
+        top: 0;
+        left: 0;
+        z-index: 5;
+        border-right: 1px solid #dfdfdf;
+        border-bottom: 1px solid #dfdfdf; }
+        .salary-table .areas .area.area-tl > div {
+          overflow-x: auto;
+          overflow-y: hidden; }
+      .salary-table .areas .area.area-tr {
+        top: 0;
+        right: 0;
+        z-index: 3;
+        border-bottom: 1px solid #dfdfdf; }
+        .salary-table .areas .area.area-tr > div {
+          overflow-x: auto;
+          overflow-y: scroll; }
+        .salary-table .areas .area.area-tr th {
+          text-align: center; }
+      .salary-table .areas .area.area-bl {
+        bottom: 0;
+        left: 0;
+        z-index: 4;
+        border-right: 1px solid #dfdfdf; }
+        .salary-table .areas .area.area-bl > div {
+          overflow-y: auto;
+          overflow-x: scroll;
+          padding-bottom: 0; }
+      .salary-table .areas .area.area-br {
+        bottom: 0;
+        right: 0;
+        z-index: 2; }
+        .salary-table .areas .area.area-br > div {
+          overflow-y: auto;
+          overflow-x: scroll; }
+      .salary-table .areas .area.area-bl td, .salary-table .areas .area.area-br td {
+        padding: 0; }
+        .salary-table .areas .area.area-bl td textarea, .salary-table .areas .area.area-br td textarea {
+          box-shadow: none !important;
+          border: none;
+          border-radius: 0; }
+          .salary-table .areas .area.area-bl td textarea.hover-modal, .salary-table .areas .area.area-br td textarea.hover-modal {
+            cursor: pointer; }
+        .salary-table .areas .area.area-bl td input, .salary-table .areas .area.area-br td input {
+          height: 24px;
+          text-align: right; }
+    .salary-table .areas .buffer-bl {
+      background: #f1f1f1;
+      bottom: 0;
+      z-index: 6;
+      height: 15px;
+      position: absolute; }
+  .salary-table .area-footer ul li a {
+    padding: 3px;
+    width: 24px;
+    height: 24px;
+    min-width: unset; }
+  .salary-table .resize-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    cursor: col-resize; }
+    .salary-table .resize-bar:before {
+      position: absolute;
+      content: "";
+      left: 0;
+      background: #ddd;
+      bottom: 0;
+      z-index: 1;
+      width: 2px;
+      top: 0; }
+  .salary-table .table {
+    table-layout: fixed;
+    margin-bottom: 0; }
+    .salary-table .table thead tr th {
+      text-align: center;
+      padding: 2px 10px;
+      font-size: 11px; }
+    .salary-table .table tbody {
+      font-size: 13px;
+      font-family: 'opensans', sans-serif; }
+      .salary-table .table tbody tr.tr-filter td {
+        padding: 0;
+        vertical-align: top; }
+        .salary-table .table tbody tr.tr-filter td .form-group input {
+          border: none; }
+        .salary-table .table tbody tr.tr-filter td .input-group {
+          width: 100%; }
+        .salary-table .table tbody tr.tr-filter td .input-group .input-group-btn .btn {
+          padding: 5px; }
+        .salary-table .table tbody tr.tr-filter td input {
+          height: 32px;
+          padding: 6px 11px; }
+      .salary-table .table tbody tr td {
+        height: 28px; }
+        .salary-table .table tbody tr td p {
+          margin: 0; }
+        .salary-table .table tbody tr td.edit {
+          border: 2px solid #0094ff !important; }
+          .salary-table .table tbody tr td.edit .select2-choices {
+            border-radius: 2px;
+            border: none;
+            overflow: auto;
+            background-image: none !important; }
+        .salary-table .table tbody tr td.even {
+          background: #f9f9f9; }
+        .salary-table .table tbody tr td:hover {
+          background: #e0f2ff; }
+        .salary-table .table tbody tr td a:hover {
+          text-decoration: underline; }
+      .salary-table .table tbody tr.tr-org {
+        background: #FFFFCC;
+        font-weight: bold; }
+        .salary-table .table tbody tr.tr-org td {
+          text-transform: uppercase; }
+          .salary-table .table tbody tr.tr-org td .btn-expand {
+            background: none;
+            margin: auto;
+            padding: 1px 4px; }
+            .salary-table .table tbody tr.tr-org td .btn-expand:hover {
+              background: #eded90; }
+          .salary-table .table tbody tr.tr-org td:hover {
+            background: #FFFFCC; }
+          .salary-table .table tbody tr.tr-org td i {
+            font-size: 12px; }
+  .salary-table .loading {
+    z-index: 7; }
+    .salary-table .loading > div {
+      width: 244px;
+      border-radius: 20px;
+      height: 40px;
+      line-height: 41px; }
+      .salary-table .loading > div .spinner {
+        font-size: 16px; }

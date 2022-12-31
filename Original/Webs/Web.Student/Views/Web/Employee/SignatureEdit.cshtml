@@ -1,0 +1,53 @@
+﻿
+@using  Web.Student.Models
+@using Service.Core.Components
+@{
+    ViewBag.Title = "Cập nhật chữ ký cá nhân";
+    var baseData = ViewData["BaseData"] as BaseData;
+    var version = baseData.Version;
+    Layout = "~/Views/Web/Layouts/default.cshtml";
+    var signature = ViewData["Signature"] as string;
+}
+
+<div class="panel panel-body"> 
+    <div class="row">
+        <div class="col-md-6">
+            <h6 class="text-bold">Bước 1. Tải ảnh scan chữ ký</h6>
+            <p class="">Tải ảnh chữ ký từ máy của Anh/Chị. Bỏ qua bước này nếu chữ ký đã được tải lên.</p>
+            <input type="file" class="file-styled" id="inputImage">
+            <h6 class="text-bold">Bước 2. Chỉnh sửa chữ ký</h6>
+            <p class="">
+                Click giữ chuột trái và kéo ô vuông bên dưới đến đúng vị trí của chữ ký trên ảnh scan. <br />
+                Có thể phóng to, thu nhỏ ảnh scan bằng cách lăn "con lăn chuột".
+            </p>
+            <div class="image-cropper-container content-group" style="height: 400px;">
+                <img src="@signature" alt="" class="cropper" id="cropper-image" style="width: 100%" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h6 class="text-bold">Bước 3. Xem lại kết quả sau khi chỉnh sửa</h6>
+            <div class="content-group text-center">
+                <div class="eg-preview">
+                    <div class="preview preview-lg"></div>
+                    <div class="preview preview-md"></div>
+                    <div class="preview preview-sm"></div>
+                    <div class="preview preview-xs"></div>
+                </div>
+            </div>
+            <h6 class="text-bold">Bước 4. Lưu chữ ký</h6>
+            <p class="">Nhấn vào nút bên dưới để tiến hành lưu chữ ký.</p>
+            <button class="btn btn-lg btn-primary btn-block" style="width: 250px; margin: auto" id="btn-save-signature"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Đang xử lý ...">
+                <i class="icon-floppy-disk position-left" style="font-size: 13px"></i> Lưu chữ ký
+            </button>
+
+        </div>
+    </div>
+</div>
+
+@BundleHelper.Generate(new List<BundleType>()
+{
+    BundleType.Cropper
+})
+ 
+<script src="~/assets/js/web/employee/signature.js"></script>

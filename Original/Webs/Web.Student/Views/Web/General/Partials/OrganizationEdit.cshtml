@@ -1,0 +1,330 @@
+﻿@using DBContext.Core.Entities
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.AuthSharing.Executes.General.LocalOrganizations.LocalOrganizationViewModel
+@{
+    var lstKhuVuc = ViewData["KhuVuc"] as List<BaseItem>;
+    var lstLoaiBoPhan = ViewData["LoaiBoPhan"] as List<BaseItem>;
+}
+
+<input type="hidden" name="Id" value="@Model.Id" />
+
+<div class="row">
+    <div class="col-md-6">
+        @AppHelper.InputInline(new ControlAttribute()
+        {
+            Title = "Mã bộ phận",
+            Name = "Code",
+            Value = Model.Code,
+            LabelCol = 4
+        })
+        @AppHelper.InputInline(new ControlAttribute()
+        {
+            Title = "Tên bộ phận",
+            Name = "Name",
+            Value = Model.Name,
+            Required = true,
+            LabelCol = 4
+        })
+        @AppHelper.SelectInline(new ControlAttribute()
+       {
+           Title = "Khu vực",
+           Name = "KhuVuc",
+           HasDefaultOption = true,
+           Value = Model.KhuVuc + "",
+           Required = true,
+           List = lstKhuVuc.Select(x => new SelectOption() { Text = x.Name, Value = x.Code }).ToList(),
+           LabelCol = 4
+       })
+        @AppHelper.SelectInline(new ControlAttribute()
+       {
+           Title = "Loại bộ phận",
+           Name = "Type",
+           HasDefaultOption = true,
+           Value = Model.Type.ToString(),
+           LabelCol = 4,
+           List = lstLoaiBoPhan.Select(x => new SelectOption() { Text = x.Name, Value = x.Code.ToString() }).ToList(),
+           Required = true
+       })
+
+        @AppHelper.InputInline(new ControlAttribute()
+       {
+           Title = "Thứ tự sắp xếp",
+           Name = "Priority",
+           Value = Model.Priority + "",
+           LabelCol = 4
+       })
+    </div>
+    <div class="col-md-6">
+        @AppHelper.InputInline(new ControlAttribute()
+     {
+         Title = "Quản lý trực tiếp",
+         Name = "OwnerId",
+         Value = Model.OwnerId.HasValue ? Model.OwnerId.Value + "" : "",
+         LabelCol = 4
+     })
+        @AppHelper.InputInline(new ControlAttribute()
+      {
+          Title = "Quản lý gián tiếp 1",
+          Name = "InOwnerId1",
+          Value = Model.InOwnerId1.HasValue ? Model.InOwnerId1.Value + "" : "",
+          LabelCol = 4
+      })
+        @AppHelper.InputInline(new ControlAttribute()
+      {
+          Title = "Quản lý gián tiếp 2",
+          Name = "InOwnerId2",
+          Value = Model.InOwnerId2.HasValue ? Model.InOwnerId2.Value + "" : "",
+          LabelCol = 4
+      })
+        @AppHelper.InputInline(new ControlAttribute()
+      {
+          Title = "Quản lý gián tiếp 3",
+          Name = "InOwnerId3",
+          Value = Model.InOwnerId3.HasValue ? Model.InOwnerId3.Value + "" : "",
+          LabelCol = 4
+      })
+        @AppHelper.InputInline(new ControlAttribute()
+      {
+          Title = "Quản lý gián tiếp 4",
+          Name = "InOwnerId4",
+          Value = Model.InOwnerId4.HasValue ? Model.InOwnerId4.Value + "" : "",
+          LabelCol = 4
+      })
+    </div>
+</div>
+
+
+<script>
+
+    var model = @Html.Raw(Json.Encode(Model));
+     
+    function initOrganizationForm(callback) { 
+        var f = '#OrganizationForm';
+
+        var uf = $(f).unbind().ultraForm({
+            uiType: 1,
+            action: '/general/OrganizationEdit',
+            actionType: 'ajax',
+            props: [
+                {
+                    name: 'Id',
+                    type: 'hidden'
+                },
+                {
+                    name: 'Code',
+                    type: 'text'
+                },
+                {
+                    name: 'Name',
+                    type: 'text',
+                    required: {
+                        message: 'Nhập tên bộ phận'
+                    }
+                }, 
+                {
+                    name: 'KhuVuc',
+                    type: 'select2',
+                    option: {},
+                    required: {
+                        message: 'Chọn khu vực'
+                    }
+                }, 
+                {
+                    name: 'OwnerId',
+                    type: 'select2',
+                    option: {
+                        allowClear: true,
+                        placeholder: "Chọn quản lý",
+                        ajax: {
+                            url: "/employee/EmployeeSuggestionList",
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                return {
+                                    keyword: term, 
+                                    limit: 10
+                                };
+                            },
+                            results: function (result, page) {
+                                var data = [];
+                                _employeeData = result;
+                                $(result).each(function () {
+                                    data.push({
+                                        id: this.Id,
+                                        text: this.StaffCode + ' - ' + this.FullName
+                                    });
+                                });
+                                return { results: data };
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'InOwnerId1',
+                    type: 'select2',
+                    option: {
+                        allowClear: true,
+                        placeholder: "Chọn quản lý",
+                        ajax: {
+                            url: "/employee/EmployeeSuggestionList",
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                return {
+                                    keyword: term,
+                                    limit: 10
+                                };
+                            },
+                            results: function (result, page) {
+                                var data = [];
+                                _employeeData = result;
+                                $(result).each(function () {
+                                    data.push({
+                                        id: this.Id,
+                                        text: this.StaffCode + ' - ' + this.FullName
+                                    });
+                                });
+                                return { results: data };
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'InOwnerId2',
+                    type: 'select2',
+                    option: {
+                        allowClear: true,
+                        placeholder: "Chọn quản lý",
+                        ajax: {
+                            url: "/employee/EmployeeSuggestionList",
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                return {
+                                    keyword: term,
+                                    limit: 10
+                                };
+                            },
+                            results: function (result, page) {
+                                var data = [];
+                                _employeeData = result;
+                                $(result).each(function () {
+                                    data.push({
+                                        id: this.Id,
+                                        text: this.StaffCode + ' - ' + this.FullName
+                                    });
+                                });
+                                return { results: data };
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'InOwnerId3',
+                    type: 'select2',
+                    option: {
+                        allowClear: true,
+                        placeholder: "Chọn quản lý",
+                        ajax: {
+                            url: "/employee/EmployeeSuggestionList",
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                return {
+                                    keyword: term,
+                                    limit: 10
+                                };
+                            },
+                            results: function (result, page) {
+                                var data = [];
+                                _employeeData = result;
+                                $(result).each(function () {
+                                    data.push({
+                                        id: this.Id,
+                                        text: this.StaffCode + ' - ' + this.FullName
+                                    });
+                                });
+                                return { results: data };
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'InOwnerId4',
+                    type: 'select2',
+                    option: {
+                        allowClear: true,
+                        placeholder: "Chọn quản lý",
+                        ajax: {
+                            url: "/employee/EmployeeSuggestionList",
+                            dataType: 'json',
+                            quietMillis: 250,
+                            data: function (term, page) {
+                                return {
+                                    keyword: term,
+                                    limit: 10
+                                };
+                            },
+                            results: function (result, page) {
+                                var data = [];
+                                _employeeData = result;
+                                $(result).each(function () {
+                                    data.push({
+                                        id: this.Id,
+                                        text: this.StaffCode + ' - ' + this.FullName
+                                    });
+                                });
+                                return { results: data };
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'Type',
+                    type: 'select2',
+                    option: {}
+                },
+                {
+                    name: 'Priority',
+                    type: 'number',
+                    option: {
+                        max: 1000
+                    }
+                }
+            ],
+            autoSubmit: false,
+            validCallback: function (data, btn) {
+
+                data = app.formDataToJson(data);
+                   
+                btn.button('loading');
+                app.postData('/general/OrganizationEdit', data, function (result) {
+                    btn.button('reset');
+                    if (result.Success) {
+                        app.notify('success', 'Lưu thành công');
+                        if (callback != null) {
+                            callback(result.Data);
+                        }
+                    } else {
+                        app.notify('warning', result.Message);
+                    }
+                }); 
+            },
+            initCallback: function () {
+                var cm = model.ObjConcurrentlyManager;
+                if (cm != null) {
+
+                    $(f + ' input[name="ConcurrentlyManager"]').select2('data',
+                        {
+                            id: cm.Id, text: cm.StaffCode + ' - ' + cm.FullName
+                        }).trigger('change');
+                }
+            },
+            afterSubmit: function (form) {
+                callback();
+            }
+        }); 
+    }
+
+</script>

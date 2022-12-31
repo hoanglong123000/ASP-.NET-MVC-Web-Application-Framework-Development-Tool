@@ -1,0 +1,26 @@
+﻿@using System.Globalization
+@using DBContext.Core.Entities
+@using Service.Utility.Components 
+@using Service.Core.Components
+@using Service.Utility.Components
+@{
+    var baseData = ViewData["BaseData"] as Web.Student.Models.BaseData;
+    var settings = baseData.Settings;
+    var version = Session["Version"] as string;
+} 
+
+<div class="p-15" id="email_task_panel">
+	<div class="panel-footer main-toolbar ">
+		<div class="heading-elements">
+			<ul class="nav navbar-nav">
+				@AppHelper.NavbarTools(new[] { "reload" })
+			</ul>
+		</div>
+	</div>
+	<div class="apply-table mt-15"></div>
+</div>
+ 
+<script>
+    var browser = '@baseData.Browser';
+</script> 
+<script src="~/assets/js/web/general/email-tasks.js"></script>

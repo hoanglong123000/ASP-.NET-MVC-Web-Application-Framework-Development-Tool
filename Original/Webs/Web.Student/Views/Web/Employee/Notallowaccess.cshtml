@@ -1,0 +1,24 @@
+﻿@using  Web.Student.Models 
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/2.0/Web/Layouts/Default.cshtml";
+    var path = ViewData["Path"] as string;
+}
+
+<div class="panel panel-flat no-border">
+    <div class="panel-body">
+        <div class="alert alert-warning no-border">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
+            <span class="text-semibold">
+                <i class="icon-warning22 text-warning"></i> Rất tiếc!
+            </span> Anh/Chị không được phép truy cập vào đường dẫn <a href="@path" class="text-link">@path</a>.<br/> 
+            Vui lòng liên hệ <strong>Quản trị viên</strong> để được hỗ trợ.
+        </div>
+        <a href="/" class="btn btn-default btn-sm">
+            <i class="icon-undo2 position-left"></i> Quay về trang chủ
+        </a>
+        <a href="@path" class="btn btn-primary btn-sm">
+            <i class="icon-loop3 position-left"></i>Thử lại
+        </a>
+    </div>
+</div>

@@ -55,6 +55,10 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.SizeId == model.SizeId);
             }
 
+            if(model.BrandId.HasValue)
+            {
+                q = q.Where(x => x.BrandId == model.BrandId);
+            }
             /*if (model.CreatedDateFrom.HasValue)
             {
                 q = q.Where(x => x.CreatedDate >= model.CreatedDateFrom.Value);
@@ -109,6 +113,8 @@ namespace Service.Education.Executes.Base
                 BrandId = x.BrandId,
                 TypeId = x.TypeId,
                 Keyword = x.Keyword,
+                Price = x.Price,
+                
             });
 
             r = r.OrderByDescending(x => x.CreatedDate);
@@ -117,6 +123,7 @@ namespace Service.Education.Executes.Base
 
             if (result.Many.Any())
             {
+                // LINQ for CRUD operation.
                 var ids = result.Many.Select(x => x.UpdatedBy).ToList();
                 ids.AddRange(result.Many.Select(x => x.CreatedBy).ToList());
                 var typeids = result.Many.Select(x => x.TypeId).ToList();
@@ -125,29 +132,36 @@ namespace Service.Education.Executes.Base
                     
                 ids = ids.Distinct().ToList();
 
+                // Using TypeClothes table in SQL Server instead of OptionValue table which is already available in project.
+                var types = ClothTypeList(new SearchTypeClotheModel
+                {
+                    Ids = typeids
+                });
+                var brands = ClothBrandList(new SearchBrandModel
+                {
+                    Ids = brandids
+                });
 
                 var emps = _shareService.EmployeeBaseList(new SearchEmployeeModel
                 {
                     Ids = ids
                 });
 
-                var brands = ClothBrandList(new SearchBrandModel
-                {
-                    Ids = brandids
-                });
+                // Using Brands table in SQL Server instead of OptionValue table which is already available in SQL Server.
 
+               
+                // Using OptionValue table that is already available in project instead of SizeTabs table in SQL Sever.
                 var sizes = _shareService.OptionValueBaseList("SizeTabs");
 
-                var types = ClothTypeList(new SearchTypeClotheModel
-                {
-                    Ids = typeids
-                });
+                
+
 
                 foreach (var item in result.Many)
                 {
                     item.ObjUpdatedBy = emps.FirstOrDefault(x => x.Id == item.UpdatedBy);
                     item.ObjCreatedBy = emps.FirstOrDefault(x => x.Id == item.CreatedBy);
                     item.ObjBrand = brands.FirstOrDefault(x => x.Id == item.BrandId);
+
                     item.ObjSize = sizes.FirstOrDefault(x => x.Code == item.SizeId.ToString());
                     item.ObjType = types.FirstOrDefault(x => x.Id == item.TypeId);
                 }
@@ -155,11 +169,12 @@ namespace Service.Education.Executes.Base
 
             return result;
         }
-
+        
+        // LINQ  ClothTypeList to map into TypeClothes table in SQL Server.
         private List<BaseItem> ClothTypeList(SearchTypeClotheModel searchTypeClotheModel)
         {
             CheckDbConnect();
-            var list = Context.TypeClothes.Select(x => new BaseItem { Id = x.Id, Name = x.NameofType }).ToList();
+            var list = Context.TypeClothes.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
             foreach(var item in list)
             {
                 var a = item.Name;
@@ -167,10 +182,11 @@ namespace Service.Education.Executes.Base
             return list;
         }
 
+        // LINQ ClothBrandList to map into Brands table in SQL Server.
         public List<BaseItem> ClothBrandList(SearchBrandModel brandModel)
         {
             CheckDbConnect();
-            var list = Context.Brands.Select(x => new BaseItem { Id = x.Id, Name = x.Namebrand }).ToList();
+            var list = Context.Brands.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
             foreach (var item in list)
             {
                 var a = item.Name;

@@ -11,6 +11,7 @@ namespace Service.Education.Executes.Clothesmn.Brands
     public class SearchBrandModel
     {
         public List<int> Ids { get; set; }   
+        public string Keyword { get; set; }
            
     }
 
@@ -19,6 +20,7 @@ namespace Service.Education.Executes.Clothesmn.Brands
         
         public EmployeeBaseView ObjUpdatedBy { get; set; }
         public EmployeeBaseView ObjCreatedBy { get; set; }
+        public BaseItem ObjBrand { get; set; }
     }
 
     public class BrandEditModel : Brand

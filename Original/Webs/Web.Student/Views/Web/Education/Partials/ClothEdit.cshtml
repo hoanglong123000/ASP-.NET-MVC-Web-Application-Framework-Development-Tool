@@ -33,7 +33,7 @@
 
             @AppHelper.InputInline(new ControlAttribute()
             {
-                Title = "Name",
+                Title = "Nội dung tên",
                 Name = "Name",
                 Value = Model.Name,
                 LabelCol = 4,
@@ -43,7 +43,7 @@
 
             @AppHelper.SelectInline(new ControlAttribute()
            {
-               Title = "Size",
+               Title = "Kích thước",
                Name = "SizeId",
                Value = Model.SizeId.ToString(),
                LabelCol = 4,
@@ -56,25 +56,25 @@
 
             @AppHelper.SelectInline(new ControlAttribute()
            {
-               Title = "Type",
+               Title = "Loại",
                Name = "TypeId",
                Value = Model.TypeId.ToString(),
                LabelCol = 4,
                Required = true,
                HasDefaultOption = true,
-               List = groupType.Select(x => new SelectOption { Text = x.NameofType, Value = x.Id + "" }).ToList()
+               List = groupType.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
            })
 
 
             @AppHelper.SelectInline(new ControlAttribute()
            {
-               Title = "Brand",
+               Title = "Hãng",
                Name = "BrandId",
                Value = Model.BrandId.ToString(),
                LabelCol = 4,
                Required = true,
                HasDefaultOption = true,
-               List = groupBrand.Select(x => new SelectOption { Text = x.Namebrand, Value = x.Id + "" }).ToList()
+               List = groupBrand.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
            })
 
 
@@ -102,7 +102,7 @@
     function initClothForm(callback) {
         $('#ClothForm').ultraForm({
             uiType: 1,
-            action: '/Education/ClothEdit',
+            action: '/Clothes/ClothEdit',
             actionType: 'ajax',
             props: [
 
@@ -112,9 +112,7 @@
 
                 {
                     name: 'Name', type: 'text',
-                    required: {
-                        message: 'Name cannot be empty!'
-                    }
+                   
                 },
 
                 {
@@ -123,7 +121,7 @@
                     option: {
                     },
                     required: {
-                        message: 'Size cannot be empty!'     
+                        message: 'Kích thước không được để trống'     
                     }
                 },
 
@@ -134,7 +132,7 @@
 
                     },
                     required: {
-                        message: 'Brand cannot be empty!'
+                        message: 'Hãng không được để trống'
                     }
                     
                     
@@ -146,7 +144,7 @@
                     option: {
                     },
                     required: {
-                        message: 'Type cannot be empty'
+                        message: 'Loại không được để trống'
                     }
                     
                 },

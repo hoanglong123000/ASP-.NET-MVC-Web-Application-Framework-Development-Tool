@@ -16,6 +16,7 @@ namespace DBServer.Entities
         public Guid UpdatedBy { get; set; }
         public DateTime UpdatedDate { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string NameofType { get; set; }
+        public string Name { get; set; }
+        public string Keyword { get; set; }
     }
 }

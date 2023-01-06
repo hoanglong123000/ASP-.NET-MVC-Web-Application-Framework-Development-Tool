@@ -40,12 +40,12 @@ namespace Service.Education.Executes.Base
             CheckDbConnect();
             IQueryable<Brand> q = Context.Brands.Where(x => x.Status >= 0);
 
-            /*if (model.Keyword.HasValue())
+            if (model.Keyword.HasValue())
             {
                 var k = model.Keyword.OptimizeKeyword();
                 q = q.Where(x => x.Keyword.Contains(k));
             }
-            if (model.CreatedDateFrom.HasValue)
+          /*  if (model.CreatedDateFrom.HasValue)
             {
                 q = q.Where(x => x.CreatedDate >= model.CreatedDateFrom.Value);
             }
@@ -94,7 +94,8 @@ namespace Service.Education.Executes.Base
                 CreatedDate = x.CreatedDate,
                 UpdatedBy = x.UpdatedBy,
                 UpdatedDate = x.UpdatedDate,
-                Namebrand = x.Namebrand
+                Name = x.Name,
+                Keyword = x.Keyword
             });
 
             r = r.OrderByDescending(x => x.CreatedDate);

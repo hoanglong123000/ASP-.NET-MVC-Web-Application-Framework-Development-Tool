@@ -28,7 +28,8 @@ namespace Service.Education.Executes.Base
                     SizeId = model.SizeId,
                     BrandId = model.BrandId,
                     TypeId = model.TypeId,
-                    Keyword = model.Name
+                    Keyword = model.Name,
+                    Price = model.Price
                 };
                
                 
@@ -71,6 +72,7 @@ namespace Service.Education.Executes.Base
             d.BrandId = model.BrandId;
             d.TypeId = model.TypeId;
             d.Keyword = model.Name;
+            d.Price = model.Price;
 
             Context.SaveChanges();
 

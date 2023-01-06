@@ -21,11 +21,12 @@ namespace Service.Education.Executes.Base
                 var d = new TypeClothe
                 {
                     Id = model.Id,
-                    NameofType = model.NameofType,
+                    Name = model.Name,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     UpdatedBy = model.CreatedBy,
                     CreatedBy = model.CreatedBy,
+                    Keyword = model.Name
                 };
                
                 
@@ -63,7 +64,8 @@ namespace Service.Education.Executes.Base
 
             d.UpdatedDate = DateTime.Now;
             d.UpdatedBy = model.UpdatedBy;
-            d.NameofType = model.NameofType;
+            d.Name = model.Name;
+            d.Keyword = model.Name;
 
             Context.SaveChanges();
              

@@ -11,6 +11,7 @@ namespace Service.Education.Executes.Clothesmn.SizeTabs
     public class SearchSizeTabModel
     {
         public List<int> Ids { get; set; }   
+        public string Keyword { get; set; }
         
     }
 
@@ -19,6 +20,7 @@ namespace Service.Education.Executes.Clothesmn.SizeTabs
         
         public EmployeeBaseView ObjUpdatedBy { get; set; }
         public EmployeeBaseView ObjCreatedBy { get; set; }
+        public BaseItem ObjSize { get; set; }
     }
 
     public class SizeTabEditModel : SizeTab

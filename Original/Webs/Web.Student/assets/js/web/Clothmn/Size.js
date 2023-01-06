@@ -5,9 +5,9 @@ $(document).ready(function () {
     var panel = '#Size_panel';
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/Education/ViewSizeofClothesList',
+        dataUrl: '/Size/ViewSizeofClothesList',
         model: "SizeTab", 
-        editController: '/Education',
+        editController: '/Size',
         checkAll: true,
         width: {},
         filterable: true,
@@ -80,36 +80,33 @@ $(document).ready(function () {
             }
         },
         head: {
-            height: 60,
-            groups: [100, 100, 100, 130, 100, 130]
+            groups: [100, 100, 100, 130, 160, 150]
         },
         skipCols: 3,
         cols: {
             left: [
                 [
-                    { title: 'Id' },
-                    { title: 'Size of Cloth' },
+                    { title: 'STT' },
+                    { title: 'Kích thước' },
                 ]
             ],
             right: [
                 [
-
-
-
-                    { title: 'Created by' },
-                    { title: 'Created date' },
-                    { title: 'Updated date' },
-                    { title: 'Updated by' }
+                    { title: 'Người tạo' },
+                    { title: 'Ngày tạo' },
+                    { title: 'Người cập nhật' },
+                    { title: 'Ngày cập nhật' },
                 ]
             ]
+            
         },
         rows: [
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'NameofSize',
+                type: 'text', attribute: 'Name',
 
-                /*filter: { type: 'contains', attr: 'keyword' }*/
+                filter: { type: 'contains', attr: 'keyword' }
             },
 
 
@@ -167,10 +164,10 @@ $(document).ready(function () {
         console.log(selectedIds);
 
         if (selectedIds.length == 0) {
-            app.notify('warning', 'No information selected yet!');
+            app.notify('warning', 'Không có thông tin');
         } else {
             app.confirmAjax({
-                url: '/Education/DeleteSizeTabByIds',
+                url: '/Size/DeleteSizeTabByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -187,7 +184,7 @@ function detailSize(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editSizeModal';
     app.createPartialModal({
-        url: '/Education/SizeEdit',
+        url: '/Size/SizeEdit',
         data: {
             id: id
         },
@@ -209,7 +206,7 @@ function editSize(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editSizeModal';
     app.createPartialModal({
-        url: '/Education/SizeEdit',
+        url: '/Size/SizeEdit',
         data: {
             id: id
         },

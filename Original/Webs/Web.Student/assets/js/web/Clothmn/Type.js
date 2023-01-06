@@ -16,7 +16,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'TYPE'
+            title: 'Type'
         },
         toolbars: {
             reload: {
@@ -79,23 +79,23 @@ $(document).ready(function () {
             }
         },
         head: {
-            height: 60,
-            groups: [100, 100, 100, 130, 100, 130]
+     
+            groups: [100, 100, 100, 130, 160, 130]
         },
         skipCols: 3,
         cols: {
             left: [
                 [
-                    { title: 'Id' },
-                    { title: 'Type of Cloth' },
+                    { title: 'STT' },
+                    { title: 'Loại' },
                 ]
             ],
             right: [
                 [
-                    { title: 'Created by' },
-                    { title: 'Created date' },
-                    { title: 'Updated date' },
-                    { title: 'Updated by' }
+                    { title: 'Người tạo' },
+                    { title: 'Ngày tạo' },          
+                    { title: 'Người cập nhật' },
+                    { title: 'Ngày cập nhật' },
                 ]
             ]
         },
@@ -103,9 +103,9 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'NameofType',
+                type: 'text', attribute: 'Name',
 
-                /*filter: { type: 'contains', attr: 'keyword' }*/
+                filter: { type: 'contains', attr: 'keyword' }
             },
 
 

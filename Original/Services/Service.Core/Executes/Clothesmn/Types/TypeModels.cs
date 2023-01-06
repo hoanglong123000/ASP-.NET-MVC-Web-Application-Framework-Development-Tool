@@ -11,6 +11,7 @@ namespace Service.Education.Executes.Clothesmn.TypeClothes
     public class SearchTypeClotheModel
     {
         public List<int> Ids { get; set; }
+        public string Keyword { get; set; }
 
     }
 
@@ -19,6 +20,7 @@ namespace Service.Education.Executes.Clothesmn.TypeClothes
 
         public EmployeeBaseView ObjUpdatedBy { get; set; }
         public EmployeeBaseView ObjCreatedBy { get; set; }
+        public BaseItem ObjType { get; set;  }
     }
 
     public class TypeClotheEditModel : TypeClothe

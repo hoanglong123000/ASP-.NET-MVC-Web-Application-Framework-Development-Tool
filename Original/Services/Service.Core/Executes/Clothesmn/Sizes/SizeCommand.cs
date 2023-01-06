@@ -21,11 +21,12 @@ namespace Service.Education.Executes.Base
                 var d = new SizeTab
                 {
                     Id = model.Id,
-                    NameofSize = model.NameofSize,
+                    Name = model.Name,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     UpdatedBy = model.CreatedBy,
                     CreatedBy = model.CreatedBy,
+                    Keyword = model.Name
                 };
                
                 
@@ -54,7 +55,7 @@ namespace Service.Education.Executes.Base
             CheckDbConnect();
             var d = Context.SizeTabs.FirstOrDefault(x => x.Id == model.Id);
             if (d == null)
-                return new CommandResult<SizeTab>("No result!");
+                return new CommandResult<SizeTab>("Không có kết quả");
 
             var notes = new List<string>()
             {
@@ -63,7 +64,8 @@ namespace Service.Education.Executes.Base
 
             d.UpdatedDate = DateTime.Now;
             d.UpdatedBy = model.UpdatedBy;
-            d.NameofSize = model.NameofSize;
+            d.Name = model.Name;
+            d.Keyword = model.Name;
 
             Context.SaveChanges();
              

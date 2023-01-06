@@ -167,6 +167,10 @@
     <Compile Include="Controllers\Base\AuthController.cs" />
     <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\Base\NoneAuthController.cs" />
+    <Compile Include="Controllers\Clothes\BrandController.cs" />
+    <Compile Include="Controllers\Clothes\ClothesController.cs" />
+    <Compile Include="Controllers\Clothes\SizeController.cs" />
+    <Compile Include="Controllers\Clothes\SoldCouponController.cs" />
     <Compile Include="Controllers\Clothes\TypeController.cs" />
     <Compile Include="Controllers\Education\EducationController.cs" />
     <Compile Include="Controllers\Employee\AuthController.cs" />
@@ -194,6 +198,8 @@
     <Content Include="assets\js\web\Clothmn\Brand.js" />
     <Content Include="assets\js\web\Clothmn\Cloth.js" />
     <Content Include="assets\js\web\Clothmn\Size.js" />
+    <Content Include="assets\js\web\Clothmn\SoldCoupon.js" />
+    <Content Include="assets\js\web\Clothmn\SoldCouponEdit.js" />
     <Content Include="assets\js\web\Clothmn\Type.js" />
     <Content Include="assets\js\web\general\email-tasks.js" />
     <Content Include="assets\js\web\general\email-template.js" />
@@ -219,9 +225,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\temp_upload\" />
-    <Folder Include="Views\Clothesmn\" />
-    <Folder Include="Views\Clothes\" />
+    <Folder Include="Views\Brand\" />
     <Folder Include="Views\Education\" />
+    <Folder Include="Views\Size\" />
+    <Folder Include="Views\SoulCoupon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -325,14 +332,17 @@
     <Content Include="Views\Web\General\Partials\DistrictEdit.cshtml" />
     <Content Include="Views\Web\General\Partials\NationEdit.cshtml" />
     <Content Include="Views\Web\General\Partials\WardEdit.cshtml" />
-    <Content Include="Views\Web\Education\BrandList.cshtml" />
+    <Content Include="Views\Web\Brand\BrandList.cshtml" />
     <Content Include="Views\Web\Education\Partials\BrandEdit.cshtml" />
     <Content Include="Views\Web\Education\Partials\ClothEdit.cshtml" />
-    <Content Include="Views\Web\Education\ClothList.cshtml" />
-    <Content Include="Views\Web\Education\SizeofList.cshtml" />
+    <Content Include="Views\Web\Size\SizeofList.cshtml" />
     <Content Include="Views\Web\Education\Partials\SizeEdit.cshtml" />
     <Content Include="Views\Web\Education\Partials\TypeEdit.cshtml" />
     <Content Include="Views\Web\Type\TypeList.cshtml" />
+    <Content Include="Views\Web\Clothes\ClothList.cshtml" />
+    <Content Include="Views\Web\DetailReceipt\DetailReceiptList.cshtml" />
+    <Content Include="Views\Web\SoldCoupon\SoldCouponList.cshtml" />
+    <Content Include="Views\Web\Education\Partials\SoldCouponEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

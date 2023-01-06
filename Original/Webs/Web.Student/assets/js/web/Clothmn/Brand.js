@@ -5,9 +5,9 @@ $(document).ready(function () {
     var panel = '#Brand_panel';
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/Education/ViewBrandList',
-        model: "Brand", // ten table,
-        editController: '/Education',
+        dataUrl: '/Brand/ViewBrandList',
+        model: "Brand",
+        editController: '/Brand',
         checkAll: true,
         width: {},
         filterable: true,
@@ -17,7 +17,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'BRAND'
+            title: 'HÃNG'
         },
         toolbars: {
             reload: {
@@ -87,19 +87,16 @@ $(document).ready(function () {
         cols: {
             left: [
                 [
-                    { title: 'Id' },
-                    { title: 'Brand Cloth' },
+                    { title: 'STT' },
+                    { title: 'Hãng' },
                 ]
             ],
             right: [
                 [
-
-                    
-                    
-                    { title: 'Created by' },
-                    { title: 'Created date' },
-                    { title: 'Updated date' },
-                    { title: 'Updated by' }
+                    { title: 'Người tạo' },
+                    { title: 'Ngày tạo' },  
+                    { title: 'Người cập nhật' },
+                    { title: 'Ngày cập nhật' },
                 ]
             ]
         },
@@ -107,9 +104,9 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
             
             {
-                type: 'text', attribute: 'Namebrand',
+                type: 'text', attribute: 'Name',
                 
-                /*filter: { type: 'contains', attr: 'keyword' }*/
+                filter: { type: 'contains', attr: 'keyword' }
             },
 
 
@@ -167,10 +164,10 @@ $(document).ready(function () {
         console.log(selectedIds);
 
         if (selectedIds.length == 0) {
-            app.notify('warning', 'No information selected yet!');
+            app.notify('warning', 'Không có thông tin để xóa');
         } else {
             app.confirmAjax({
-                url: '/Education/DeleteBrandByIds',
+                url: '/Brand/DeleteBrandByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -187,7 +184,7 @@ function detailBrand(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editBrandModal';
     app.createPartialModal({
-        url: '/Education/BrandEdit',
+        url: '/Brand/BrandEdit',
         data: {
             id: id
         },
@@ -209,7 +206,7 @@ function editBrand(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editBrandModal';
     app.createPartialModal({
-        url: '/Education/BrandEdit',
+        url: '/Brand/BrandEdit',
         data: {
             id: id
         },

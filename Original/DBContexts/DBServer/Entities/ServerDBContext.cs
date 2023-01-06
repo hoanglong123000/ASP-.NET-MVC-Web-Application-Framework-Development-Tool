@@ -30,6 +30,9 @@ namespace DBServer.Entities
         public virtual DbSet<Brand> Brands { get; set; }
         public virtual DbSet<TypeClothe> TypeClothes { get; set; }
         public virtual DbSet<Cloth> Clothes { get; set; }
+        public virtual DbSet<SoldCoupon> SoldCoupons { get; set; }
+        public virtual DbSet<DetailReceipt> DetailReceipts { get; set; }
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //throw new UnintentionalCodeFirstException();

@@ -22,6 +22,7 @@ namespace DBServer.Entities
             public int BrandId { get; set; }
             public int TypeId { get; set; }
             public string Keyword { get; set; }
+            public decimal Price { get; set; }
         }
     
 }

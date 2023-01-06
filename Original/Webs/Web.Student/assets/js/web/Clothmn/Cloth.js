@@ -5,7 +5,7 @@ $(document).ready(function () {
     var panel = '#Cloth_panel';
 
     $.ajax({
-        url: "/Education/ViewClothList",
+        url: "/Clothes/ViewClothList",
         get: "GET",
         data: {},
         success: function (clothproduct) {
@@ -15,9 +15,9 @@ $(document).ready(function () {
 
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/Education/ViewClothList',
+        dataUrl: '/Clothes/ViewClothList',
         model: "Cloth", 
-        editController: '/Education',
+        editController: '/Clothes',
         checkAll: true,
         width: {},
         filterable: true,
@@ -27,7 +27,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'Cloth'
+            title: 'Clothes'
         },
         toolbars: {
             reload: {
@@ -90,14 +90,14 @@ $(document).ready(function () {
             }
         },
         head: {
-            height: 60,
-            groups: [100, 150, 100, 100, 100, 140, 140, 140, 100]
+            
+            groups: [100, 150, 100, 100, 100, 100, 140, 140, 140, 130]
         },
         skipCols: 3,
         cols: {
             left: [
                 [
-                    { title: 'Số thứ tự', style:"height: 59px;"},
+                    { title: 'STT'},
                     { title: 'Tên quần áo' },
                 ]
             ],
@@ -106,10 +106,12 @@ $(document).ready(function () {
                     { title: 'Kích cỡ' },
                     { title: 'Hãng' },
                     { title: 'Loại' },
-                    { title: 'Tạo bởi' },
-                    { title: 'Thời gian tạo' },
-                    { title: 'Thời gian cập nhật' },
-                    { title: 'Cập nhật bởi' }
+                    { title: 'Giá' },
+                    { title: 'Người tạo' },
+                    { title: 'Ngày tạo' },
+                    { title: 'Người cập nhật' },
+                    { title: 'Ngày cập nhật' },
+                    
                 ]
             ]
         },
@@ -135,12 +137,10 @@ $(document).ready(function () {
                     type: 'option',
                     
                     ajax: {      
-                        url: "/Education/SizeClothesList",
+                        url: "/Clothes/SizeClothesList",
                         data: {},
                         attr: { id: "Code", text: "Name" },
-                        success: function (list) {
-                            console.log(list);
-                        }
+                        
                     }
                 }
 
@@ -160,13 +160,10 @@ $(document).ready(function () {
                     type: 'option',
 
                     ajax: {
-                        url: "/Education/SearchBrandList",
+                        url: "/Clothes/SearchBrandList",
                         data: {},
-                        /*attr: { id: "Code", text: "Name" },*/
-                        success: function (list) {
-                            console.log(list);
-                            
-                        }
+                        attr: { id: "Id", text: "Name" },
+                        
                     }
                 }
             },
@@ -179,6 +176,11 @@ $(document).ready(function () {
                         return row.ObjType.Name
                     return '';
                 }
+            },
+
+            {
+                type: 'number', attribute: 'Price'
+                
             },
 
 
@@ -239,7 +241,7 @@ $(document).ready(function () {
             app.notify('warning', 'Không tìm thấy thông tin');
         } else {
             app.confirmAjax({
-                url: '/Education/DeleteClothByIds',
+                url: '/Clothes/DeleteClothByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -256,7 +258,7 @@ function detailCloth(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editClothModal';
     app.createPartialModal({
-        url: '/Education/ClothEdit',
+        url: '/Clothes/ClothEdit',
         data: {
             id: id
         },
@@ -278,7 +280,7 @@ function editCloth(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'Update' : 'Add';
     var mid = 'editClothModal';
     app.createPartialModal({
-        url: '/Education/ClothEdit',
+        url: '/Clothes/ClothEdit',
         data: {
             id: id
         },

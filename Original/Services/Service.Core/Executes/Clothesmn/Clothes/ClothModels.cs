@@ -13,6 +13,7 @@ namespace Service.Education.Executes.Clothesmn.Clothes
         public string Name { get; set; }
         public string Keyword { get; set; }
         public int? SizeId { get; set; }
+        public int? BrandId { get; set; }
         
     }
 
@@ -24,6 +25,7 @@ namespace Service.Education.Executes.Clothesmn.Clothes
         public BaseItem ObjSize { get; set; }
         public BaseItem ObjBrand { get; set; }
         public BaseItem ObjType { get; set; }
+        
     }
 
     public class ClothEditModel : Cloth

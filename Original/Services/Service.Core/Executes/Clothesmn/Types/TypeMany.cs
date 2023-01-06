@@ -40,12 +40,12 @@ namespace Service.Education.Executes.Base
             CheckDbConnect();
             IQueryable<TypeClothe> q = Context.TypeClothes.Where(x => x.Status >= 0);
 
-            /*if (model.Keyword.HasValue())
+            if (model.Keyword.HasValue())
             {
                 var k = model.Keyword.OptimizeKeyword();
                 q = q.Where(x => x.Keyword.Contains(k));
             }
-            if (model.CreatedDateFrom.HasValue)
+           /* if (model.CreatedDateFrom.HasValue)
             {
                 q = q.Where(x => x.CreatedDate >= model.CreatedDateFrom.Value);
             }
@@ -94,7 +94,8 @@ namespace Service.Education.Executes.Base
                 CreatedDate = x.CreatedDate,
                 UpdatedBy = x.UpdatedBy,
                 UpdatedDate = x.UpdatedDate,
-                NameofType = x.NameofType
+                Name = x.Name,
+                Keyword = x.Keyword
             });
 
             r = r.OrderByDescending(x => x.CreatedDate);
@@ -107,14 +108,7 @@ namespace Service.Education.Executes.Base
                 ids.AddRange(result.Many.Select(x => x.CreatedBy).ToList());
 
                 ids = ids.Distinct().ToList();
-                    // ds vi tri
-                    // ds chuc danh
-                    // ds bo phan
-                    // ds loai gioi tinh
-                    // ds trang thai 
-                    ///
-                    //
-
+                    
 
                 var emps = _shareService.EmployeeBaseList(new SearchEmployeeModel
                 {

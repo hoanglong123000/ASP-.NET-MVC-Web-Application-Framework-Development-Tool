@@ -5,14 +5,7 @@
 @model  Service.Education.Executes.Clothesmn.SizeTabs.SizeTabViewModel
 
 @{
-    var groups = new List<BaseItem>()
-{
-        new BaseItem{Id = 1, Name = "S"},
-        new BaseItem{Id = 2, Name = "M"},
-        new BaseItem{Id = 3, Name = "L"},
-        new BaseItem{Id = 4, Name = "X"}
-    };
-
+   
 
 }
 
@@ -26,8 +19,8 @@
             @AppHelper.InputInline(new ControlAttribute()
             {
                 Title = "Size",
-                Name = "NameofSize",
-                Value = Model.NameofSize,
+                Name = "Name",
+                Value = Model.Name,
                 LabelCol = 4,
                 Required = true,
 
@@ -61,7 +54,7 @@
     function initSizeForm(callback) {
         $('#SizeForm').ultraForm({
             uiType: 1,
-            action: '/Education/SizeEdit',
+            action: '/Size/SizeEdit',
             actionType: 'ajax',
             props: [
 
@@ -70,9 +63,9 @@
 
 
                 {
-                    name: 'NameofSize', type: 'text',
+                    name: 'Name', type: 'text',
                     required: {
-                        message: 'Size: '
+                        message: 'Kích thước: '
                     }
                 }
 

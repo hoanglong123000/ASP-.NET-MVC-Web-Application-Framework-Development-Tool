@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Entities\Brand.cs" />
     <Compile Include="Entities\Cloth.cs" />
+    <Compile Include="Entities\SoldCoupon.cs" />
     <Compile Include="Entities\Feature.cs" />
     <Compile Include="Entities\FeatureGroup.cs" />
     <Compile Include="Entities\Group.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Entities\ResourceDemo.cs" />
     <Compile Include="Entities\ServerDBContext.cs" />
     <Compile Include="Entities\SizeTab.cs" />
+    <Compile Include="Entities\DetailReceipt.cs" />
     <Compile Include="Entities\StudentView.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\TypeClothe.cs" />

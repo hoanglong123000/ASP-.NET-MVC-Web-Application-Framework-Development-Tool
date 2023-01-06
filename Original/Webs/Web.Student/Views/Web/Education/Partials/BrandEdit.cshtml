@@ -15,8 +15,8 @@
             @AppHelper.InputInline(new ControlAttribute()
             {
                 Title = "Tên Hãng",
-                Name = "Namebrand",
-                Value = Model.Namebrand,
+                Name = "Name",
+                Value = Model.Name,
                 LabelCol = 4,
                 Required = true,
             })
@@ -27,11 +27,11 @@
     <div class="row">
         <div class="col-md-12 text-right">
             <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
-                <i class="fa fa-remove"></i> EXIT
+                <i class="fa fa-remove"></i> THOÁT
             </button>
             <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
                     data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
-                <i class="fa fa-save"></i> SAVE
+                <i class="fa fa-save"></i> LƯU
             </button>
         </div>
     </div>
@@ -45,7 +45,7 @@
     function initBrandForm(callback) {
         $('#BrandForm').ultraForm({
             uiType: 1,
-            action: '/Education/BrandEdit',
+            action: '/Brand/BrandEdit',
             actionType: 'ajax',
             props: [
                 { name: 'Id', type: 'hidden' },
@@ -53,9 +53,9 @@
                 
 
                 {
-                    name: 'Namebrand', type: 'text',
+                    name: 'Name', type: 'text',
                     required: {
-                        message: 'BRAND NAME'
+                        message: 'Tên hãng:'
                     }
                 },
 

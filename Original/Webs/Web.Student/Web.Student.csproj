@@ -169,6 +169,7 @@
     <Compile Include="Controllers\Base\NoneAuthController.cs" />
     <Compile Include="Controllers\Clothes\BrandController.cs" />
     <Compile Include="Controllers\Clothes\ClothesController.cs" />
+    <Compile Include="Controllers\Clothes\DetailReceiptController.cs" />
     <Compile Include="Controllers\Clothes\SizeController.cs" />
     <Compile Include="Controllers\Clothes\SoldCouponController.cs" />
     <Compile Include="Controllers\Clothes\TypeController.cs" />
@@ -340,9 +341,9 @@
     <Content Include="Views\Web\Education\Partials\TypeEdit.cshtml" />
     <Content Include="Views\Web\Type\TypeList.cshtml" />
     <Content Include="Views\Web\Clothes\ClothList.cshtml" />
-    <Content Include="Views\Web\DetailReceipt\DetailReceiptList.cshtml" />
     <Content Include="Views\Web\SoldCoupon\SoldCouponList.cshtml" />
     <Content Include="Views\Web\Education\Partials\SoldCouponEdit.cshtml" />
+    <Content Include="Views\Web\DetailReceipt\DetailReceiptList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

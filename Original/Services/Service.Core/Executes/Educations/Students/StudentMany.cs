@@ -5,6 +5,8 @@ using Service.Utility.Variables;
 using Service.Education.Executes.Educations.Students;
 using DBServer.Entities;
 using Service.Core.Executes.Employees.Employees;
+using Service.Education.Executes.Clothesmn.DetailReceipts;
+using System;
 
 namespace Service.Education.Executes.Base
 {
@@ -151,7 +153,7 @@ namespace Service.Education.Executes.Base
 
             return list;
         }
-         
 
+        
     }
 }

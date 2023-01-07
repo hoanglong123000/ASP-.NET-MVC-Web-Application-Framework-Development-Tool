@@ -17,7 +17,7 @@ namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public QueryResult<DetailReceiptViewModel> DetailReceiptMany(SearchDetailReceiptModel model, OptionResult optionResult)
+        public QueryResult<DetailReceiptViewModel> DetailReceiptMany(int id, SearchDetailReceiptModel model, OptionResult optionResult)
         {
             /*if (model.Cache)
             {*/
@@ -37,19 +37,19 @@ namespace Service.Education.Executes.Base
             Caching.Save(name, "Educations", Serializer.Serialize(data));
             return data;*/
             /* }*/
-            return DetailReceiptData(model, optionResult);
+            return DetailReceiptData(model, optionResult, id);
         }
 
-        private QueryResult<DetailReceiptViewModel> DetailReceiptData(SearchDetailReceiptModel model, OptionResult optionResult)
+        private QueryResult<DetailReceiptViewModel> DetailReceiptData(SearchDetailReceiptModel model, OptionResult optionResult, int id)
         {
             CheckDbConnect();
-            IQueryable<DetailReceipt> q = Context.DetailReceipts.Where(x => x.Status >= 0);
+            IQueryable<DetailReceipt> q = Context.DetailReceipts.Where(x => x.Status >= 0 && x.CouponId == id);
 
-            if (model.Keyword.HasValue())
+            /*if (model.Keyword.HasValue())
             {
                 var k = model.Keyword.OptimizeKeyword();
                 q = q.Where(x => x.Keyword.Contains(k));
-            }
+            }*/
 
             /*if (model.IsOnlineShop.ToString())
             {
@@ -113,7 +113,7 @@ namespace Service.Education.Executes.Base
                 CouponId = x.CouponId
             });
 
-           /* r = r.OrderByDescending(x => x.CreatedDate)*/
+            r = r.OrderByDescending(x => x.CouponId);
 
             var result = new QueryResult<DetailReceiptViewModel>(r, optionResult);
             

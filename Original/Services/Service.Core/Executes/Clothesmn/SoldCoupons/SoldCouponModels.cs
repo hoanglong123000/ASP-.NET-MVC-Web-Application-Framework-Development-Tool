@@ -24,7 +24,7 @@ namespace Service.Education.Executes.Clothesmn.SoldCoupons
         public EmployeeBaseView ObjCreatedBy { get; set; }
         public BaseItem ObjStatus { get; set; }
         public BaseItem ObjMethodToShop { get; set; }
-        
+        public List<DetailReceipt> detailReceipts { get; set; }
     }
 
     public class SoldCouponEditModel : SoldCoupon

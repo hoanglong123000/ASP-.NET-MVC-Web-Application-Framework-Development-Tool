@@ -27,7 +27,11 @@
 
 }
 
-<script src="~/assets/js/web/Clothmn/SoldCouponEdit.js"></script>
+<script>
+    
+</script>
+
+
 
 
 <form id="SoldCouponForm" class="form form-horizontal">
@@ -115,7 +119,7 @@
         </div>
 
         
-        @*Knockout Javascript*@
+        
     <div class="col-md-12">
         <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow">THÊM</button>
         <table class="table">
@@ -167,8 +171,91 @@
 </form>
 
 <script>
+    var SoldCouponClass = () => {
 
 
+        // this Initialization.
+        self = this;
+
+
+        // List.
+        self.ReceiptArray = ko.observableArray();
+
+        // Summation of each final price rows.
+        self.totalprice = ko.observable();
+
+
+        // New Row.
+        var ReceiptRow = function () {
+            var sr = this;
+            {
+                sr.id = self.ReceiptArray().length + 1;
+                sr.couponname = ko.observable("");
+                sr.unitmeasure = ko.observable("VND");
+                sr.ammount = ko.observable(0);
+                sr.price = ko.observable(1);
+                sr.finalprice = ko.observable();
+
+            }
+        };
+
+
+
+
+        // Add Method.
+        self.AddReceiptRow = () => {
+            var item = new ReceiptRow(null);
+            self.ReceiptArray.push(item);
+            console.log(item);
+        };
+
+        //Calculating total price and final price.
+        self.realtime = ko.computed(
+            () => {
+                var Sum = 0;
+                $(self.ReceiptArray()).each(function (index, element) {
+
+                    element.finalprice(parseInt(element.ammount() * element.price()));
+
+
+                    Sum += parseInt(element.finalprice());
+                    self.totalprice(Sum);
+
+                    console.log(element.finalprice);
+
+                })
+
+
+            }
+        )
+
+        // Delete method.
+        self.DeleteReceiptRow = (item) => {
+            console.log(item);
+            self.ReceiptArray.remove(item);
+        };
+
+        // Show Sum.
+        self.ShowTotalPrice = () => {
+            console.log(self.totalprice());
+            console.log(ko.toJS(self.ReceiptArray));
+        }
+
+        @*// Update method
+        $.ajax({
+            url: "/SoldCoupon/DetailReceiptEdit",
+            type: "GET",
+            data: { id: model.Id },
+            success: function (DetailReceiptData) {
+                console.log(DetailReceiptData);
+
+
+                console.log("array: " + ko.toJS(ReceiptArray()));
+            }
+        })*@
+    }
+    ko.applyBindings(SoldCouponClass, $("#SoldCouponForm")[0]);
+    
 
     var model = @Html.Raw(Json.Encode(Model));
     function initSoldCouponForm(callback) {
@@ -180,7 +267,6 @@
 
                 {
                     name: 'Id', type: 'hidden',
-                    
                 },
 
 
@@ -188,7 +274,7 @@
                 {
                     name: 'BuyerName', type: 'text',
                     required: {
-                        message: "Thiếu tên khách hàng" 
+                        message: "Thiếu tên khách hàng"
                     }
                 },
 
@@ -211,7 +297,7 @@
                 {
                     name: 'SoldDate',
                     type: 'datetime',
-                    
+
                 },*@
 
                 {
@@ -219,7 +305,7 @@
                     type: 'select2',
                     option: {
                     },
-                    
+
                 },
 
                 {
@@ -227,13 +313,8 @@
                     type: 'select2',
                     option: {
                     },
-                    
+
                 }
-
-               
-
-
-
 
 
 
@@ -252,21 +333,35 @@
             validCallback: (data, btn) => {
                 data = app.formDataToJson(data);
                 console.log(data);
+                console.log('hello: ', ko.toJS( ReceiptArray() ) );
+
+
                 $.ajax({
                     url: "/SoldCoupon/SoldCouponEdit",
                     type: "POST",
-                    data: {},
-                    success: (list) => {
-                        console.log(list);
+                    data: {
+                        Id: data.Id,
+                        BuyerName: data.BuyerName,
+                        PhoneNumber: data.PhoneNumber,
+                        Status: data.Status,
+                        AddressBuyer: data.AddressBuyer,
+                        detailReceipts: ko.toJS(ReceiptArray()),
+                        TotalPrice: ko.toJS(totalprice())
+                    },
+                    success: () => {
+                        callback(data);
                     }
                 });
+
+
             }
         });
+
+        
     }
 
-
-
-
+    
+    
 </script>
 
 

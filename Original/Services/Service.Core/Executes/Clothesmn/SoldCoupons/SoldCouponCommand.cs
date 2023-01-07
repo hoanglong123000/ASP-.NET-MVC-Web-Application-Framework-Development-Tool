@@ -19,6 +19,7 @@ namespace Service.Education.Executes.Base
             CheckDbConnect();
             try
             {
+                // Add Sold Coupon.
                 var d = new SoldCoupon
                 {
                     Id = model.Id,
@@ -33,7 +34,8 @@ namespace Service.Education.Executes.Base
                     AddressBuyer = model.AddressBuyer,
                     IsOnlineShop = model.IsOnlineShop,
                     Status = model.Status,
-                    TotalPrice = model.TotalPrice
+                    TotalPrice = model.TotalPrice,
+                    
                               
                 };
                
@@ -41,7 +43,29 @@ namespace Service.Education.Executes.Base
                 Context.SoldCoupons.Add(d);
                 Context.SaveChanges();
 
+                // Add Detail Receipt.
+                var detailreceiptlst = model.detailReceipts.ToList();
+                for(int key = 0; key < detailreceiptlst.Count; key++)
+                {
+                    var detailReceipt = new DetailReceipt
+                    {
+                        Id = detailreceiptlst[key].Id,
+                        Status = detailreceiptlst[key].Status,
+                        UnitMeasure = detailreceiptlst[key].UnitMeasure,
+                        Ammount = detailreceiptlst[key].Ammount,
+                        Price = detailreceiptlst[key].Price,
+                        FinalPrice = detailreceiptlst[key].FinalPrice,
+                        ClothesId = detailreceiptlst[key].ClothesId,
+                        CouponId = d.Id
+                    };
+                    Context.DetailReceipts.Add(detailReceipt);
+                    Context.SaveChanges();
+                }
+
                 
+
+
+
 
                 //DeleteCaching 
                 return new CommandResult<SoldCoupon>(d);
@@ -61,6 +85,7 @@ namespace Service.Education.Executes.Base
                 return new CommandResult<SoldCoupon>(sb.ToString());
             }
         }
+
         public CommandResult<SoldCoupon> EditSoldCoupon(SoldCouponEditModel model)
         {
             CheckDbConnect();
@@ -99,7 +124,13 @@ namespace Service.Education.Executes.Base
             var idStr = string.Join(",", arr);
             Context.Database.ExecuteSqlCommand(
                 "update SoldCoupons set Status = -1, UpdatedBy = '" + userId + "', UpdatedDate = getdate() " +
-                "where Id in ('" + idStr + "')"); 
+                "where Id in ('" + idStr + "')");
+            Context.Database.ExecuteSqlCommand(
+
+                "UPDATE DetailReceipts set Status = -1 WHERE CouponId in ('" + idStr + "')"
+                
+                );
+                
         }
        /* public bool UpdateBrandStatus(int id, int status)
         {

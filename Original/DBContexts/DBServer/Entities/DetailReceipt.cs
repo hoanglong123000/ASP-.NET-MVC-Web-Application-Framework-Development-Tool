@@ -14,7 +14,7 @@ namespace DBServer.Entities
         public int Id { get; set; }
         public int Status { get; set; }
         public string Keyword { get; set; }
-        public int ClothesId { get; set; }
+        public string ClothesId { get; set; }
         public string UnitMeasure { get; set; }
         public int Ammount { get; set; }
         public decimal Price { get; set; }

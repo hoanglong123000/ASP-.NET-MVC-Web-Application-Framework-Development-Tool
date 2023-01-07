@@ -1,23 +1,23 @@
-﻿/*var myViewModel = {
+﻿
+    /*var myViewModel = {
     personName: 'Bob',
     personAge: 123
 };
 ko.applyBindings(myViewModel);
 */
-var SoldCouponClass = () =>
-{
-    
-    
+/*var SoldCouponClass = () => {
+
+
     // this Initialization.
     self = this;
-    
+
 
     // List.
     self.ReceiptArray = ko.observableArray();
 
     // Summation of each final price rows.
     self.totalprice = ko.observable();
-    
+
 
     // New Row.
     var ReceiptRow = function () {
@@ -29,11 +29,11 @@ var SoldCouponClass = () =>
             sr.ammount = ko.observable(0);
             sr.price = ko.observable(1);
             sr.finalprice = ko.observable();
-            
+
         }
     };
 
-    
+
 
 
     // Add Method.
@@ -42,26 +42,24 @@ var SoldCouponClass = () =>
         self.ReceiptArray.push(item);
         console.log(item);
     };
-   
+
     //Calculating total price and final price.
     self.realtime = ko.computed(
         () => {
             var Sum = 0;
             $(self.ReceiptArray()).each(function (index, element) {
+
+                element.finalprice = parseInt(element.ammount() * element.price());
+
                 
-                element.finalprice(
-
-                    parseInt(element.ammount() * element.price())
-
-                );
                 Sum += parseInt(element.finalprice());
                 self.totalprice(Sum);
 
                 console.log(element.finalprice);
-                
+
             })
 
-            
+
         }
     )
 
@@ -77,9 +75,9 @@ var SoldCouponClass = () =>
         console.log(ko.toJS(self.ReceiptArray));
     }
 
+    // Update method
+
 }
 
-ko.applyBindings(SoldCouponClass);
-
-
-
+ko.applyBindings(SoldCouponClass, $("#SoldCouponForm")[0]);
+*/

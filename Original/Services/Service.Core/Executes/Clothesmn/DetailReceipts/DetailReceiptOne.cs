@@ -13,7 +13,7 @@ namespace Service.Education.Executes.Base
         public DetailReceiptViewModel DetailReceiptOne(int id)
         {
             CheckDbConnect();
-            var item = Context.Database.SqlQuery<DetailReceiptViewModel>("SELECT TOP 1 * from DetailReceipts as S WHERE S.Id = " + id).FirstOrDefault();
+            var item = Context.Database.SqlQuery<DetailReceiptViewModel>("SELECT * FROM DetailReceipts as D WHERE D.CouponId = " + id).FirstOrDefault();
            /* if(item != null)
             {
                 var ids = new List<Guid>();

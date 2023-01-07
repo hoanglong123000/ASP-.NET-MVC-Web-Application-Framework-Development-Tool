@@ -280,29 +280,7 @@ $(document).ready(function () {
 
 
 function detailSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'CHỈNH SỬA HOẶC THÊM MỚI PHIẾU' : 'CHỈNH SỬA HOẶC THÊM MỚI PHIẾU';
-    var mid = 'editSoldCouponModal';
-    app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
-        data: {
-            id: id
-        },
-        modal: {
-            title: modalTitle,
-            width: '1000px',
-            id: mid
-        }
-    }, function () {
-        initCallback();
-        initClothForm(function () {
-            $('#' + mid).modal('hide');
-            editCallback();
-        })
-    })
-}
-
-function editSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'CHỈNH SỬA HOẶC THÊM MỚI PHIẾU' : 'CHỈNH SỬA HOẶC THÊM MỚI PHIẾU';
+    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
     var mid = 'editSoldCouponModal';
     app.createPartialModal({
         url: '/SoldCoupon/SoldCouponEdit',
@@ -321,4 +299,28 @@ function editSoldCoupon(id, initCallback, editCallback) {
             editCallback();
         })
     })
+}
+
+// Right-click Update method.
+function editSoldCoupon(id, initCallback, editCallback) {
+    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
+    var mid = 'editSoldCouponModal';
+    app.createPartialModal({
+        url: '/SoldCoupon/SoldCouponEdit',
+        data: {
+            id: id
+        },
+        modal: {
+            title: modalTitle,
+            width: '1300px',
+            id: mid
+        }
+    }, function () {
+        initCallback();
+        initSoldCouponForm(function () {
+            $('#' + mid).modal('hide');
+            editCallback();
+        })
+    })
+
 }

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Web.Student.Controllers.Base;
 using Service.Education.Executes.Clothesmn.SoldCoupons;
+using Service.Education.Executes.Clothesmn.DetailReceipts;
 
 
 namespace Web.Student.Controllers.Clothes
@@ -78,6 +79,12 @@ namespace Web.Student.Controllers.Clothes
             return Json(new CommandResult<bool>(true), JsonRequestBehavior.AllowGet);
         }
 
-        
+        // UPDATE Detail Receipt.
+        public JsonResult DetailReceiptEdit(int id, SearchDetailReceiptModel model, OptionResult option)
+        {
+            var result = _educationService.DetailReceiptMany(id, model, option);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

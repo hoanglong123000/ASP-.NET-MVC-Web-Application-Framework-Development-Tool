@@ -55,17 +55,17 @@ namespace Web.Student.Controllers.Clothes
 
 
 
-        [HttpPost]
+        /*[HttpPost]
         public JsonResult DetailReceiptEdit(DetailReceiptEditModel model)
         {
-            /*model.UpdatedBy = _authData.EmployeeId;
+            *//*model.UpdatedBy = _authData.EmployeeId;
             if (model.Id == 0)
             {
                 model.CreatedBy = _authData.EmployeeId;
-            }*/
+            }*//*
             var result = model.Id == 0 ? _educationService.CreateDetailReceipt(model) : _educationService.EditDetailReceipt(model);
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        }*/
 
         
     }

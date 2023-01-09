@@ -71,7 +71,7 @@ namespace Web.Student.Controllers.Clothes
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        // DELETE SoldCoupon
+        // DELETE both SoldCoupon and its DetailReceipt.
         [HttpPost]
         public JsonResult DeleteSoldCouponByIds(List<int> ids)
         {
@@ -85,6 +85,19 @@ namespace Web.Student.Controllers.Clothes
             var result = _educationService.DetailReceiptMany(id, model, option);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        // DELETE each rows of DetailReceipt.
+        /*[HttpPost]*/
+    /*    public JsonResult DeleteEachRowsOfReceipt(SoldCouponEditModel model)
+        {
+            model.UpdatedBy = _authData.EmployeeId;
+            if (model.Id == 0)
+            {
+                model.CreatedBy = _authData.EmployeeId;
+            }
+            var result = model.Id == 0 ? _educationService.EditSoldCoupon(model) : _educationService.DeleteEachReceiptRows(model);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }*/
 
     }
 }

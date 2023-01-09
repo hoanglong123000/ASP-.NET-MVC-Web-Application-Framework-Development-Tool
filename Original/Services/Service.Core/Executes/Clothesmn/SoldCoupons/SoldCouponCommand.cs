@@ -88,6 +88,7 @@ namespace Service.Education.Executes.Base
 
         public CommandResult<SoldCoupon> EditSoldCoupon(SoldCouponEditModel model)
         {
+            // Update Sold Coupon.
             CheckDbConnect();
             var d = Context.SoldCoupons.FirstOrDefault(x => x.Id == model.Id);
             if (d == null)
@@ -110,13 +111,56 @@ namespace Service.Education.Executes.Base
             d.TotalPrice = model.TotalPrice;
 
             
-            
-           
             Context.SaveChanges();
+
+            // Update Detail Receipt Rows.
+            var detailreceiptlst = model.detailReceipts.ToList();
+            for(int i = 0; i < detailreceiptlst.Count; i++)
+            {
+                // Add new detail receipt row.
+                if(detailreceiptlst[i].Id == 0)
+                {
+                    var detailReceipt = new DetailReceipt
+                    {
+                        Id = detailreceiptlst[i].Id,
+                        Status = detailreceiptlst[i].Status,
+                        UnitMeasure = detailreceiptlst[i].UnitMeasure,
+                        Ammount = detailreceiptlst[i].Ammount,
+                        Price = detailreceiptlst[i].Price,
+                        FinalPrice = detailreceiptlst[i].FinalPrice,
+                        ClothesId = detailreceiptlst[i].ClothesId,
+                        CouponId = d.Id
+                    };
+                    Context.DetailReceipts.Add(detailReceipt);
+                    Context.SaveChanges();
+                }
+                else
+                {
+                    // Update detail receipt row
+                    var detailreceiptAjax = model.detailReceipts[i].Id;
+                    var detail = Context.DetailReceipts.FirstOrDefault(x => (int)x.Id == detailreceiptAjax);
+                    if (detail == null)
+                        return new CommandResult<SoldCoupon>("No result!");
+                    detail.Status = detailreceiptlst[i].Status;
+                    detail.UnitMeasure = detailreceiptlst[i].UnitMeasure;
+                    detail.ClothesId = detailreceiptlst[i].ClothesId;
+                    detail.Ammount = detailreceiptlst[i].Ammount;
+                    detail.CouponId = d.Id;
+                    detail.Price = detailreceiptlst[i].Price;
+                    detail.FinalPrice = detailreceiptlst[i].FinalPrice;
+                }
+            }
+
+            Context.SaveChanges();
+            
+
+
 
             return new CommandResult<SoldCoupon>(d);
         }
 
+
+        //Delete both Sold Coupon and Detail Receipt list.
         public void DeleteSoldCouponByIds(List<int> ids, Guid userId)
         {
             CheckDbConnect();
@@ -129,9 +173,18 @@ namespace Service.Education.Executes.Base
 
                 "UPDATE DetailReceipts set Status = -1 WHERE CouponId in ('" + idStr + "')"
                 
-                );
+              );
                 
         }
+
+        /*public CommandResult<SoldCoupon> DeleteEachReceiptRows(SoldCouponEditModel model)
+        {
+            CheckDbConnect();
+            
+
+            Context.SaveChanges();
+            return new CommandResult<SoldCoupon>("Delete successfully!");
+        }*/
        /* public bool UpdateBrandStatus(int id, int status)
         {
             CheckDbConnect();

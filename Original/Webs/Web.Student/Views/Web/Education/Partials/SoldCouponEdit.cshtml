@@ -103,16 +103,16 @@
 
 
                 @AppHelper.SelectInline(new ControlAttribute()
-            {
-               Title = "Trạng thái",
-               Name = "Status",
-               Value = Model.Status.ToString(),
-               LabelCol = 4,
-               Required = true,
-               HasDefaultOption = true,
-               List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
+                {
+                   Title = "Trạng thái",
+                   Name = "Status",
+                   Value = Model.Status.ToString(),
+                   LabelCol = 4,
+                   Required = true,
+                   HasDefaultOption = true,
+                   List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
 
-            })
+                })
 
                 
 
@@ -136,9 +136,9 @@
             </thead>
 
             <tbody data-bind="foreach: ReceiptArray()">
-                <tr>
-                    <td data-bind="text: id"> </td>
-                    <td> <input data-bind="value: couponname" /></td>
+                <tr data-bind="visible: status() == 0">
+                    <td> </td>
+                    <td> <input data-bind="value: clothesid" /></td>
                     <td> <input data-bind="value: unitmeasure"/></td>
                     <td> <input data-bind="value: ammount"/> </td>
                     <td> <input data-bind="value: price"/> </td>
@@ -171,6 +171,12 @@
 </form>
 
 <script>
+    
+    
+
+    var model = @Html.Raw(Json.Encode(Model));
+
+    @*knockout*@
     var SoldCouponClass = () => {
 
 
@@ -186,16 +192,32 @@
 
 
         // New Row.
-        var ReceiptRow = function () {
+        var ReceiptRow = function (item) {
             var sr = this;
             {
-                sr.id = self.ReceiptArray().length + 1;
-                sr.couponname = ko.observable("");
-                sr.unitmeasure = ko.observable("VND");
-                sr.ammount = ko.observable(0);
-                sr.price = ko.observable(1);
-                sr.finalprice = ko.observable();
-
+                // Update method.
+                if (item != null)
+                {
+                    sr.id = ko.observable(item.Id);
+                    sr.clothesid = ko.observable(item.ClothesId);
+                    sr.unitmeasure = ko.observable(item.UnitMeasure);
+                    sr.ammount = ko.observable(item.Ammount);
+                    sr.price = ko.observable(item.Price);
+                    sr.finalprice = ko.observable(item.FinalPrice);
+                    sr.status = ko.observable(item.Status);
+                    console.log(item);
+                }
+                // Add method.
+                else {
+                    sr.id = 0;
+                    sr.clothesid = ko.observable();
+                    sr.unitmeasure = ko.observable("VND");
+                    sr.ammount = ko.observable(0);
+                    sr.price = ko.observable(1);
+                    sr.finalprice = ko.observable();
+                    sr.status = ko.observable(0);
+                }
+                
             }
         };
 
@@ -207,6 +229,7 @@
             var item = new ReceiptRow(null);
             self.ReceiptArray.push(item);
             console.log(item);
+           
         };
 
         //Calculating total price and final price.
@@ -215,14 +238,17 @@
                 var Sum = 0;
                 $(self.ReceiptArray()).each(function (index, element) {
 
-                    element.finalprice(parseInt(element.ammount() * element.price()));
+                    if (element.status() == 0) {
+                        element.finalprice(parseInt(element.ammount() * element.price()));
 
 
-                    Sum += parseInt(element.finalprice());
-                    self.totalprice(Sum);
+                        Sum += parseInt(element.finalprice());
+                        self.totalprice(Sum);
 
-                    console.log(element.finalprice);
-
+                        console.log(element.finalprice());
+                    }
+                   
+                   
                 })
 
 
@@ -231,8 +257,15 @@
 
         // Delete method.
         self.DeleteReceiptRow = (item) => {
-            console.log(item);
-            self.ReceiptArray.remove(item);
+            item.status(-1);
+            console.log(item.status());
+            
+            @*$.ajax({
+                url: "/SoldCoupon/DeleteEachRowsOfReceipt",
+                type: "GET",
+                data: {},
+
+            })*@
         };
 
         // Show Sum.
@@ -241,24 +274,42 @@
             console.log(ko.toJS(self.ReceiptArray));
         }
 
-        @*// Update method
-        $.ajax({
-            url: "/SoldCoupon/DetailReceiptEdit",
-            type: "GET",
-            data: { id: model.Id },
-            success: function (DetailReceiptData) {
-                console.log(DetailReceiptData);
+        //Show data when pressing Update button.
+        self.init = () => {
+            $.ajax({
+                url: "/SoldCoupon/DetailReceiptEdit",
+                type: "GET",
+                data: { id: model.Id },
+                success: (DetailReceiptData) => {
+                    console.log(DetailReceiptData);
 
+                    
+                    $(DetailReceiptData.Many).each(
+                        (index, item) => {
+                            var row = new ReceiptRow(item);
+                            self.ReceiptArray.push(row);
+                         
+                        }
+                    )
+                    
+                }
+            })
+        }
 
-                console.log("array: " + ko.toJS(ReceiptArray()));
-            }
-        })*@
+        // Update method
+        self.init();
     }
-    ko.applyBindings(SoldCouponClass, $("#SoldCouponForm")[0]);
     
 
-    var model = @Html.Raw(Json.Encode(Model));
+
+
+
     function initSoldCouponForm(callback) {
+
+        ko.applyBindings(SoldCouponClass, $("#SoldCouponForm")[0]);
+
+        
+        // Save button
         $('#SoldCouponForm').ultraForm({
             uiType: 1,
             action: '/SoldCoupon/SoldCouponEdit',
@@ -346,21 +397,22 @@
                         Status: data.Status,
                         AddressBuyer: data.AddressBuyer,
                         detailReceipts: ko.toJS(ReceiptArray()),
-                        TotalPrice: ko.toJS(totalprice())
+                        TotalPrice: ko.toJS(totalprice()),
+                        
                     },
                     success: () => {
                         callback(data);
                     }
                 });
 
-
+                
             }
         });
 
-        
+       
     }
 
-    
+   
     
 </script>
 

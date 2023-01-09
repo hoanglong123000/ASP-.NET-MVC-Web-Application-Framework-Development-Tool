@@ -137,8 +137,8 @@ namespace Service.Education.Executes.Base
                 else
                 {
                     // Update detail receipt row
-                    var detailreceiptAjax = model.detailReceipts[i].Id;
-                    var detail = Context.DetailReceipts.FirstOrDefault(x => (int)x.Id == detailreceiptAjax);
+                    var detailJson = model.detailReceipts[i].Id;
+                    var detail = Context.DetailReceipts.FirstOrDefault(x => x.Id == detailJson);
                     if (detail == null)
                         return new CommandResult<SoldCoupon>("No result!");
                     detail.Status = detailreceiptlst[i].Status;
@@ -148,7 +148,7 @@ namespace Service.Education.Executes.Base
                     detail.CouponId = d.Id;
                     detail.Price = detailreceiptlst[i].Price;
                     detail.FinalPrice = detailreceiptlst[i].FinalPrice;
-                }
+                }   
             }
 
             Context.SaveChanges();

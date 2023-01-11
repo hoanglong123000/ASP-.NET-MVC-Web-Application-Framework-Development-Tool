@@ -103,13 +103,10 @@ $(document).ready(function () {
             ],
             right: [
                 [
-                    { title: 'Điện thoại' },
-                    { title: 'Địa chỉ' },
                     { title: 'Tổng tiền' },
                     { title: 'Phương thức mua hàng' },
                     { title: 'Trạng thái' },
                     { title: 'Ngày bán' },
-                    { title: 'Ngày tạo' },
                     { title: 'Người tạo' },
                     { title: 'Người cập nhật' },
                     { title: "Ngày cập nhật" }

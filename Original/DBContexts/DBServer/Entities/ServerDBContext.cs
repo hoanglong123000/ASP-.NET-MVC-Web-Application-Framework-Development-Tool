@@ -32,6 +32,7 @@ namespace DBServer.Entities
         public virtual DbSet<Cloth> Clothes { get; set; }
         public virtual DbSet<SoldCoupon> SoldCoupons { get; set; }
         public virtual DbSet<DetailReceipt> DetailReceipts { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

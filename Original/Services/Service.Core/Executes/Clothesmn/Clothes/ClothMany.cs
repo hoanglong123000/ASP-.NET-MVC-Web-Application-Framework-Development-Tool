@@ -114,6 +114,7 @@ namespace Service.Education.Executes.Base
                 TypeId = x.TypeId,
                 Keyword = x.Keyword,
                 Price = x.Price,
+                Amount = x.Amount
                 
             });
 

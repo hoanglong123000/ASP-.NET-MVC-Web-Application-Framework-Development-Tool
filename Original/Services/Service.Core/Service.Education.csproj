@@ -109,6 +109,10 @@
     <Compile Include="Executes\Clothesmn\Clothes\ClothMany.cs" />
     <Compile Include="Executes\Clothesmn\Clothes\ClothModels.cs" />
     <Compile Include="Executes\Clothesmn\Clothes\ClothOne.cs" />
+    <Compile Include="Executes\Clothesmn\Customers\CustomerCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Customers\CustomerMany.cs" />
+    <Compile Include="Executes\Clothesmn\Customers\CustomerModels.cs" />
+    <Compile Include="Executes\Clothesmn\Customers\CustomerOne.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptCommand.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptMany.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptModels.cs" />

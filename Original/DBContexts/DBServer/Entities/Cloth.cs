@@ -23,6 +23,7 @@ namespace DBServer.Entities
             public int TypeId { get; set; }
             public string Keyword { get; set; }
             public decimal Price { get; set; }
+            public int Amount { get; set; }
         }
     
 }

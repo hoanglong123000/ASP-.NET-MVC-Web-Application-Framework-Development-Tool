@@ -6,38 +6,36 @@ using Service.Utility.Components;
 using Service.Utility.Variables;
 using DBServer.Entities;
 using System.Data.Entity.Validation;
-using Service.Education.Executes.Clothesmn.Clothes;
+using Service.Education.Executes.Clothesmn.Customers;
 
 namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public CommandResult<Cloth> CreateCloth(ClothEditModel model)
+        public CommandResult<Customer> CreateCustomer(CustomerEditModel model)
         {
             CheckDbConnect();
             try
             {
-                var d = new Cloth
+                var d = new Customer
                 {
                     Id = model.Id,
-                    Name = model.Name,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
                     UpdatedBy = model.CreatedBy,
                     CreatedBy = model.CreatedBy,
-                    SizeId = model.SizeId,
-                    BrandId = model.BrandId,
-                    TypeId = model.TypeId,
-                    Keyword = model.Name,
-                    Price = model.Price,
-                    Amount = model.Amount
+                    Keyword = model.Name + model.PhoneNumber + model.Email,
+                    Name = model.Name,
+                    PhoneNumber = model.PhoneNumber,
+                    Email = model.Email,
+                    Address = model.Address
                 };
                
                 
-                Context.Clothes.Add(d);
+                Context.Customers.Add(d);
                 Context.SaveChanges();
                 //DeleteCaching 
-                return new CommandResult<Cloth>(d);
+                return new CommandResult<Customer>(d);
             }
             catch (DbEntityValidationException e)
             {
@@ -51,43 +49,42 @@ namespace Service.Education.Executes.Base
                             ve.ErrorMessage));
                     }
                 }
-                return new CommandResult<Cloth>(sb.ToString());
+                return new CommandResult<Customer>(sb.ToString());
             }
         }
-        public CommandResult<Cloth> EditCloth(ClothEditModel model)
+        public CommandResult<Customer> EditCustomer(CustomerEditModel model)
         {
             CheckDbConnect();
-            var d = Context.Clothes.FirstOrDefault(x => x.Id == model.Id);
+            var d = Context.Customers.FirstOrDefault(x => x.Id == model.Id);
             if (d == null)
-                return new CommandResult<Cloth>("No result!");
+                return new CommandResult<Customer>("No result!");
 
             var notes = new List<string>()
             {
 
             };
 
+            
+
             d.UpdatedDate = DateTime.Now;
             d.UpdatedBy = model.UpdatedBy;
             d.Name = model.Name;
-            d.SizeId = model.SizeId;
-            d.BrandId = model.BrandId;
-            d.TypeId = model.TypeId;
-            d.Keyword = model.Name;
-            d.Price = model.Price;
-            d.Amount = model.Amount;
-
+            d.Keyword = model.Name + model.Email + model.PhoneNumber;
+            d.PhoneNumber = model.PhoneNumber;
+            d.Address = model.Address;
+            d.Email = model.Email;
             Context.SaveChanges();
 
-            return new CommandResult<Cloth>(d);
+            return new CommandResult<Customer>(d);
         }
 
-        public void DeleteClothByIds(List<int> ids, Guid userId)
+        public void DeleteCustomerByIds(List<int> ids, Guid userId)
         {
             CheckDbConnect();
             var arr = ids.Select(x => "" + x + "").ToList();
             var idStr = string.Join(",", arr);
             Context.Database.ExecuteSqlCommand(
-                "update Clothes set Status = -1, UpdatedBy = '" + userId + "', UpdatedDate = getdate() " +
+                "update Customers set Status = -1, UpdatedBy = '" + userId + "', UpdatedDate = getdate() " +
                 "where Id in ('" + idStr + "')"); 
         }
        /* public bool UpdateBrandStatus(int id, int status)

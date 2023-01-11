@@ -24,7 +24,7 @@ namespace Service.Education.Executes.Clothesmn.DetailReceipts
         public EmployeeBaseView ObjCreatedBy { get; set; }*/
        /* public BaseItem ObjStatus { get; set; }
         public BaseItem ObjMethodToShop { get; set; }*/
-        
+        public BaseItem ObjName { get; set; }
     }
 
     public class DetailReceiptEditModel : DetailReceipt

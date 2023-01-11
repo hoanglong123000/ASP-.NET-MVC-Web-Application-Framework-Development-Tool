@@ -88,16 +88,27 @@ namespace Web.Student.Controllers.Clothes
 
         // DELETE each rows of DetailReceipt.
         /*[HttpPost]*/
-    /*    public JsonResult DeleteEachRowsOfReceipt(SoldCouponEditModel model)
-        {
-            model.UpdatedBy = _authData.EmployeeId;
-            if (model.Id == 0)
+        /*    public JsonResult DeleteEachRowsOfReceipt(SoldCouponEditModel model)
             {
-                model.CreatedBy = _authData.EmployeeId;
+                model.UpdatedBy = _authData.EmployeeId;
+                if (model.Id == 0)
+                {
+                    model.CreatedBy = _authData.EmployeeId;
+                }
+                var result = model.Id == 0 ? _educationService.EditSoldCoupon(model) : _educationService.DeleteEachReceiptRows(model);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }*/
+
+        // Search BrandId.
+        public JsonResult SearchBuyerName()
+        {
+            var list = new List<SoldCoupon>();
+            using (var i = new ServerDBContext())
+            {
+                list = i.SoldCoupons.Where(x => x.Status >= 0).ToList();
             }
-            var result = model.Id == 0 ? _educationService.EditSoldCoupon(model) : _educationService.DeleteEachReceiptRows(model);
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }*/
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

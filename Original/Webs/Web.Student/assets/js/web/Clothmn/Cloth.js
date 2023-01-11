@@ -27,7 +27,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'Clothes'
+            title: 'DANH SÁCH QUẦN ÁO'
         },
         toolbars: {
             reload: {
@@ -36,7 +36,7 @@ $(document).ready(function () {
         },
         contextMenu: [
             {
-                text: 'Update',
+                text: 'CẬP NHẬT',
                 icon: 'icon-pencil7',
                 class: 'menu-capnhat',
                 action: 'capnhat',
@@ -91,7 +91,7 @@ $(document).ready(function () {
         },
         head: {
             
-            groups: [100, 150, 100, 100, 100, 100, 140, 140, 140, 130]
+            groups: [100, 150, 100, 100, 100, 100, 50, 140, 140, 140, 130]
         },
         skipCols: 3,
         cols: {
@@ -107,6 +107,7 @@ $(document).ready(function () {
                     { title: 'Hãng' },
                     { title: 'Loại' },
                     { title: 'Giá' },
+                    { title: 'Số lượng tồn'},
                     { title: 'Người tạo' },
                     { title: 'Ngày tạo' },
                     { title: 'Người cập nhật' },
@@ -181,6 +182,10 @@ $(document).ready(function () {
             {
                 type: 'number', attribute: 'Price'
                 
+            },
+
+            {
+                type: 'text', attribute: 'Amount'
             },
 
 
@@ -277,7 +282,7 @@ function detailCloth(id, initCallback, editCallback) {
 }
 
 function editCloth(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'Update' : 'Add';
+    var modalTitle = id != null ? 'DANH SÁCH QUẦN ÁO' : 'DANH SÁCH QUẦN ÁO';
     var mid = 'editClothModal';
     app.createPartialModal({
         url: '/Clothes/ClothEdit',

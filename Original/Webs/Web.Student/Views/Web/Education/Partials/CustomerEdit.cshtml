@@ -2,14 +2,14 @@
 @using Service.Core.Components
 @using Service.Utility.Components
 @using Service.Utility.Variables
-@model  Service.Education.Executes.Clothesmn.Clothes.ClothViewModel
+@model  Service.Education.Executes.Clothesmn.Customers.CustomerViewModel
 
 
 @{
-    var groupSize = ViewData["SizeList"] as List<BaseItem>;
+   @* var groupSize = ViewData["SizeList"] as List<BaseItem>;
 
     var groupType = new List<TypeClothe>();
-    using(var l = new DBServer.Entities.ServerDBContext())
+    using (var l = new DBServer.Entities.ServerDBContext())
     {
         groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
     }
@@ -19,12 +19,12 @@
     using (var l = new DBServer.Entities.ServerDBContext())
     {
         groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
-    }
+    }*@
 
 }
 
 
-<form id="ClothForm" class="form form-horizontal">
+<form id="CustomerForm" class="form form-horizontal">
 
     <input type="hidden" name="Id" value="@Model.Id" />
 
@@ -33,7 +33,7 @@
 
             @AppHelper.InputInline(new ControlAttribute()
             {
-                Title = "Nội dung tên",
+                Title = "Họ và tên",
                 Name = "Name",
                 Value = Model.Name,
                 LabelCol = 4,
@@ -41,52 +41,76 @@
 
             })
 
-            @AppHelper.SelectInline(new ControlAttribute()
-           {
-               Title = "Kích thước",
-               Name = "SizeId",
-               Value = Model.SizeId.ToString(),
-               LabelCol = 4,
-               Required = true,
-               HasDefaultOption = true,
-               List = groupSize.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
+            @* @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Kích thước",
+            Name = "SizeId",
+            Value = Model.SizeId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupSize.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
 
-           })
-
-
-            @AppHelper.SelectInline(new ControlAttribute()
-           {
-               Title = "Loại",
-               Name = "TypeId",
-               Value = Model.TypeId.ToString(),
-               LabelCol = 4,
-               Required = true,
-               HasDefaultOption = true,
-               List = groupType.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
-           })
+        })
 
 
-            @AppHelper.SelectInline(new ControlAttribute()
-           {
-               Title = "Hãng",
-               Name = "BrandId",
-               Value = Model.BrandId.ToString(),
-               LabelCol = 4,
-               Required = true,
-               HasDefaultOption = true,
-               List = groupBrand.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
-           })
+         @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Loại",
+            Name = "TypeId",
+            Value = Model.TypeId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupType.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+        })
+
+
+         @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Hãng",
+            Name = "BrandId",
+            Value = Model.BrandId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupBrand.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+        })*@
 
             @AppHelper.InputInline(new ControlAttribute()
           {
-              Title = "Số lượng tồn",
-              Name = "Amount",
-              Value = Model.Amount.ToString(),
+              Title = "Điện thoại",
+              Name = "PhoneNumber",
+              Value = Model.PhoneNumber,
               LabelCol = 4,
               Required = true,
               HasDefaultOption = true,
-              
+
           })
+
+            @AppHelper.InputInline(new ControlAttribute()
+         {
+             Title = "Gmail",
+             Name = "Email",
+             Value = Model.Email,
+             LabelCol = 4,
+             Required = true,
+             HasDefaultOption = true,
+
+         })
+
+            @AppHelper.InputInline(new ControlAttribute()
+        {
+            Title = "Địa chỉ",
+            Name = "Address",
+            Value = Model.Address,
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+
+        })
+
+
 
 
         </div>
@@ -110,10 +134,10 @@
 
 
     var model = @Html.Raw(Json.Encode(Model));
-    function initClothForm(callback) {
-        $('#ClothForm').ultraForm({
+    function initCustomerForm(callback) {
+        $('#CustomerForm').ultraForm({
             uiType: 1,
-            action: '/Clothes/ClothEdit',
+            action: '/Customer/CustomerEdit',
             actionType: 'ajax',
             props: [
 
@@ -123,16 +147,18 @@
 
                 {
                     name: 'Name', type: 'text',
-                   
+                    required: {
+                        message: 'Họ tên không được để trống'
+                    }
                 },
 
-                {
+                @*{
                     name: 'SizeId',
                     type: 'select2',
                     option: {
                     },
                     required: {
-                        message: 'Kích thước không được để trống'     
+                        message: 'Kích thước không được để trống'
                     }
                 },
 
@@ -145,8 +171,8 @@
                     required: {
                         message: 'Hãng không được để trống'
                     }
-                    
-                    
+
+
                 },
 
                 {
@@ -157,7 +183,7 @@
                     required: {
                         message: 'Loại không được để trống'
                     }
-                    
+
                 },
 
                 {
@@ -166,9 +192,28 @@
                     required: {
                         message: 'Số lượng không được để trống'
                     }
-                }
+                }*@
 
+                {
+                    name: 'PhoneNumber', type: 'text',
+                    required: {
+                        message: 'Số điện thoại không được để trống'
+                    }
+                },
 
+                {
+                    name: 'Email', type: 'text',
+                    required: {
+                        message: 'Gmail không được để trống'
+                    }
+                },
+
+                {
+                    name: 'Address', type: 'text',
+                    required: {
+                        message: 'Địa chỉ không được để trống'
+                    }
+                },
 
 
             ],
@@ -185,5 +230,6 @@
 	}
 
 </script>
+
 
 

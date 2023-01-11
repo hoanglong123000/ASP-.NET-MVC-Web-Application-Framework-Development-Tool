@@ -2,22 +2,22 @@
 var table;
 
 $(document).ready(function () {
-    var panel = '#SoldCoupon_panel';
+    var panel = '#Customer_panel';
 
     $.ajax({
-        url: "/SoldCoupon/ViewSoldCouponList",
-        type: "GET",
+        url: "/Customer/ViewCustomerList",
+        get: "GET",
         data: {},
-        success: function (SoldCoupon) {
-            console.log(SoldCoupon);
+        success: function (customerproduct) {
+            console.log(customerproduct);
         }
     })
 
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/SoldCoupon/ViewSoldCouponList',
-        model: "SoldCoupon",
-        editController: '/SoldCoupon',
+        dataUrl: '/Customer/ViewCustomerList',
+        model: "Customer",
+        editController: '/Customer',
         checkAll: true,
         width: {},
         filterable: true,
@@ -27,7 +27,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'PHIẾU BÁN HÀNG'
+            title: 'KHÁCH HÀNG'
         },
         toolbars: {
             reload: {
@@ -36,7 +36,7 @@ $(document).ready(function () {
         },
         contextMenu: [
             {
-                text: 'Cập nhật',
+                text: 'CẬP NHẬT',
                 icon: 'icon-pencil7',
                 class: 'menu-capnhat',
                 action: 'capnhat',
@@ -44,7 +44,7 @@ $(document).ready(function () {
                     var id = $(tr).attr('dataid');
                     console.log(id);
                     table.showTableLoading();
-                    editSoldCoupon(id,
+                    editCustomer(id,
                         function () {
                             table.hideTableLoading();
                         },
@@ -61,7 +61,7 @@ $(document).ready(function () {
         loadModalCallback: function () {
 
             setTimeout(function () {
-                initSoldCouponForm(function () {
+                initCustomerForm(function () {
                     table.hideModal();
                     table.loadData();
                 });
@@ -90,27 +90,26 @@ $(document).ready(function () {
             }
         },
         head: {
-            height: 59,
-            groups: [50, 140, 150, 130, 100, 100, 100, 100, 100, 100],
+
+            groups: [50, 200, 155, 200, 100, 100, 140, 140, 140]
         },
         skipCols: 3,
         cols: {
             left: [
                 [
-                    { title: 'Mã số'},
-                    { title: 'Họ tên người mua' },
+                    { title: 'STT' },
+                    { title: 'Họ và tên' },
                 ]
             ],
             right: [
                 [
-                    { title: 'Tổng tiền' },
-                    { title: 'Phương thức mua hàng' },
-                    { title: 'Trạng thái' },
-                    { title: 'Ngày bán' },
+                    { title: 'Số điện thoại' },
+                    { title: 'Email' },
+                    { title: 'Địa chỉ' },
                     { title: 'Người tạo' },
                     { title: 'Ngày tạo' },
                     { title: 'Người cập nhật' },
-                    { title: "Ngày cập nhật" }
+                    { title: 'Ngày cập nhật' },
 
                 ]
             ]
@@ -119,20 +118,48 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'BuyerName',
+                type: 'text', attribute: 'Name',
 
-                filter: { type: 'contains', attr: 'keyword' },
+                filter: { type: 'contains', attr: 'keyword' }
+            },
+
+            /*Show Size.*//*
+            {
+                type: 'text', attribute: 'SizeId',
                 render: function (row) {
-                    if (row.ObjNameBuyer != null)
-                        return row.ObjNameBuyer.Name
-                            return '';
+                    if (row.ObjSize != null)
+                        return row.ObjSize.Name
+                    return '';
                 },
-                /*Search StatusList.*/
+                *//*Search SizeId.*//*
                 filter: {
                     type: 'option',
 
                     ajax: {
-                        url: "/SoldCoupon/SearchBuyerName",
+                        url: "/Clothes/SizeClothesList",
+                        data: {},
+                        attr: { id: "Code", text: "Name" },
+
+                    }
+                }
+
+            },*/
+
+            /*Show Brand.*//*
+            {
+                type: 'text', attribute: 'BrandId',
+                render: function (row) {
+                    if (row.ObjBrand != null)
+                        return row.ObjBrand.Name
+                    return '';
+                },
+
+                *//*Search Brand Id.*//*
+                filter: {
+                    type: 'option',
+
+                    ajax: {
+                        url: "/Clothes/SearchBrandList",
                         data: {},
                         attr: { id: "Id", text: "Name" },
 
@@ -140,59 +167,28 @@ $(document).ready(function () {
                 }
             },
 
-
-
+            *//*Show Type.*//*
             {
-                type: 'text', attribute: 'TotalPrice'
-            },
-
-
-            {
-                type: 'text', attribute: 'IsOnlineShop',
+                type: 'text', attribute: 'TypeId',
                 render: function (row) {
-                    if (row.ObjMethodToShop != null)
-                        return row.ObjMethodToShop.Name
+                    if (row.ObjType != null)
+                        return row.ObjType.Name
                     return '';
-                },
-                /*Filtering list through Method.*/
-                filter: {
-                    type: 'option',
-                    ajax: {
-                        url: "/SoldCoupon/SearchMethodsToShopList",
-                        data: {},
-                        attr: { id: "Code", text: "Name" },
-                    }
                 }
+            },*/
 
+            {
+                type: 'text', attribute: 'PhoneNumber'
 
             },
 
             {
-                type: 'text', attribute: 'Status',
-                render: function (row) {
-                    if (row.ObjStatus != null)
-                        return row.ObjStatus.Name
-                    return '';
-                },
-                /*Search StatusList.*/
-                filter: {
-                    type: 'option',
-
-                    ajax: {
-                        url: "/SoldCoupon/SearchStatusList",
-                        data: {},
-                        attr: { id: "Code", text: "Name" },
-
-                    }
-                }
+                type: 'text', attribute: 'Email'
             },
 
             {
-                type: 'datetime',
-                attribute: 'SoldDate',
-
+                type: 'text', attribute: 'Address'
             },
-           
 
 
             /**/
@@ -206,11 +202,7 @@ $(document).ready(function () {
                 }
             },
 
-           
-            {
-                type: 'datetime',
-                attribute: 'CreatedDate'
-            },
+            
             {
                 type: 'text',
                 attribute: 'UpdatedBy',
@@ -220,10 +212,17 @@ $(document).ready(function () {
                     return '';
                 }
             },
+
+            {
+                type: 'datetime',
+                attribute: 'CreatedDate'
+            },
+
             {
                 type: 'datetime',
                 attribute: 'UpdatedDate'
             }
+
         ]
     });
 
@@ -231,7 +230,7 @@ $(document).ready(function () {
     $('.btn-add').click(function () {
         var btn = $(this);
         btn.button('loading');
-        editSoldCoupon(
+        editCustomer(
             null,
             function () {
                 btn.button('reset');
@@ -254,7 +253,7 @@ $(document).ready(function () {
             app.notify('warning', 'Không tìm thấy thông tin');
         } else {
             app.confirmAjax({
-                url: '/SoldCoupon/DeleteSoldCouponByIds',
+                url: '/Clothes/DeleteCustomerByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -267,48 +266,46 @@ $(document).ready(function () {
 });
 
 
-function detailSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+function detailCustomer(id, initCallback, editCallback) {
+    var modalTitle = id != null ? 'DANH SÁCH KHÁCH HÀNG' : 'DANH SÁCH KHÁCH HÀNG';
+    var mid = 'editCustomerModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/Clothes/ClothEdit',
         data: {
             id: id
         },
         modal: {
             title: modalTitle,
-            width: '1300px',
+            width: '1000px',
             id: mid
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initClothForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })
     })
 }
 
-// Right-click Update method.
-function editSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+function editCustomer(id, initCallback, editCallback) {
+    var modalTitle = id != null ? 'DANH SÁCH KHÁCH HÀNG' : 'DANH SÁCH KHÁCH HÀNG';
+    var mid = 'editCustomerModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/Customer/CustomerEdit',
         data: {
             id: id
         },
         modal: {
             title: modalTitle,
-            width: '1300px',
+            width: '1000px',
             id: mid
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initCustomerForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })
     })
-
 }

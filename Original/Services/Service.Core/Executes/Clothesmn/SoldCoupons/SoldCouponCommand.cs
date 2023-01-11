@@ -19,6 +19,7 @@ namespace Service.Education.Executes.Base
             CheckDbConnect();
             try
             {
+                
                 // Add Sold Coupon.
                 var d = new SoldCoupon
                 {
@@ -30,8 +31,6 @@ namespace Service.Education.Executes.Base
                     CreatedBy = model.CreatedBy,
                     SoldDate = DateTime.Now,
                     BuyerName = model.BuyerName,
-                    PhoneNumber = model.PhoneNumber,
-                    AddressBuyer = model.AddressBuyer,
                     IsOnlineShop = model.IsOnlineShop,
                     Status = model.Status,
                     TotalPrice = model.TotalPrice,
@@ -103,9 +102,7 @@ namespace Service.Education.Executes.Base
             d.UpdatedBy = model.UpdatedBy;
             d.SoldDate = DateTime.Now;
             d.BuyerName = model.BuyerName;
-            d.AddressBuyer = model.AddressBuyer;
-            d.Keyword = model.BuyerName;
-            d.PhoneNumber = model.PhoneNumber;
+            d.Keyword = model.BuyerName.ToString();
             d.IsOnlineShop = model.IsOnlineShop;
             d.Status = model.Status;
             d.TotalPrice = model.TotalPrice;

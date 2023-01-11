@@ -10,14 +10,14 @@ using System.Drawing;
 using Service.Education.Executes.Clothesmn.Brands;
 using Service.Education.Executes.Clothesmn.SizeTabs;
 using Service.Education.Executes.Clothesmn.TypeClothes;
+using Service.Education.Executes.Clothesmn.Customers;
 using System;
-using Service.Education.Executes.Clothesmn.SoldCoupons;
 
 namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public QueryResult<SoldCouponViewModel> SoldCouponMany(SearchSoldCouponModel model, OptionResult optionResult)
+        public QueryResult<CustomerViewModel> CustomerMany(SearchCustomerModel model, OptionResult optionResult)
         {
             /*if (model.Cache)
             {*/
@@ -37,13 +37,13 @@ namespace Service.Education.Executes.Base
                 Caching.Save(name, "Educations", Serializer.Serialize(data));
                 return data;*/
            /* }*/
-            return SoldCouponData(model, optionResult);
+            return CustomerData(model, optionResult);
         }
 
-        private QueryResult<SoldCouponViewModel> SoldCouponData(SearchSoldCouponModel model, OptionResult optionResult)
+        private QueryResult<CustomerViewModel> CustomerData(SearchCustomerModel model, OptionResult optionResult)
         {
             CheckDbConnect();
-            IQueryable<SoldCoupon> q = Context.SoldCoupons.Where(x => x.Status >= 0);
+            IQueryable<Customer> q = Context.Customers.Where(x => x.Status >= 0);
 
             if (model.Keyword.HasValue())
             {
@@ -51,15 +51,15 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.Keyword.Contains(k));
             }
 
-            if (model.IsOnlineShop.HasValue)
+            /*if(model.SizeId.HasValue)
             {
-                q = q.Where(x => x.IsOnlineShop == model.IsOnlineShop);
+                q = q.Where(x => x.SizeId == model.SizeId);
             }
 
-            if (model.Status.HasValue)
+            if(model.BrandId.HasValue)
             {
-                q = q.Where(x => x.Status == model.Status);
-            }
+                q = q.Where(x => x.BrandId == model.BrandId);
+            }*/
             /*if (model.CreatedDateFrom.HasValue)
             {
                 q = q.Where(x => x.CreatedDate >= model.CreatedDateFrom.Value);
@@ -100,8 +100,8 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.GroupId == model.GroupId.Value);
             }*/
 
-            #region READ SOLD COUPON LIST.
-            var r = q.Select(x => new SoldCouponViewModel
+            #region READ Customers LIST.
+            var r = q.Select(x => new CustomerViewModel
             {
                 Id = x.Id,
                 Status = x.Status,
@@ -109,58 +109,50 @@ namespace Service.Education.Executes.Base
                 CreatedDate = x.CreatedDate,
                 UpdatedBy = x.UpdatedBy,
                 UpdatedDate = x.UpdatedDate,
-                Keyword = x.BuyerName.ToString(),
-                SoldDate = x.SoldDate,
-                BuyerName = x.BuyerName,
-                IsOnlineShop = x.IsOnlineShop,
-                TotalPrice = x.TotalPrice
+                Keyword = x.Keyword,
+                Name = x.Name,
+                PhoneNumber = x.PhoneNumber,
+                Email = x.Email,
+                Address = x.Address
+
+
             });
 
             r = r.OrderByDescending(x => x.CreatedDate);
 
-            var result = new QueryResult<SoldCouponViewModel>(r, optionResult);
-            
+            var result = new QueryResult<CustomerViewModel>(r, optionResult);
+
             if (result.Many.Any())
             {
                 // LINQ for CRUD operation.
                 var ids = result.Many.Select(x => x.UpdatedBy).ToList();
                 ids.AddRange(result.Many.Select(x => x.CreatedBy).ToList());
-                var statusid = result.Many.Select(x => x.Status).ToList();
-                var buyernameid = result.Many.Select(x => x.BuyerName).ToList();
-
+               
+               
+                    
                 ids = ids.Distinct().ToList();
-                buyernameid = buyernameid.Distinct().ToList();
+
                 // Using TypeClothes table in SQL Server instead of OptionValue table which is already available in project.
-                /*var types = SoldCouponTypeList(new SearchSoldCouponModel
+                /*var types = ClothTypeList(new SearchTypeClotheModel
                 {
-                    
+                    Ids = typeids
                 });
-                var brands = SoldCouponBrandList(new SearchSoldCouponModel
+                var brands = ClothBrandList(new SearchBrandModel
                 {
-                    
+                    Ids = brandids
                 });*/
 
-                
                 var emps = _shareService.EmployeeBaseList(new SearchEmployeeModel
                 {
                     Ids = ids
                 });
 
-                var buyername = NameList(new SearchSoldCouponModel
-                {
-                    Ids = buyernameid
-                });
-
-
-                //Using OptionValue table that is already available in project instead of columns in SQL Table.
-                var couponstatus = _shareService.OptionValueBaseList("SoldCouponStatus");
-                var methodshopping = _shareService.OptionValueBaseList("IsOnlineShopTable");
-
+                // Using Brands table in SQL Server instead of OptionValue table which is already available in SQL Server.
 
                
                 // Using OptionValue table that is already available in project instead of SizeTabs table in SQL Sever.
-                /*var sizes = _shareService.OptionValueBaseList("SizeTabs"*//*);
-*/
+                /*var sizes = _shareService.OptionValueBaseList("SizeTabs");*/
+
                 
 
 
@@ -168,19 +160,41 @@ namespace Service.Education.Executes.Base
                 {
                     item.ObjUpdatedBy = emps.FirstOrDefault(x => x.Id == item.UpdatedBy);
                     item.ObjCreatedBy = emps.FirstOrDefault(x => x.Id == item.CreatedBy);
-                    item.ObjMethodToShop = methodshopping.FirstOrDefault(x => x.Code == item.IsOnlineShop.ToString());
-                    item.ObjStatus = couponstatus.FirstOrDefault(x => x.Code == item.Status.ToString());
-                    item.ObjNameBuyer = buyername.FirstOrDefault(x => x.Id == item.BuyerName);
+                    /*item.ObjBrand = brands.FirstOrDefault(x => x.Id == item.BrandId);
 
+                    item.ObjSize = sizes.FirstOrDefault(x => x.Code == item.SizeId.ToString());
+                    item.ObjType = types.FirstOrDefault(x => x.Id == item.TypeId);*/
                 }
             }
 
             return result;
         }
+        
+        // LINQ  ClothTypeList to map into TypeClothes table in SQL Server.
+        /*private List<BaseItem> ClothTypeList(SearchTypeClotheModel searchTypeClotheModel)
+        {
+            CheckDbConnect();
+            var list = Context.TypeClothes.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
+            foreach(var item in list)
+            {
+                var a = item.Name;
+            }
+            return list;
+        }
 
+        // LINQ ClothBrandList to map into Brands table in SQL Server.
+        public List<BaseItem> ClothBrandList(SearchBrandModel brandModel)
+        {
+            CheckDbConnect();
+            var list = Context.Brands.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
+            foreach (var item in list)
+            {
+                var a = item.Name;
+            }
+            return list;
+        }*/
 
-
-
+        
         /*public List<BaseItem> StudenBaseList()
         {
             CheckDbConnect();
@@ -198,18 +212,6 @@ namespace Service.Education.Executes.Base
 
             return list;
         }*/
-
-        public List<BaseItem> NameList(SearchSoldCouponModel couponModel)
-        {
-            CheckDbConnect();
-            var list = Context.Customers.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
-            foreach (var item in list)
-            {
-                var a = item.Name;
-            }
-            return list;
-        }
-
 
         #endregion
     }

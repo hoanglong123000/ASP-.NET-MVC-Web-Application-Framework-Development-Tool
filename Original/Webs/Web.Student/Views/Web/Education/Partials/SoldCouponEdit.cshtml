@@ -102,8 +102,8 @@
             <thead>
                 <tr>
                     <th class="warning"></th>
-                    <th class="warning" >Tên hàng hóa</th>
-                    <th class="warning" >Đơn vị tính</th>
+                    <th class="warning">Tên hàng hóa</th>
+                    <th class="warning">Đơn vị tính</th>
                     <th class="warning">Số lượng</th>
                     <th class="warning">Đơn giá</th>
                     <th class="warning">Thành tiền</th>
@@ -114,11 +114,11 @@
             <tbody data-bind="foreach: ReceiptArray()">
                 <tr data-bind="visible: status() == 0">
                     <td> </td>
-                    <td> <input data-bind="attr: { id: 'selectid_' + guid }" /></td>
-                    <td> <select data-bind="options: unitmeasure"/></td>
-                    <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control"/> </td>
-                    <td> <label data-bind="text: price"/> </td>
-                    <td> <label data-bind="text: finalprice"/> </td>
+                    <td> <input data-bind="attr: { id: 'selectid_' + guid } " /></td>
+                    <td> <label data-bind="text: unitmeasure" /></td>
+                    <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control" /> </td>
+                    <td> <label data-bind="text: price" /> </td>
+                    <td> <label data-bind="text: finalprice" /> </td>
                     <td> <button class="btn btn-success" type="button" data-bind="click: DeleteReceiptRow">XÓA</button></td>
                 </tr>
             </tbody>
@@ -171,20 +171,14 @@
         self.clothesname = ko.observableArray();
 
         // Guid.
-        self.guid = app.newGuid();
+        
         
 
         // Detail Receipt's Properties.
-        self.id = ko.observable(0);
-        self.clothesid = ko.observable(0);
-        self.unitmeasure = ko.observable("Cai");
-        self.ammount = ko.observable(0);
-        self.price = ko.observable(0);
-        self.finalprice = ko.observable(0);
-        self.status = ko.observable();
+       
         
         // Data from ClothesId.
-        $.getJSON 
+     @*   $.getJSON 
         (
             "/Clothes/ViewClothList",
 
@@ -193,7 +187,7 @@
                 console.log("Clothes name: ", self.clothesname());
             }
 
-        )
+        )*@
 
         
 
@@ -204,7 +198,8 @@
                 // Update method.
                 if (item != null)
                 {
-                    sr.id = ko.observable(item.Id);
+                    sr.guid = app.newGuid();
+                    sr.id = item.Id;
                     sr.clothesid = ko.observable(item.ClothesId);
                     sr.unitmeasure = ko.observable(item.UnitMeasure);
                     sr.ammount = ko.observable(item.Ammount);
@@ -213,10 +208,14 @@
                     sr.status = ko.observable(item.Status);
                     
                     console.log(item);
+
+
+                    
                 }
                 // Add method.
                 else {
-                    sr.id = 0;
+                    sr.guid = app.newGuid();
+                    sr.id = 1;
                     sr.clothesid = ko.observable(0);
                     sr.unitmeasure = ko.observable("Cái");
                     sr.ammount = ko.observable(0);
@@ -225,12 +224,81 @@
                     sr.status = ko.observable(0);
                     
                 }
+
                
             console.log('Clothesid: ' + sr.clothesid());
+            
+            setTimeout(function () {
+                console.log("abc");
                 
+                $('#selectid_' + sr.guid).select2({
+                            width: 200,
+                            ajax: {
+                                url: "/Clothes/ViewClothList",
+                                type: "GET",
+                                dataType: 'json',
+                                quietMillis: 100,
+                                data: function (term, page) {
+
+                                    return {
+                                        keyword: term,
+                                        allStatus: true
+                                    }
+
+                                },
+                                results: function (k) {
+                                    @* console.log("result: ", k);
+                                    self.clothesname(k.Many);
+                                    console.log("Array of Clothes: ", self.clothesname());*@
+                                    var clothname = [];
+                                    $(k.Many).each(
+                                        function () {
+                                            clothname.push({
+                                                id: this.Id,
+                                                text: this.Name,
+                                                clothprice: this.Price
+                                            });
+                                        }
+                                    );
+                                    return { results: clothname };
+
+                                }
+                            },
+                            initSelection: function (element, callback) {
+                                callback({ id: 0, text: "Chọn quần áo" });
+                            }
+
+                        }).change(function (v) {
+                            console.log('check:', v);
+                            sr.price(v.added.clothprice);
+                            console.log('Id: ', this.id);
+                            console.log('v.val: ', v.val);
+                            @*if (this.id == v.val) {
+                                sr.price(v.added.clothprice);
+
+
+                            }*@
+                           @* $(clothesname).each(function (item) {
+
+                                console.log("Id cua clothesname: ", this.id);
+
+                            }) *@
+
+                            @*if (sr.id > 0) {
+                                console.log('check id: ', sr.id)
+                                $('#selectid_' + sr.guid).select2(sr.clothesid, sr.id);
+                            }*@
+
+
+                        })
+                        
+                   
+
+                    }, 1000);
+            
             
 
-            sr.clothesid.subscribe(() => {
+            @*sr.clothesid.subscribe(() => {
                 if (typeof sr.clothesid() != "undefined") {
                     item = self.clothesname().filter(x => x.Id == sr.clothesid().Id);
                     console.log('>> ', sr.clothesid().Id);
@@ -240,7 +308,11 @@
                     sr.price(item[0].Price);
 
                 }
-            });
+            });*@
+
+
+            // Select2
+            
         };
 
 
@@ -321,29 +393,8 @@
         // Update method
         self.init();
 
-        // Select2
-        setTimeout(function () {
-
-            $('#selectid_' + self.guid).select2({
-                ajax: {
-                    success: function (result) {
-                        ReceiptArray = result;
-                    }
-                }
-            }).change(function (v) {
-                $(ReceiptArray).each(function () {
-                    if (this.Id == v.val) {
-                        self.price(this.Price);
-                    }
-                })
-            })
-
-            if (self.id() > 0) { 
-                $('#selectid_' + self.guid).select2('val', self.id());
-            }
-
-        }, 300);
-
+        
+       
     }
     
 

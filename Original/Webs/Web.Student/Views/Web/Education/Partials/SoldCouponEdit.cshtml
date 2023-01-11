@@ -116,7 +116,7 @@
                     <td> </td>
                     <td> <input data-bind="attr: { id: 'selectid_' + guid }" /></td>
                     <td> <select data-bind="options: unitmeasure"/></td>
-                    <td> <input data-bind="value: ammount" style="width: 50px;" type="number" class="form-control"/> </td>
+                    <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control"/> </td>
                     <td> <label data-bind="text: price"/> </td>
                     <td> <label data-bind="text: finalprice"/> </td>
                     <td> <button class="btn btn-success" type="button" data-bind="click: DeleteReceiptRow">XÓA</button></td>
@@ -338,7 +338,7 @@
                 })
             })
 
-            if (self.id() > 0) { // sửa
+            if (self.id() > 0) { 
                 $('#selectid_' + self.guid).select2('val', self.id());
             }
 

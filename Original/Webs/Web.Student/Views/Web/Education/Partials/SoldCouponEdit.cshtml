@@ -97,7 +97,7 @@
         
         
     <div class="col-md-12">
-        <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow">THÊM</button>
+        <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow" style="margin-bottom: 30px; width: 100px; height: 50px;"><i class="fa-solid fa-plus"></i>THÊM</button>
         <table class="table">
             <thead>
                 <tr>
@@ -124,7 +124,7 @@
             </tbody>
 
         </table>
-        <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind ="text: totalprice"></span> </h3> 
+        <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind ="text: totalpricestr"></span> </h3> 
         <button class="btn btn-rounded btn-primary" data-bind =" click: ShowTotalPrice"></button>
 
 
@@ -138,10 +138,12 @@
             <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
                 <i class="fa fa-remove"></i> THOÁT
             </button>
-            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+            <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
                     data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
-                <i class="fa fa-save"></i> LƯU
+                <i class="fa fa-save"></i> CHỐT ĐƠN
             </button>
+
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..."> <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
         </div>
     </div>
 </form>
@@ -165,7 +167,7 @@
 
         // Summation of each final price rows.
         self.totalprice = ko.observable();
-
+        self.totalpricestr = ko.observable("");
 
         // Clothes's Properties.
         self.clothesname = ko.observableArray();
@@ -379,7 +381,8 @@
 
                         Sum += parseInt(element.finalprice());
                         self.totalprice(Sum);
-
+                        app.formatPrice(Sum);
+                        self.totalpricestr(app.formatPrice(Sum));
                         console.log(element.finalprice());
                     }
                    

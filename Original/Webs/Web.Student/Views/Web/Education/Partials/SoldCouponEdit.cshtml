@@ -178,7 +178,7 @@
        
         
         // Data from ClothesId.
-     @*   $.getJSON 
+       @* $.getJSON 
         (
             "/Clothes/ViewClothList",
 
@@ -194,6 +194,7 @@
         // New Row.
         self.ReceiptRow = function (item) {
             var sr = this;
+            
             
                 // Update method.
                 if (item != null)
@@ -215,7 +216,7 @@
                 // Add method.
                 else {
                     sr.guid = app.newGuid();
-                    sr.id = 1;
+                    sr.id = 0;
                     sr.clothesid = ko.observable(0);
                     sr.unitmeasure = ko.observable("Cái");
                     sr.ammount = ko.observable(0);
@@ -229,50 +230,71 @@
             console.log('Clothesid: ' + sr.clothesid());
             
             setTimeout(function () {
-                console.log("abc");
+                
                 
                 $('#selectid_' + sr.guid).select2({
-                            width: 200,
-                            ajax: {
-                                url: "/Clothes/ViewClothList",
-                                type: "GET",
-                                dataType: 'json',
-                                quietMillis: 100,
-                                data: function (term, page) {
+                    width: 200,
+                    ajax: {
+                        url: "/Clothes/ViewClothList",
+                        type: "GET",
+                        dataType: 'json',
+                        quietMillis: 100,
+                        data: function (term, page) {
 
-                                    return {
-                                        keyword: term,
-                                        allStatus: true
-                                    }
+                            return {
+                                keyword: term,
+                                allStatus: true
+                            }
 
-                                },
-                                results: function (k) {
-                                    @* console.log("result: ", k);
-                                    self.clothesname(k.Many);
-                                    console.log("Array of Clothes: ", self.clothesname());*@
-                                    var clothname = [];
-                                    $(k.Many).each(
-                                        function () {
+                        },
+                        results: function (k) {
+                            console.log("result: ", k);
+
+
+
+                            var clothname = [];
+                            $(k.Many).each(
+                                function () {
                                             clothname.push({
                                                 id: this.Id,
                                                 text: this.Name,
                                                 clothprice: this.Price
                                             });
-                                        }
-                                    );
-                                    return { results: clothname };
-
+                                    @*self.clothesname.push({ id: this.Id, text: this.Name, clothprice: this.Price });*@
                                 }
-                            },
-                            initSelection: function (element, callback) {
-                                callback({ id: 0, text: "Chọn quần áo" });
-                            }
+
+                            );
+                                    @*self.clothesname(k.Many);*@
+                           @* console.log("Array of Clothes: ", self.clothesname());
+                            console.log("First element of Array of Clothes: ", self.clothesname()[0].id);
+                            console.log("First name of first element of Array of Clothes: ", self.clothesname()[0].text);
+                            console.log("clothesid ", sr.clothesid());
+                            
+                            var b = "";
+                            self.clothesname().forEach(function (value) { if (value.id == sr.clothesid()) { b = value.text + ""; } });
+                                    console.log("value: ", b);*@
+                            return { results: clothname };
+
+                        }
+                    },
+
+                    initSelection: function (element, callback) {
+                        
+                        return callback({ text: element.val() });
+
+
+                    },
 
                         }).change(function (v) {
                             console.log('check:', v);
                             sr.price(v.added.clothprice);
                             console.log('Id: ', this.id);
                             console.log('v.val: ', v.val);
+                            console.log('v.Id: ', v.added.id);
+                            sr.clothesid(v.val);
+                            
+                            @*self.clothesname(v.added.name);*@
+                            
                             @*if (this.id == v.val) {
                                 sr.price(v.added.clothprice);
 
@@ -284,17 +306,36 @@
 
                             }) *@
 
-                            @*if (sr.id > 0) {
-                                console.log('check id: ', sr.id)
-                                $('#selectid_' + sr.guid).select2(sr.clothesid, sr.id);
-                            }*@
+                            
 
-
+                            
                         })
-                        
+                    
+                        if (sr.id > 0) {
+                            $.getJSON
+                            (
+                                "/Clothes/ViewClothList",
+
+                                (data) => {
+                                    self.clothesname(data.Many);
+                                    console.log("Clothes name: ", self.clothesname());
+                                    console.log("Check id : ", sr.clothesid());
+                                    var b = "";
+                                    console.log("Clothes : ", self.clothesname());
+                                    self.clothesname().forEach(function (value) { if (value.Id == sr.clothesid()) { b = value.Name}; });
+                                    console.log("value of b: ", b);
+                                    $("#selectid_" + sr.guid).select2('val', b);
+                                }
+
+                            )
+                            
+                            
+
+                                
+                        }   
                    
 
-                    }, 1000);
+                    }, 200);
             
             
 
@@ -442,6 +483,7 @@
                                             id: this.Id,
                                             text: this.Name
                                         });
+
                                     }
                                 );
                                 return { results: data };
@@ -514,7 +556,7 @@
                         AddressBuyer: data.AddressBuyer,
                         detailReceipts: ko.toJS(ReceiptArray()),
                         TotalPrice: ko.toJS(totalprice()),
-                        IsOnlineShop: data.IsOnlineShop
+                        IsOnlineShop: data.IsOnlineShop,
                         
                     },
                     success: () => {

@@ -2,14 +2,7 @@
 using System.Linq; 
 using Service.Utility.Components;
 using Service.Utility.Variables;
-using Service.Education.Executes.Educations.Students;
 using DBServer.Entities;
-using Service.Core.Executes.Employees.Employees;
-using Service.Education.Executes.Clothesmn.Clothes;
-using System.Drawing;
-using Service.Education.Executes.Clothesmn.Brands;
-using Service.Education.Executes.Clothesmn.SizeTabs;
-using Service.Education.Executes.Clothesmn.TypeClothes;
 using System;
 using Service.Education.Executes.Clothesmn.DetailReceipts;
 

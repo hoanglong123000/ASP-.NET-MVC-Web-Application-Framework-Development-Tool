@@ -117,6 +117,14 @@
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptMany.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptModels.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptOne.cs" />
+    <Compile Include="Executes\Clothesmn\ImportedCoupons\ImportedCouponCommand.cs" />
+    <Compile Include="Executes\Clothesmn\ImportedCoupons\ImportedCouponMany.cs" />
+    <Compile Include="Executes\Clothesmn\ImportedCoupons\ImportedCouponModels.cs" />
+    <Compile Include="Executes\Clothesmn\ImportedCoupons\ImportedCouponOne.cs" />
+    <Compile Include="Executes\Clothesmn\Providers\ProvidersCommand.cs" />
+    <Compile Include="Executes\Clothesmn\Providers\ProvidersMany.cs" />
+    <Compile Include="Executes\Clothesmn\Providers\ProvidersModels.cs" />
+    <Compile Include="Executes\Clothesmn\Providers\ProvidersOne.cs" />
     <Compile Include="Executes\Clothesmn\Sizes\SizeCommand.cs" />
     <Compile Include="Executes\Clothesmn\Sizes\SizeMany.cs" />
     <Compile Include="Executes\Clothesmn\Sizes\SizeModels.cs" />

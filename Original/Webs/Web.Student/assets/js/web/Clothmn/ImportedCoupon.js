@@ -3,22 +3,22 @@
 var table;
 
 $(document).ready(function () {
-    var panel = '#SoldCoupon_panel';
+    var panel = '#ImportedCoupon_panel';
 
     $.ajax({
-        url: "/SoldCoupon/ViewSoldCouponList",
+        url: "/ImportedCoupon/ViewImportedCouponList",
         type: "GET",
         data: {},
-        success: function (SoldCoupon) {
-            console.log(SoldCoupon);
+        success: function (ImportedCoupon) {
+            console.log(ImportedCoupon);
         }
     })
 
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/SoldCoupon/ViewSoldCouponList',
-        model: "SoldCoupon",
-        editController: '/SoldCoupon',
+        dataUrl: '/ImportedCoupon/ViewImportedCouponList',
+        model: "ImportedCoupon",
+        editController: '/ImportedCoupon',
         checkAll: true,
         width: {},
         filterable: true,
@@ -28,7 +28,7 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'PHIẾU BÁN HÀNG'
+            title: 'PHIẾU NHẬP HÀNG'
         },
         toolbars: {
             reload: {
@@ -82,7 +82,7 @@ $(document).ready(function () {
                 }
 
             },
-            ],
+        ],
         paging: {
             options: [10, 20, 30, 50]
         },
@@ -125,14 +125,14 @@ $(document).ready(function () {
         cols: {
             left: [
                 [
-                    { title: 'Mã số'},
-                    { title: 'Họ tên người mua' },
+                    { title: 'Mã số' },
+                    { title: 'Nhà cung cấp' },
                 ]
             ],
             right: [
                 [
                     { title: 'Tổng tiền' },
-                    { title: 'Phương thức mua hàng' },
+                    { title: 'Ghi chú' },
                     { title: 'Trạng thái' },
                     { title: 'Ngày bán' },
                     { title: 'Người tạo' },
@@ -147,25 +147,25 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'BuyerName',
+                type: 'text', attribute: 'Name',
 
                 /*filter: { type: 'contains', attr: 'keyword' },*/
                 render: function (row) {
-                    if (row.ObjNameBuyer != null)
-                        return row.ObjNameBuyer.Name
-                            return '';
+                    if (row.ObjName != null)
+                        return row.ObjName.Name
+                    return '';
                 },
-                /*Search Buyer.*/
+                /*Search Name.*//*
                 filter: {
                     type: 'option',
 
                     ajax: {
-                        url: "/SoldCoupon/SearchBuyerName",
+                        url: "/ImportedCoupon/SearchName",
                         data: {},
                         attr: { id: "Id", text: "Name" },
 
                     }
-                }
+                }*/
             },
 
 
@@ -189,23 +189,23 @@ $(document).ready(function () {
                             case 1:
                                 return "<span class='label text-teal-600' >" + row.ObjMethodToShop.Name + "</span>";
 
-                            
+
 
                         }
-                        return row.ObjMethodToShop.Name
+                    return row.ObjMethodToShop.Name
                     return '';
                 },
-                /*Filtering list through Method.*/
+                /*Filtering list through Method.*//*
                 filter: {
                     type: 'option',
                     ajax: {
-                        url: "/SoldCoupon/SearchMethodsToShopList",
+                        url: "/ImportedCoupon/SearchMethodsToShopList",
                         data: {},
                         attr: { id: "Code", text: "Name" },
                     }
-                },
+                },*/
                 style: 'text-align: center; '
-                
+
 
 
             },
@@ -213,28 +213,28 @@ $(document).ready(function () {
             {
                 type: 'text', attribute: 'Status',
                 render: function (row) {
-                    if (row.ObjStatus != null)
+                    /*if (row.ObjStatus != null)
                         switch (row.Status) {
                             // Status: Cancel.
                             case 0:
                                 return "<span class='label text-danger-600'>" + row.ObjStatus.Name + "</span>";
-                                
+
                             // Status: Sold.
                             case 1:
                                 return "<span class='label text-success' style='border-style: solid; border-color: green;'>" + row.ObjStatus.Name + "</span>";
-                                
+
                             // Status: Save Temp.
                             case 2:
                                 return "<span class='label text-orange-600' >" + row.ObjStatus.Name + "</span>";
-                                
+
                         }
-                        
-                        
+
+
                     return '';
 
-                    
+
                 },
-                /*Search StatusList.*/
+                *//*Search StatusList.*//*
                 filter: {
                     type: 'option',
 
@@ -244,16 +244,16 @@ $(document).ready(function () {
                         attr: { id: "Code", text: "Name" },
 
                     }
-                },
+                },*/
                 style: 'text-align: center; '
             },
 
             {
                 type: 'datetime',
-                attribute: 'SoldDate',
+                attribute: 'ImportedDate',
                 style: 'text-align: center; '
             },
-           
+
 
 
             /**/
@@ -268,7 +268,7 @@ $(document).ready(function () {
                 style: 'text-align: center; '
             },
 
-           
+
             {
                 type: 'datetime',
                 attribute: 'CreatedDate',
@@ -321,7 +321,7 @@ $(document).ready(function () {
             app.notify('warning', 'Không tìm thấy thông tin');
         } else {
             app.confirmAjax({
-                url: '/SoldCoupon/DeleteSoldCouponByIds',
+                url: '/ImportedCoupon/DeleteImportedCouponByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -331,15 +331,15 @@ $(document).ready(function () {
             })
         }
     });
-    
+
 });
 
 
 function detailSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+    var modalTitle = id != null ? 'PHIẾU NHẬP HÀNG' : 'PHIẾU NHẬP HÀNG';
+    var mid = 'editImportedCouponModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/ImportedCoupon/ImportedCouponEdit',
         data: {
             id: id
         },
@@ -359,10 +359,10 @@ function detailSoldCoupon(id, initCallback, editCallback) {
 
 // Right-click Update method.
 function editSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+    var modalTitle = id != null ? 'PHIẾU NHẬP HÀNG' : 'PHIẾU NHẬP HÀNG';
+    var mid = 'editImportedCouponModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/ImportedCoupon/ImportedCouponEdit',
         data: {
             id: id
         },
@@ -380,9 +380,9 @@ function editSoldCoupon(id, initCallback, editCallback) {
     })
 
 }
-function deleteSoldCoupon(id, initCallback, editCallback) {
+function deleteImportedCoupon(id, initCallback, editCallback) {
     app.confirmAjax({
-        url: '/SoldCoupon/DeleteSoldCouponByIds',
+        url: '/ImportedCoupon/DeleteImportedCouponByIds',
         data: {
             ids: [id]
         },

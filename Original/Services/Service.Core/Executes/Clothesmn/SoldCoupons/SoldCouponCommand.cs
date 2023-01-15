@@ -40,7 +40,25 @@ namespace Service.Education.Executes.Base
                
                 
                 Context.SoldCoupons.Add(d);
+
+                // When Status == Sold.
+                if (model.Status == 1)
+                {
+                    for (int i = 0; i < model.detailReceipts.Count; i++)
+                    {
+                        var valueid = model.detailReceipts[i].ClothesId;
+                        CheckDbConnect();
+                        var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
+                        if (a == null)
+                            return new CommandResult<SoldCoupon>("No result!");
+                        a.Amount -= model.detailReceipts[i].Ammount;
+                    }
+                }
+
                 Context.SaveChanges();
+
+
+
 
                 // Add Detail Receipt.
                 var detailreceiptlst = model.detailReceipts.ToList();
@@ -107,7 +125,19 @@ namespace Service.Education.Executes.Base
             d.Status = model.Status;
             d.TotalPrice = model.TotalPrice;
 
-            
+            if (model.Status == 1)
+            {
+                for (int i = 0; i < model.detailReceipts.Count; i++)
+                {
+                    var valueid = model.detailReceipts[i].ClothesId;
+                    CheckDbConnect();
+                    var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
+                    if (a == null)
+                        return new CommandResult<SoldCoupon>("No result!");
+                    a.Amount -= model.detailReceipts[i].Ammount;
+                }
+            }
+
             Context.SaveChanges();
 
             // Update Detail Receipt Rows.
@@ -141,12 +171,16 @@ namespace Service.Education.Executes.Base
                     detail.Status = detailreceiptlst[i].Status;
                     detail.UnitMeasure = detailreceiptlst[i].UnitMeasure;
                     detail.ClothesId = detailreceiptlst[i].ClothesId;
-                    detail.Ammount = detailreceiptlst[i].Ammount;
+                    
                     detail.CouponId = d.Id;
                     detail.Price = detailreceiptlst[i].Price;
                     detail.FinalPrice = detailreceiptlst[i].FinalPrice;
+                    
+                    
                 }   
             }
+
+            
 
             Context.SaveChanges();
             

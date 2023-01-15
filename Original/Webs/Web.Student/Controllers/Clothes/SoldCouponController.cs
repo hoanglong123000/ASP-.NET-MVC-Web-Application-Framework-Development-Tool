@@ -10,9 +10,13 @@ using System.Web.Mvc;
 using Web.Student.Controllers.Base;
 using Service.Education.Executes.Clothesmn.SoldCoupons;
 using Service.Education.Executes.Clothesmn.DetailReceipts;
+using NPOI.OpenXmlFormats.Dml.Diagram;
 
 
-namespace Web.Student.Controllers.Clothes
+
+
+
+namespace Service.Education.Executes.Base
 {
     public class SoldCouponController : AuthController
     {
@@ -57,6 +61,7 @@ namespace Web.Student.Controllers.Clothes
             return Json(_shareService.OptionValueBaseList("OptionsShopTable"), JsonRequestBehavior.AllowGet);
         }
 
+       
 
 
         [HttpPost]
@@ -67,9 +72,29 @@ namespace Web.Student.Controllers.Clothes
             {
                 model.CreatedBy = _authData.EmployeeId;
             }
+            
             var result = model.Id == 0 ? _educationService.CreateSoldCoupon(model) : _educationService.EditSoldCoupon(model);
+           /* if (result.Data.Status == 1) {
+                //xu ly trong kho
+                var list = model.detailReceipts.Where(x => x.Status == 0).ToList();
+                var listId = list.Select(x => x.Id).ToList();
+                var A = new SearchClothModel();
+                var r = new OptionResult();
+                var listMau = ClothAmountList(A, r);
+                
+
+            }*/
+            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        /*public List<BaseItem> ClothAmountList(SearchClothModel ClothModel, OptionResult r)
+        {
+            var clothPList = _educationService.ClothMany(ClothModel, r);
+            var list = clothPList.Many.ToList();
+            
+            return list;
+        }*/
 
         // DELETE both SoldCoupon and its DetailReceipt.
         [HttpPost]
@@ -99,13 +124,13 @@ namespace Web.Student.Controllers.Clothes
                 return Json(result, JsonRequestBehavior.AllowGet);
             }*/
 
-        // Search BrandId.
+        // Search Buyer.
         public JsonResult SearchBuyerName()
         {
-            var list = new List<SoldCoupon>();
+            var list = new List<Customer>();
             using (var i = new ServerDBContext())
             {
-                list = i.SoldCoupons.Where(x => x.Status >= 0).ToList();
+                list = i.Customers.Where(x => x.Status >= 0).ToList();
             }
             return Json(list, JsonRequestBehavior.AllowGet);
         }

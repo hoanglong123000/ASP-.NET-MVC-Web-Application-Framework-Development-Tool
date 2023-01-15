@@ -5,20 +5,14 @@ using Service.Utility.Variables;
 using Service.Education.Executes.Educations.Students;
 using DBServer.Entities;
 using Service.Core.Executes.Employees.Employees;
-using Service.Education.Executes.Clothesmn.Clothes;
-using System.Drawing;
-using Service.Education.Executes.Clothesmn.Brands;
-using Service.Education.Executes.Clothesmn.SizeTabs;
-using Service.Education.Executes.Clothesmn.TypeClothes;
-using System;
-using Service.Education.Executes.Clothesmn.SoldCoupons;
-using Service.Education.Executes.Clothesmn.DetailReceipts;
+using Service.Education.Executes.Clothesmn.ImportedCoupons;
+using Service.Education.Executes.Clothesmn.Providers;
 
 namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public QueryResult<SoldCouponViewModel> SoldCouponMany(SearchSoldCouponModel model, OptionResult optionResult)
+        public QueryResult<ImportedCouponViewModel> ImportedCouponMany(SearchImportedCouponModel model, OptionResult optionResult)
         {
             /*if (model.Cache)
             {*/
@@ -38,13 +32,13 @@ namespace Service.Education.Executes.Base
                 Caching.Save(name, "Educations", Serializer.Serialize(data));
                 return data;*/
            /* }*/
-            return SoldCouponData(model, optionResult);
+            return ImportedCouponData(model, optionResult);
         }
 
-        private QueryResult<SoldCouponViewModel> SoldCouponData(SearchSoldCouponModel model, OptionResult optionResult)
+        private QueryResult<ImportedCouponViewModel> ImportedCouponData(SearchImportedCouponModel model, OptionResult optionResult)
         {
             CheckDbConnect();
-            IQueryable<SoldCoupon> q = Context.SoldCoupons.Where(x => x.Status >= 0);
+            IQueryable<ImportedCoupon> q = Context.ImportedCoupons.Where(x => x.Status >= 0);
 
             if (model.Keyword.HasValue())
             {
@@ -52,20 +46,15 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.Keyword.Contains(k));
             }
 
-            if (model.IsOnlineShop.HasValue)
+            /*if(model.SizeId.HasValue)
             {
-                q = q.Where(x => x.IsOnlineShop == model.IsOnlineShop);
+                q = q.Where(x => x.SizeId == model.SizeId);
             }
 
-            if (model.Status.HasValue)
+            if(model.BrandId.HasValue)
             {
-                q = q.Where(x => x.Status == model.Status);
-            }
-
-            if(model.BuyerName.HasValue)
-            {
-                q = q.Where(x => x.BuyerName == model.BuyerName);
-            }
+                q = q.Where(x => x.BrandId == model.BrandId);
+            }*/
             /*if (model.CreatedDateFrom.HasValue)
             {
                 q = q.Where(x => x.CreatedDate >= model.CreatedDateFrom.Value);
@@ -106,8 +95,8 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.GroupId == model.GroupId.Value);
             }*/
 
-            #region READ SOLD COUPON LIST.
-            var r = q.Select(x => new SoldCouponViewModel
+            #region READ Imported Coupon LIST.
+            var r = q.Select(x => new ImportedCouponViewModel
             {
                 Id = x.Id,
                 Status = x.Status,
@@ -115,58 +104,53 @@ namespace Service.Education.Executes.Base
                 CreatedDate = x.CreatedDate,
                 UpdatedBy = x.UpdatedBy,
                 UpdatedDate = x.UpdatedDate,
-                Keyword = x.BuyerName.ToString(),
-                SoldDate = x.SoldDate,
-                BuyerName = x.BuyerName,
-                IsOnlineShop = x.IsOnlineShop,
+                ImportedDate = x.ImportedDate,
+                ProviderId = x.ProviderId,
+                Note = x.Note,
                 TotalPrice = x.TotalPrice
+                
             });
 
             r = r.OrderByDescending(x => x.CreatedDate);
 
-            var result = new QueryResult<SoldCouponViewModel>(r, optionResult);
-            
+            var result = new QueryResult<ImportedCouponViewModel>(r, optionResult);
+
             if (result.Many.Any())
             {
                 // LINQ for CRUD operation.
                 var ids = result.Many.Select(x => x.UpdatedBy).ToList();
                 ids.AddRange(result.Many.Select(x => x.CreatedBy).ToList());
-                var statusid = result.Many.Select(x => x.Status).ToList();
-                var buyernameid = result.Many.Select(x => x.BuyerName).ToList();
-
-                ids = ids.Distinct().ToList();
-                buyernameid = buyernameid.Distinct().ToList();
-                // Using TypeClothes table in SQL Server instead of OptionValue table which is already available in project.
-                /*var types = SoldCouponTypeList(new SearchSoldCouponModel
-                {
-                    
-                });
-                var brands = SoldCouponBrandList(new SearchSoldCouponModel
-                {
-                    
-                });*/
-
                 
+                    
+                ids = ids.Distinct().ToList();
+
+                /*// Using TypeClothes table in SQL Server instead of OptionValue table which is already available in project.
+                var types = ClothTypeList(new SearchTypeClotheModel
+                {
+                    Ids = typeids
+                });
+                var brands = ClothBrandList(new SearchBrandModel
+                {
+                    Ids = brandids
+                });*/
+                var providerids = result.Many.Select(x => x.ProviderId).ToList();
+                providerids.Distinct().ToList();
+
                 var emps = _shareService.EmployeeBaseList(new SearchEmployeeModel
                 {
                     Ids = ids
                 });
 
-                var buyername = NameList(new SearchSoldCouponModel
+                var providers = ProvidersList(new SearchProvidersModel
                 {
-                    Ids = buyernameid
+                    Ids = providerids
                 });
-
-
-                //Using OptionValue table that is already available in project instead of columns in SQL Table.
-                var couponstatus = _shareService.OptionValueBaseList("SoldCouponStatus");
-                var methodshopping = _shareService.OptionValueBaseList("IsOnlineShopTable");
-
-
+                // Using SQL tables in SQL Server instead of OptionValue table which is already available in SQL Server.
+                
                
                 // Using OptionValue table that is already available in project instead of SizeTabs table in SQL Sever.
-                /*var sizes = _shareService.OptionValueBaseList("SizeTabs"*//*);
-*/
+                /*var sizes = _shareService.OptionValueBaseList("SizeTabs");*/
+
                 
 
 
@@ -174,17 +158,40 @@ namespace Service.Education.Executes.Base
                 {
                     item.ObjUpdatedBy = emps.FirstOrDefault(x => x.Id == item.UpdatedBy);
                     item.ObjCreatedBy = emps.FirstOrDefault(x => x.Id == item.CreatedBy);
-                    item.ObjMethodToShop = methodshopping.FirstOrDefault(x => x.Code == item.IsOnlineShop.ToString());
-                    item.ObjStatus = couponstatus.FirstOrDefault(x => x.Code == item.Status.ToString());
-                    item.ObjNameBuyer = buyername.FirstOrDefault(x => x.Id == item.BuyerName);
+                    /*item.ObjBrand = brands.FirstOrDefault(x => x.Id == item.BrandId);*/
 
+                    /*item.ObjSize = sizes.FirstOrDefault(x => x.Code == item.SizeId.ToString());*/
+                    /*item.ObjType = types.FirstOrDefault(x => x.Id == item.TypeId);*/
+                    item.ObjProviderId = providers.FirstOrDefault(x => x.Id == item.ProviderId);
                 }
             }
 
             return result;
         }
 
+        // LINQ   to map into ImportedCoupon table in SQL Server.
+        private List<BaseItem> ProvidersList(SearchProvidersModel searchProviderModel)
+        {
+            CheckDbConnect();
+            var list = Context.Providers.Select(x => new BaseItem { Id = x.Id, Name = x.Name}).ToList();
+            foreach (var item in list)
+            {
+                var a = item.Name;
+            }
+            return list;
+        }
 
+        /*// LINQ ClothBrandList to map into Brands table in SQL Server.
+        public List<BaseItem> ClothBrandList(SearchBrandModel brandModel)
+        {
+            CheckDbConnect();
+            var list = Context.Brands.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
+            foreach (var item in list)
+            {
+                var a = item.Name;
+            }
+            return list;
+        }*/
 
 
         /*public List<BaseItem> StudenBaseList()
@@ -204,20 +211,6 @@ namespace Service.Education.Executes.Base
 
             return list;
         }*/
-
-        public List<BaseItem> NameList(SearchSoldCouponModel couponModel)
-        {
-            CheckDbConnect();
-            var list = Context.Customers.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
-            foreach (var item in list)
-            {
-                var a = item.Name;
-            }
-            return list;
-        }
-
-        
-
 
         #endregion
     }

@@ -14,6 +14,7 @@ namespace Service.Education.Executes.Clothesmn.SoldCoupons
         public List<int> Ids { get; set; }
         public int? Status { get; set; }
         public int? IsOnlineShop { get; set; }
+        public int? BuyerName { get; set; }
 
     }
 
@@ -31,5 +32,6 @@ namespace Service.Education.Executes.Clothesmn.SoldCoupons
     public class SoldCouponEditModel : SoldCoupon
     {
         public List<DetailReceipt> detailReceipts { get; set; }
+        public List<SoldCoupon> soldCoupons { get; set; }
     }
 }

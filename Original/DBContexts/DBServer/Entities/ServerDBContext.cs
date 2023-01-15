@@ -24,6 +24,7 @@ namespace DBServer.Entities
         public virtual DbSet<ResourceDemo> ResourceDemos { get; set; }
         //public virtual DbSet<EmployeeView> EmployeeViews { get; set; }
 
+        // Adding new SQL table in here by public virtual DbSet<YourTableName> YourTableNames { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<OptionValue> OptionValues { get; set; }
         public virtual DbSet<SizeTab> SizeTabs { get; set; }
@@ -33,6 +34,8 @@ namespace DBServer.Entities
         public virtual DbSet<SoldCoupon> SoldCoupons { get; set; }
         public virtual DbSet<DetailReceipt> DetailReceipts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<ImportedCoupon> ImportedCoupons { get; set; }
+        public virtual DbSet<Provider> Providers { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -59,6 +59,8 @@
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Brand.cs" />
     <Compile Include="Entities\Cloth.cs" />
+    <Compile Include="Entities\ImportedCoupon.cs" />
+    <Compile Include="Entities\Provider.cs" />
     <Compile Include="Entities\SoldCoupon.cs" />
     <Compile Include="Entities\Feature.cs" />
     <Compile Include="Entities\FeatureGroup.cs" />

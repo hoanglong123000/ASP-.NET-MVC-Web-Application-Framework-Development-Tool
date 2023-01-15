@@ -171,6 +171,8 @@
     <Compile Include="Controllers\Clothes\ClothesController.cs" />
     <Compile Include="Controllers\Clothes\CustomerController.cs" />
     <Compile Include="Controllers\Clothes\DetailReceiptController.cs" />
+    <Compile Include="Controllers\Clothes\ImportedCouponController.cs" />
+    <Compile Include="Controllers\Clothes\ProviderController.cs" />
     <Compile Include="Controllers\Clothes\SizeController.cs" />
     <Compile Include="Controllers\Clothes\SoldCouponController.cs" />
     <Compile Include="Controllers\Clothes\TypeController.cs" />
@@ -200,6 +202,7 @@
     <Content Include="assets\js\web\Clothmn\Brand.js" />
     <Content Include="assets\js\web\Clothmn\Cloth.js" />
     <Content Include="assets\js\web\Clothmn\Customer.js" />
+    <Content Include="assets\js\web\Clothmn\ImportedCoupon.js" />
     <Content Include="assets\js\web\Clothmn\Size.js" />
     <Content Include="assets\js\web\Clothmn\SoldCoupon.js" />
     <Content Include="assets\js\web\Clothmn\SoldCouponEdit.js" />
@@ -230,6 +233,7 @@
     <Folder Include="Content\temp_upload\" />
     <Folder Include="Views\Brand\" />
     <Folder Include="Views\Education\" />
+    <Folder Include="Views\Provider\" />
     <Folder Include="Views\Size\" />
     <Folder Include="Views\SoulCoupon\" />
   </ItemGroup>
@@ -348,6 +352,7 @@
     <Content Include="Views\Web\DetailReceipt\DetailReceiptList.cshtml" />
     <Content Include="Views\Web\Customer\CustomerList.cshtml" />
     <Content Include="Views\Web\Education\Partials\CustomerEdit.cshtml" />
+    <Content Include="Views\Web\ImportedCoupon\ImportedCouponList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

@@ -5,7 +5,7 @@ function initTable1() {
     var p = '#bottom-tab1';
     t1 = $(p + " .apply-table").advanceGrid({
         dataUrl: '/general/OptionValueList',
-        model: "OptionValue", // ten table,
+        model: "OptionValue", 
         editController: '/general',
         checkAll: true,
         width: {},

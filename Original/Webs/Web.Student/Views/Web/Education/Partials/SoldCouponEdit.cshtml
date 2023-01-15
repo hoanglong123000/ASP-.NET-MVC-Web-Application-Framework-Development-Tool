@@ -23,7 +23,7 @@
 
     var groupStatus = ViewData["StatusList"] as List<BaseItem>;
     var groupShoppingMethods = ViewData["ShopTable"] as List<BaseItem>;
-
+    
 
 }
 
@@ -52,16 +52,16 @@
             })
         
 
-         @*@AppHelper.ComboDate(new ControlAttribute()*@
-           <!--{
+         @AppHelper.InputInline(new ControlAttribute()
+           {
                Title = "Ngày bán",
                Name = "SoldDate",
-               Value = Model.SoldDate.ToString(),
+               Value = Model.SoldDate.FormatDateTime(),
                LabelCol = 4,
-               Required = true,-->
+               Required = true,
               @* HasDefaultOption = true,*@
               @* List = groupBrand.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()*@
-           <!--})-->   
+           }) 
         </div>
 
         <div class="col-md-6">
@@ -78,7 +78,7 @@
 
 
 
-                @AppHelper.SelectInline(new ControlAttribute()
+              @*  @AppHelper.SelectInline(new ControlAttribute()
                 {
                    Title = "Trạng thái",
                    Name = "Status",
@@ -89,7 +89,7 @@
                    List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
 
                 })
-
+*@
                 
 
         </div>
@@ -97,7 +97,7 @@
         
         
     <div class="col-md-12">
-        <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow" style="margin-bottom: 30px; width: 100px; height: 50px;"><i class="fa-solid fa-plus"></i>THÊM</button>
+        <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow" style="margin-bottom: 30px; width: 70px; height: 40px;"><i class="fa fa-plus"></i> THÊM </button>
         <table class="table">
             <thead>
                 <tr>
@@ -139,11 +139,11 @@
                 <i class="fa fa-remove"></i> THOÁT
             </button>
             <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
-                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value= "1">
                 <i class="fa fa-save"></i> CHỐT ĐƠN
             </button>
 
-            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..."> <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value = "2" > <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
         </div>
     </div>
 </form>
@@ -374,7 +374,7 @@
             () => {
                 var Sum = 0;
                 $(self.ReceiptArray()).each(function (index, element) {
-
+                    // Save.
                     if (element.status() == 0) {
                         element.finalprice(parseInt(element.ammount() * element.price()));
 
@@ -385,6 +385,7 @@
                         self.totalpricestr(app.formatPrice(Sum));
                         console.log(element.finalprice());
                     }
+                    
                    
                    
                 })
@@ -505,12 +506,12 @@
                 },
 
              
-@*
+
                 {
                     name: 'SoldDate',
                     type: 'datetime',
 
-                },*@
+                },
 
                 {
                     name: 'IsOnlineShop',
@@ -520,13 +521,13 @@
 
                 },
 
-                {
+               @* {
                     name: 'Status',
                     type: 'select2',
                     option: {
                     },
 
-                }
+                }*@
 
 
 
@@ -540,13 +541,13 @@
                     app.notify('warning', result.Message);
                 }
             }*@
-
+            @*Delete *@
             autoSubmit: false,
             validCallback: (data, btn) => {
                 data = app.formDataToJson(data);
                 console.log(data);
                 console.log('hello: ', ko.toJS( ReceiptArray() ) );
-
+                var value = btn.attr('value');
 
                 $.ajax({
                     url: "/SoldCoupon/SoldCouponEdit",
@@ -555,7 +556,7 @@
                         Id: data.Id,
                         BuyerName: data.BuyerName,
                         PhoneNumber: data.PhoneNumber,
-                        Status: data.Status,
+                        Status: value,
                         AddressBuyer: data.AddressBuyer,
                         detailReceipts: ko.toJS(ReceiptArray()),
                         TotalPrice: ko.toJS(totalprice()),

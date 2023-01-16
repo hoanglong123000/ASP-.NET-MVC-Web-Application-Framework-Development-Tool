@@ -11,7 +11,7 @@ namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public QueryResult<ProvidersViewModel> ProvidersMany(SearchProvidersModel model, OptionResult optionResult)
+        public QueryResult<ProviderViewModel> ProviderMany(SearchProviderModel model, OptionResult optionResult)
         {
             /*if (model.Cache)
             {*/
@@ -31,10 +31,10 @@ namespace Service.Education.Executes.Base
                 Caching.Save(name, "Educations", Serializer.Serialize(data));
                 return data;*/
            /* }*/
-            return ProvidersData(model, optionResult);
+            return ProviderData(model, optionResult);
         }
 
-        private QueryResult<ProvidersViewModel> ProvidersData(SearchProvidersModel model, OptionResult optionResult)
+        private QueryResult<ProviderViewModel> ProviderData(SearchProviderModel model, OptionResult optionResult)
         {
             CheckDbConnect();
             IQueryable<Provider> q = Context.Providers.Where(x => x.Status >= 0);
@@ -95,7 +95,7 @@ namespace Service.Education.Executes.Base
             }*/
 
             #region READ Provider LIST.
-            var r = q.Select(x => new ProvidersViewModel
+            var r = q.Select(x => new ProviderViewModel
             {
                 Id = x.Id,
                 Status = x.Status,
@@ -103,6 +103,7 @@ namespace Service.Education.Executes.Base
                 CreatedDate = x.CreatedDate,
                 UpdatedBy = x.UpdatedBy,
                 UpdatedDate = x.UpdatedDate,
+                Name = x.Name,
                 Keyword = x.Name,
                 PhoneNumber = x.PhoneNumber,
                 Address = x.Address,
@@ -112,7 +113,7 @@ namespace Service.Education.Executes.Base
 
             r = r.OrderByDescending(x => x.CreatedDate);
 
-            var result = new QueryResult<ProvidersViewModel>(r, optionResult);
+            var result = new QueryResult<ProviderViewModel>(r, optionResult);
 
             if (result.Many.Any())
             {

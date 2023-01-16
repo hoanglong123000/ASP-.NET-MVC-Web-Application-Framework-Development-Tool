@@ -1,0 +1,238 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Clothesmn.Providers.ProviderViewModel
+
+
+@{
+    @* var groupSize = ViewData["SizeList"] as List<BaseItem>;
+
+        var groupType = new List<TypeClothe>();
+        using (var l = new DBServer.Entities.ServerDBContext())
+        {
+            groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
+        }
+
+
+        var groupBrand = new List<Brand>();
+        using (var l = new DBServer.Entities.ServerDBContext())
+        {
+            groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
+        }*@
+
+}
+
+
+<form id="ProviderForm" class="form form-horizontal">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+
+            @AppHelper.InputInline(new ControlAttribute()
+            {
+                Title = "Nhà cung cấp",
+                Name = "Name",
+                Value = Model.Name,
+                LabelCol = 4,
+                Required = true,
+
+            })
+
+            @* @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Kích thước",
+            Name = "SizeId",
+            Value = Model.SizeId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupSize.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
+
+        })
+
+
+         @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Loại",
+            Name = "TypeId",
+            Value = Model.TypeId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupType.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+        })
+
+
+         @AppHelper.SelectInline(new ControlAttribute()
+        {
+            Title = "Hãng",
+            Name = "BrandId",
+            Value = Model.BrandId.ToString(),
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+            List = groupBrand.Select(x => new SelectOption { Text = x.Name, Value = x.Id + "" }).ToList()
+        })*@
+
+            @AppHelper.InputInline(new ControlAttribute()
+          {
+              Title = "Điện thoại",
+              Name = "PhoneNumber",
+              Value = Model.PhoneNumber,
+              LabelCol = 4,
+              Required = true,
+              HasDefaultOption = true,
+
+          })
+
+
+
+            @AppHelper.InputInline(new ControlAttribute()
+        {
+            Title = "Địa chỉ",
+            Name = "Address",
+            Value = Model.Address,
+            LabelCol = 4,
+            Required = true,
+            HasDefaultOption = true,
+
+        })
+
+            @AppHelper.InputInline(new ControlAttribute()
+        {
+             Title = "Nơi sinh",
+             Name = "Country",
+             Value = Model.Country,
+             LabelCol = 4,
+             Required = true,
+             HasDefaultOption = true,
+
+        })
+
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                <i class="fa fa-remove"></i> THOÁT
+            </button>
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
+                <i class="fa fa-save"></i> LƯU
+            </button>
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+
+    var model = @Html.Raw(Json.Encode(Model));
+    function initProviderForm(callback) {
+        $('#ProviderForm').ultraForm({
+            uiType: 1,
+            action: '/Provider/ProviderEdit',
+            actionType: 'ajax',
+            props: [
+
+                { name: 'Id', type: 'hidden' },
+
+
+
+                {
+                    name: 'Name', type: 'text',
+                    required: {
+                        message: 'Họ tên không được để trống'
+                    }
+                },
+
+                @*{
+                    name: 'SizeId',
+                    type: 'select2',
+                    option: {
+                    },
+                    required: {
+                        message: 'Kích thước không được để trống'
+                    }
+                },
+
+                {
+                    name: 'BrandId',
+                    type: 'select2',
+                    option: {
+
+                    },
+                    required: {
+                        message: 'Hãng không được để trống'
+                    }
+
+
+                },
+
+                {
+                    name: 'TypeId',
+                    type: 'select2',
+                    option: {
+                    },
+                    required: {
+                        message: 'Loại không được để trống'
+                    }
+
+                },
+
+                {
+                    name: 'Amount',
+                    type: 'number',
+                    required: {
+                        message: 'Số lượng không được để trống'
+                    }
+                }*@
+
+                {
+                    name: 'PhoneNumber', type: 'text',
+                    required: {
+                        message: 'Số điện thoại không được để trống'
+                    }
+                },
+
+               
+                {
+                    name: 'Address', type: 'text',
+                    required: {
+                        message: 'Địa chỉ không được để trống'
+                    }
+                },
+
+                {
+                    name: 'Country', type: 'text',
+                    required: {
+                        message: 'Nơi sinh không được để trống'
+                    }
+                }
+
+
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>
+
+
+

@@ -203,6 +203,7 @@
     <Content Include="assets\js\web\Clothmn\Cloth.js" />
     <Content Include="assets\js\web\Clothmn\Customer.js" />
     <Content Include="assets\js\web\Clothmn\ImportedCoupon.js" />
+    <Content Include="assets\js\web\Clothmn\Provider.js" />
     <Content Include="assets\js\web\Clothmn\Size.js" />
     <Content Include="assets\js\web\Clothmn\SoldCoupon.js" />
     <Content Include="assets\js\web\Clothmn\SoldCouponEdit.js" />
@@ -233,7 +234,6 @@
     <Folder Include="Content\temp_upload\" />
     <Folder Include="Views\Brand\" />
     <Folder Include="Views\Education\" />
-    <Folder Include="Views\Provider\" />
     <Folder Include="Views\Size\" />
     <Folder Include="Views\SoulCoupon\" />
   </ItemGroup>
@@ -353,6 +353,9 @@
     <Content Include="Views\Web\Customer\CustomerList.cshtml" />
     <Content Include="Views\Web\Education\Partials\CustomerEdit.cshtml" />
     <Content Include="Views\Web\ImportedCoupon\ImportedCouponList.cshtml" />
+    <Content Include="Views\Web\Education\Partials\ImportedCouponEdit.cshtml" />
+    <Content Include="Views\Web\Provider\ProviderList.cshtml" />
+    <Content Include="Views\Web\Education\Partials\ProviderEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

@@ -9,8 +9,8 @@ $(document).ready(function () {
         url: "/ImportedCoupon/ViewImportedCouponList",
         type: "GET",
         data: {},
-        success: function (ImportedCoupon) {
-            console.log(ImportedCoupon);
+        success: function (coupon) {
+            console.log(coupon);
         }
     })
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
                     var id = $(tr).attr('dataid');
                     console.log(id);
                     table.showTableLoading();
-                    editSoldCoupon(id,
+                    editImportedCoupon(id,
                         function () {
                             table.hideTableLoading();
                         },
@@ -71,7 +71,7 @@ $(document).ready(function () {
                 },
                 click: function (tr) {
                     var id = $(tr).attr('dataid');
-                    deleteSoldCoupon(id,
+                    deleteImportedCoupon(id,
                         function () {
                         },
                         function () {
@@ -89,7 +89,7 @@ $(document).ready(function () {
         loadModalCallback: function () {
 
             setTimeout(function () {
-                initSoldCouponForm(function () {
+                initImportedCouponForm(function () {
                     table.hideModal();
                     table.loadData();
                 });
@@ -131,10 +131,10 @@ $(document).ready(function () {
             ],
             right: [
                 [
-                    { title: 'Tổng tiền' },
+                    { title: 'Tổng tiền '},
                     { title: 'Ghi chú' },
                     { title: 'Trạng thái' },
-                    { title: 'Ngày bán' },
+                    { title: 'Ngày nhập hàng' },
                     { title: 'Người tạo' },
                     { title: 'Ngày tạo' },
                     { title: 'Người cập nhật' },
@@ -147,25 +147,25 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'Name',
+                type: 'text', attribute: 'ProviderId',
 
                 /*filter: { type: 'contains', attr: 'keyword' },*/
                 render: function (row) {
-                    if (row.ObjName != null)
-                        return row.ObjName.Name
+                    if (row.ObjProviderId != null)
+                        return row.ObjProviderId.Name
                     return '';
                 },
-                /*Search Name.*//*
+                /*Search Provider.*/
                 filter: {
                     type: 'option',
 
                     ajax: {
-                        url: "/ImportedCoupon/SearchName",
+                        url: "/ImportedCoupon/SearchProviderNameList",
                         data: {},
                         attr: { id: "Id", text: "Name" },
 
                     }
-                }*/
+                }
             },
 
 
@@ -177,53 +177,25 @@ $(document).ready(function () {
 
 
             {
-                type: 'text', attribute: 'IsOnlineShop',
-                render: function (row) {
-                    if (row.ObjMethodToShop != null)
-                        switch (row.IsOnlineShop) {
-                            // Status: Shop.
-                            case 0:
-                                return "<span class='label text-pink-800' >" + row.ObjMethodToShop.Name + "</span>";
-
-                            // Status: Online website.
-                            case 1:
-                                return "<span class='label text-teal-600' >" + row.ObjMethodToShop.Name + "</span>";
-
-
-
-                        }
-                    return row.ObjMethodToShop.Name
-                    return '';
-                },
-                /*Filtering list through Method.*//*
-                filter: {
-                    type: 'option',
-                    ajax: {
-                        url: "/ImportedCoupon/SearchMethodsToShopList",
-                        data: {},
-                        attr: { id: "Code", text: "Name" },
-                    }
-                },*/
-                style: 'text-align: center; '
-
-
-
+                type: 'text', attribute: 'Note',
+                style: 'text-align: center;'
             },
+           
 
             {
                 type: 'text', attribute: 'Status',
                 render: function (row) {
-                    /*if (row.ObjStatus != null)
+                    if (row.ObjStatus != null)
                         switch (row.Status) {
                             // Status: Cancel.
                             case 0:
                                 return "<span class='label text-danger-600'>" + row.ObjStatus.Name + "</span>";
 
-                            // Status: Sold.
+                            // Status: Imported.
                             case 1:
                                 return "<span class='label text-success' style='border-style: solid; border-color: green;'>" + row.ObjStatus.Name + "</span>";
 
-                            // Status: Save Temp.
+                            // Status: Save temporarily.
                             case 2:
                                 return "<span class='label text-orange-600' >" + row.ObjStatus.Name + "</span>";
 
@@ -234,17 +206,17 @@ $(document).ready(function () {
 
 
                 },
-                *//*Search StatusList.*//*
+                /*Search StatusList.*/
                 filter: {
                     type: 'option',
 
                     ajax: {
-                        url: "/SoldCoupon/SearchStatusList",
+                        url: "/ImportedCoupon/SearchStatusList",
                         data: {},
                         attr: { id: "Code", text: "Name" },
 
                     }
-                },*/
+                },
                 style: 'text-align: center; '
             },
 
@@ -298,7 +270,7 @@ $(document).ready(function () {
     $('.btn-add').click(function () {
         var btn = $(this);
         btn.button('loading');
-        editSoldCoupon(
+        editImportedCoupon(
             null,
             function () {
                 btn.button('reset');
@@ -335,7 +307,7 @@ $(document).ready(function () {
 });
 
 
-function detailSoldCoupon(id, initCallback, editCallback) {
+function detailImportedCoupon(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'PHIẾU NHẬP HÀNG' : 'PHIẾU NHẬP HÀNG';
     var mid = 'editImportedCouponModal';
     app.createPartialModal({
@@ -350,7 +322,7 @@ function detailSoldCoupon(id, initCallback, editCallback) {
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initImportedCouponForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })
@@ -358,7 +330,7 @@ function detailSoldCoupon(id, initCallback, editCallback) {
 }
 
 // Right-click Update method.
-function editSoldCoupon(id, initCallback, editCallback) {
+function editImportedCoupon(id, initCallback, editCallback) {
     var modalTitle = id != null ? 'PHIẾU NHẬP HÀNG' : 'PHIẾU NHẬP HÀNG';
     var mid = 'editImportedCouponModal';
     app.createPartialModal({
@@ -373,7 +345,7 @@ function editSoldCoupon(id, initCallback, editCallback) {
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initImportedCouponForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })

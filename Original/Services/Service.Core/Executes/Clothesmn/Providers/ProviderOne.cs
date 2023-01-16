@@ -8,10 +8,10 @@ namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public ProvidersViewModel ProvidersOne(int id)
+        public ProviderViewModel ProviderOne(int id)
         {
             CheckDbConnect();
-            var item = Context.Database.SqlQuery<ProvidersViewModel>("SELECT TOP 1 * from Providers as C WHERE Id = " + id).FirstOrDefault();
+            var item = Context.Database.SqlQuery<ProviderViewModel>("SELECT TOP 1 * from Providers as C WHERE Id = " + id).FirstOrDefault();
             if(item != null)
             {
                 var ids = new List<Guid>();

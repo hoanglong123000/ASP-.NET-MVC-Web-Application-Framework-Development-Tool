@@ -7,7 +7,7 @@
 
 
 
-<div class="p-15" id="ImportedCoupon_panel">
+<div class="p-15" id="Provider_panel">
     <div class="panel-footer main-toolbar">
         <div class="heading-elements">
             <ul class="nav navbar-nav">
@@ -30,7 +30,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            url: "/ImportedCoupon/ViewImportedCouponList/",
+            url: "/Provider/ViewProviderList/",
             type: "GET",
             data: {},
             success: function (list) {
@@ -42,6 +42,6 @@
     })
 </script>
 
-<script src="~/assets/js/web/Clothmn/ImportedCoupon.js">
+<script src="~/assets/js/web/Clothmn/Provider.js">
 
 </script>

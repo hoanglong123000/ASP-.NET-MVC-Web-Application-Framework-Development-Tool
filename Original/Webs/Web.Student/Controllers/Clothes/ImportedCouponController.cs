@@ -1,5 +1,9 @@
-﻿using Service.Education.Executes.Clothesmn.ImportedCoupons;
+﻿using DBServer.Entities;
+using Service.Education.Executes.Clothesmn.Clothes;
+using Service.Education.Executes.Clothesmn.DetailReceipts;
+using Service.Education.Executes.Clothesmn.ImportedCoupons;
 using Service.Education.Executes.Clothesmn.SoldCoupons;
+using Service.Education.Executes.Clothesmn.DetailImportedReceipts;
 using Service.Utility.Variables;
 using System;
 using System.Collections.Generic;
@@ -35,8 +39,9 @@ namespace Web.Student.Controllers.Clothes
         public ActionResult ImportedCouponEdit(int? id)
         {
             var model = id.HasValue ? _educationService.ImportedCouponOne(id.Value) : new ImportedCouponViewModel();
+            ViewData["StatusList"] = _shareService.OptionValueBaseList("ImportedStatusTab");
+       
 
-            
 
             return PartialView("~/Views/" + _browser + "/Education/Partials/ImportedCouponEdit.cshtml", model);
         }
@@ -52,18 +57,40 @@ namespace Web.Student.Controllers.Clothes
             }
 
             var result = model.Id == 0 ? _educationService.CreateImportedCoupon(model) : _educationService.EditImportedCoupon(model);
-            /* if (result.Data.Status == 1) {
-                 //xu ly trong kho
-                 var list = model.detailReceipts.Where(x => x.Status == 0).ToList();
-                 var listId = list.Select(x => x.Id).ToList();
-                 var A = new SearchClothModel();
-                 var r = new OptionResult();
-                 var listMau = ClothAmountList(A, r);
-
-
-             }*/
-
+            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult DeleteImportedCouponByIds(List<int> ids)
+        {
+            _educationService.DeleteImportedCouponByIds(ids, _authData.EmployeeId);
+            return Json(new CommandResult<bool>(true), JsonRequestBehavior.AllowGet);
+        }
+
+        // Search Provider Name.
+        public JsonResult SearchProviderNameList()
+        {
+            var list = new List<Provider>();
+            using (var i = new ServerDBContext())
+            {
+                list = i.Providers.Where(x => x.Status >= 0).ToList();
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        // Filtering the list of these coupons according to its status.
+        public JsonResult SearchStatusList()
+        {
+            return Json(_shareService.OptionValueBaseList("ImportedStatusTab"), JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult DetailImportedReceiptEdit(int id, SearchDetailImportedReceiptModel model, OptionResult option)
+        {
+            var result = _educationService.DetailImportedReceiptMany(id, model, option);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

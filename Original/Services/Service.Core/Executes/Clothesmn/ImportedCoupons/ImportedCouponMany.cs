@@ -46,12 +46,12 @@ namespace Service.Education.Executes.Base
                 q = q.Where(x => x.Keyword.Contains(k));
             }
 
-            /*if(model.SizeId.HasValue)
+            if (model.ProviderId.HasValue)
             {
-                q = q.Where(x => x.SizeId == model.SizeId);
+                q = q.Where(x => x.ProviderId == model.ProviderId);
             }
 
-            if(model.BrandId.HasValue)
+            /*if (model.BrandId.HasValue)
             {
                 q = q.Where(x => x.BrandId == model.BrandId);
             }*/
@@ -141,16 +141,14 @@ namespace Service.Education.Executes.Base
                     Ids = ids
                 });
 
-                var providers = ProvidersList(new SearchProvidersModel
+                var providers = ProviderList(new SearchProviderModel
                 {
                     Ids = providerids
                 });
-                // Using SQL tables in SQL Server instead of OptionValue table which is already available in SQL Server.
-                
-               
+                var importedstatus = _shareService.OptionValueBaseList("ImportedStatusTab");
                 // Using OptionValue table that is already available in project instead of SizeTabs table in SQL Sever.
                 /*var sizes = _shareService.OptionValueBaseList("SizeTabs");*/
-
+                var statusid = result.Many.Select(x => x.Status).ToList();
                 
 
 
@@ -163,6 +161,7 @@ namespace Service.Education.Executes.Base
                     /*item.ObjSize = sizes.FirstOrDefault(x => x.Code == item.SizeId.ToString());*/
                     /*item.ObjType = types.FirstOrDefault(x => x.Id == item.TypeId);*/
                     item.ObjProviderId = providers.FirstOrDefault(x => x.Id == item.ProviderId);
+                    item.ObjStatus = importedstatus.FirstOrDefault(x => x.Code == item.Status.ToString());
                 }
             }
 
@@ -170,7 +169,7 @@ namespace Service.Education.Executes.Base
         }
 
         // LINQ   to map into ImportedCoupon table in SQL Server.
-        private List<BaseItem> ProvidersList(SearchProvidersModel searchProviderModel)
+        private List<BaseItem> ProviderList(SearchProviderModel searchProviderModel)
         {
             CheckDbConnect();
             var list = Context.Providers.Select(x => new BaseItem { Id = x.Id, Name = x.Name}).ToList();

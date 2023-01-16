@@ -8,7 +8,7 @@ using Service.Utility.Variables;
 
 namespace Service.Education.Executes.Clothesmn.Providers
 {
-    public class SearchProvidersModel
+    public class SearchProviderModel
     {
         public List<int> Ids { get; set; }
         public string Name { get; set; }
@@ -18,7 +18,7 @@ namespace Service.Education.Executes.Clothesmn.Providers
         public string Country { get; set; }
     }
 
-    public class ProvidersViewModel : Provider
+    public class ProviderViewModel : Provider
     {
         
         public EmployeeBaseView ObjUpdatedBy { get; set; }
@@ -29,7 +29,7 @@ namespace Service.Education.Executes.Clothesmn.Providers
         public BaseItem ObjName { get; set; }
     }
 
-    public class ProvidersEditModel : Provider
+    public class ProviderEditModel : Provider
     {
         
     }

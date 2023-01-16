@@ -13,7 +13,7 @@ namespace Service.Education.Executes.Base
 {
     public partial class EducationService
     {
-        public CommandResult<Provider> CreateProviders(ProvidersEditModel model)
+        public CommandResult<Provider> CreateProvider(ProviderEditModel model)
         {
             CheckDbConnect();
             try
@@ -23,9 +23,9 @@ namespace Service.Education.Executes.Base
                     Id = model.Id,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
-                    UpdatedBy = model.CreatedBy,
-                    CreatedBy = model.CreatedBy,
-                    Keyword = model.Keyword,
+                    UpdatedBy = model.UpdatedBy,
+                    CreatedBy = model.UpdatedBy,
+                    Keyword = model.Name,
                     Name = model.Name,
                     PhoneNumber = model.PhoneNumber,
                     Address = model.Address,
@@ -54,7 +54,7 @@ namespace Service.Education.Executes.Base
                 return new CommandResult<Provider>(sb.ToString());
             }
         }
-        public CommandResult<Provider> EditProvider(ProvidersEditModel model)
+        public CommandResult<Provider> EditProvider(ProviderEditModel model)
         {
             CheckDbConnect();
             var d = Context.Providers.FirstOrDefault(x => x.Id == model.Id);
@@ -65,15 +65,18 @@ namespace Service.Education.Executes.Base
             {
 
             };
-
+            d.Name = model.Name;
             d.UpdatedDate = DateTime.Now;
-            d.CreatedDate = model.CreatedDate;
             d.UpdatedBy = model.UpdatedBy;
-            d.CreatedBy = model.CreatedBy;
+            d.CreatedBy = model.UpdatedBy;
             d.Address = model.Address;
             d.Country = model.Country;
             d.Status = model.Status;
             d.PhoneNumber = model.PhoneNumber;
+
+
+
+
             Context.SaveChanges();
 
             return new CommandResult<Provider>(d);

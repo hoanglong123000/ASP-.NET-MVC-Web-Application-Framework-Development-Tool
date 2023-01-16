@@ -2,39 +2,39 @@
 @using Service.Core.Components
 @using Service.Utility.Components
 @using Service.Utility.Variables
-@model  Service.Education.Executes.Clothesmn.SoldCoupons.SoldCouponViewModel
+@model  Service.Education.Executes.Clothesmn.ImportedCoupons.ImportedCouponViewModel
 
 
 @{
-   @* var groupSize = ViewData["SizeList"] as List<BaseItem>;
+    @* var groupSize = ViewData["SizeList"] as List<BaseItem>;
 
-    var groupType = new List<TypeClothe>();
-    using (var l = new DBServer.Entities.ServerDBContext())
-    {
-        groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
-    }
+        var groupType = new List<TypeClothe>();
+        using (var l = new DBServer.Entities.ServerDBContext())
+        {
+            groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
+        }
 
 
-    var groupBrand = new List<Brand>();
-    using (var l = new DBServer.Entities.ServerDBContext())
-    {
-        groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
-    }*@
+        var groupBrand = new List<Brand>();
+        using (var l = new DBServer.Entities.ServerDBContext())
+        {
+            groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
+        }*@
 
     var groupStatus = ViewData["StatusList"] as List<BaseItem>;
-    var groupShoppingMethods = ViewData["ShopTable"] as List<BaseItem>;
     
+
 
 }
 
 <script>
-    
+
 </script>
 
 
 
 
-<form id="SoldCouponForm" class="form form-horizontal">
+<form id="ImportedCouponForm" class="form form-horizontal">
 
     <input type="hidden" name="Id" value="@Model.Id" />
 
@@ -43,109 +43,106 @@
 
             @AppHelper.InputInline(new ControlAttribute()
             {
-                Title = "Người mua",
-                Name = "BuyerName",
+                Title = "Nhà cung cấp",
+                Name = "ProviderId",
                 Value = "",
                 LabelCol = 4,
                 Required = true,
 
             })
-        
-
-         
-
-        <div class="col-md-6">
-           @AppHelper.SelectInline(new ControlAttribute()
-           {
-             Title = "Phương thức mua hàng",
-             Name = "IsOnlineShop",
-             Value = Model.IsOnlineShop + "",
-             LabelCol = 4,
-             Required = true,
-             HasDefaultOption = true,
-             List = groupShoppingMethods.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
-           })
-
-
-
-              @*  @AppHelper.SelectInline(new ControlAttribute()
+            <div class="col-md-6">
+                @AppHelper.SelectInline(new ControlAttribute()
                 {
-                   Title = "Trạng thái",
-                   Name = "Status",
-                   Value = Model.Status.ToString(),
-                   LabelCol = 4,
-                   Required = true,
-                   HasDefaultOption = true,
-                   List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
-
+                  Title = "Ghi chú",
+                  Name = "Note",
+                  Value = Model.Note + "",
+                  LabelCol = 4,
+                  Required = true,
+                  HasDefaultOption = true,
+            
                 })
-*@
-                
+
+
+
+                @*  @AppHelper.SelectInline(new ControlAttribute()
+                    {
+                       Title = "Trạng thái",
+                       Name = "Status",
+                       Value = Model.Status.ToString(),
+                       LabelCol = 4,
+                       Required = true,
+                       HasDefaultOption = true,
+                       List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
+
+                    })
+                *@
+
+
+            </div>
+
+
+
+            <div class="col-md-12">
+                <button class="btn btn-success" type="button" data-bind="click: AddImportedReceiptRow" style="margin-bottom: 30px; width: 70px; height: 40px;"><i class="fa fa-plus"></i> THÊM </button>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="warning"></th>
+                            <th class="warning">Tên hàng hóa</th>
+                            <th class="warning">Đơn vị tính</th>
+                            <th class="warning">Số lượng</th>
+                            <th class="warning">Giá nhập hàng</th>
+                            <th class="warning">Thành tiền</th>
+                            <th class="warning"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody data-bind="foreach: ImportedReceiptArray()">
+                        <tr data-bind="visible: status() == 0">
+                            <td> </td>
+                            <td> <input data-bind="attr: { id: 'selectid_' + guid } " /></td>
+                            <td> <label data-bind="text: unitmeasure" /></td>
+                            <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control" /> </td>
+                            <td> <label data-bind="text: price" /> </td>
+                            <td> <label data-bind="text: finalprice" /> </td>
+                            <td> <button class="btn btn-success" type="button" data-bind="click: DeleteReceiptRow">XÓA</button></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+                <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind="text: totalpricestr"></span> </h3>
+                <button class="btn btn-rounded btn-primary" data-bind=" click: ShowTotalPrice"></button>
+
+
+
+            </div>
 
         </div>
 
-        
-        
-    <div class="col-md-12">
-        <button class="btn btn-success" type="button" data-bind="click: AddReceiptRow" style="margin-bottom: 30px; width: 70px; height: 40px;"><i class="fa fa-plus"></i> THÊM </button>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th class="warning"></th>
-                    <th class="warning">Tên hàng hóa</th>
-                    <th class="warning">Đơn vị tính</th>
-                    <th class="warning">Số lượng</th>
-                    <th class="warning">Đơn giá</th>
-                    <th class="warning">Thành tiền</th>
-                    <th class="warning"></th>
-                </tr>
-            </thead>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                    <i class="fa fa-remove"></i> THOÁT
+                </button>
+                <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
+                        data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="1">
+                    <i class="fa fa-save"></i> CHỐT ĐƠN
+                </button>
 
-            <tbody data-bind="foreach: ReceiptArray()">
-                <tr data-bind="visible: status() == 0">
-                    <td> </td>
-                    <td> <input data-bind="attr: { id: 'selectid_' + guid } " /></td>
-                    <td> <label data-bind="text: unitmeasure" /></td>
-                    <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control" /> </td>
-                    <td> <label data-bind="text: price" /> </td>
-                    <td> <label data-bind="text: finalprice" /> </td>
-                    <td> <button class="btn btn-success" type="button" data-bind="click: DeleteReceiptRow">XÓA</button></td>
-                </tr>
-            </tbody>
-
-        </table>
-        <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind ="text: totalpricestr"></span> </h3> 
-        <button class="btn btn-rounded btn-primary" data-bind =" click: ShowTotalPrice"></button>
-
-
-
-    </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
-                <i class="fa fa-remove"></i> THOÁT
-            </button>
-            <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
-                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value= "1">
-                <i class="fa fa-save"></i> CHỐT ĐƠN
-            </button>
-
-            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value = "2" > <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
+                <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="2"> <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
+            </div>
         </div>
     </div>
 </form>
 
 <script>
-    
-    
+
+
 
     var model = @Html.Raw(Json.Encode(Model));
 
     @*knockout*@
-    var SoldCouponClass = () => {
+    var ImportedCouponClass = () => {
 
 
         // this Initialization.
@@ -153,7 +150,7 @@
 
 
         // List.
-        self.ReceiptArray = ko.observableArray();
+        self.ImportedReceiptArray = ko.observableArray();
 
         // Summation of each final price rows.
         self.totalprice = ko.observable();
@@ -163,14 +160,14 @@
         self.clothesname = ko.observableArray();
 
         // Guid.
-        
-        
+
+
 
         // Detail Receipt's Properties.
-       
-        
+
+
         // Data from ClothesId.
-       @* $.getJSON 
+       @* $.getJSON
         (
             "/Clothes/ViewClothList",
 
@@ -181,13 +178,13 @@
 
         )*@
 
-        
+
 
         // New Row.
-        self.ReceiptRow = function (item) {
+        self.ImportedReceiptRow = function (item) {
             var sr = this;
-            
-            
+
+
                 // Update method.
                 if (item != null)
                 {
@@ -199,11 +196,11 @@
                     sr.price = ko.observable(item.Price);
                     sr.finalprice = ko.observable(item.FinalPrice);
                     sr.status = ko.observable(item.Status);
-                    
+
                     console.log(item);
 
 
-                    
+
                 }
                 // Add method.
                 else {
@@ -215,15 +212,15 @@
                     sr.price = ko.observable(1);
                     sr.finalprice = ko.observable();
                     sr.status = ko.observable(0);
-                    
+
                 }
 
-               
+
             console.log('Clothesid: ' + sr.clothesid());
-            
+
             setTimeout(function () {
-                
-                
+
+
                 $('#selectid_' + sr.guid).select2({
                     width: 200,
                     ajax: {
@@ -261,7 +258,7 @@
                             console.log("First element of Array of Clothes: ", self.clothesname()[0].id);
                             console.log("First name of first element of Array of Clothes: ", self.clothesname()[0].text);
                             console.log("clothesid ", sr.clothesid());
-                            
+
                             var b = "";
                             self.clothesname().forEach(function (value) { if (value.id == sr.clothesid()) { b = value.text + ""; } });
                                     console.log("value: ", b);*@
@@ -271,7 +268,7 @@
                     },
 
                     initSelection: function (element, callback) {
-                        
+
                         return callback({ text: element.val() });
 
 
@@ -284,9 +281,9 @@
                             console.log('v.val: ', v.val);
                             console.log('v.Id: ', v.added.id);
                             sr.clothesid(v.val);
-                            
+
                             @*self.clothesname(v.added.name);*@
-                            
+
                             @*if (this.id == v.val) {
                                 sr.price(v.added.clothprice);
 
@@ -298,11 +295,11 @@
 
                             }) *@
 
-                            
 
-                            
+
+
                         })
-                    
+
                         if (sr.id > 0) {
                             $.getJSON
                             (
@@ -320,16 +317,16 @@
                                 }
 
                             )
-                            
-                            
 
-                                
-                        }   
-                   
+
+
+
+                        }
+
 
                     }, 200);
-            
-            
+
+
 
             @*sr.clothesid.subscribe(() => {
                 if (typeof sr.clothesid() != "undefined") {
@@ -345,25 +342,25 @@
 
 
             // Select2
-            
+
         };
 
 
 
 
         // Add Method.
-        self.AddReceiptRow = () => {
-            var item = new ReceiptRow(null);
-            self.ReceiptArray.push(item);
+        self.AddImportedReceiptRow = () => {
+            var item = new ImportedReceiptRow(null);
+            self.ImportedReceiptArray.push(item);
             console.log(item);
-           
+
         };
 
         //Calculating total price and final price.
         self.realtime = ko.computed(
             () => {
                 var Sum = 0;
-                $(self.ReceiptArray()).each(function (index, element) {
+                $(self.ImportedReceiptArray()).each(function (index, element) {
                     // Save.
                     if (element.status() == 0) {
                         element.finalprice(parseInt(element.ammount() * element.price()));
@@ -375,9 +372,9 @@
                         self.totalpricestr(app.formatPrice(Sum));
                         console.log(element.finalprice());
                     }
-                    
-                   
-                   
+
+
+
                 })
 
 
@@ -385,10 +382,10 @@
         )
 
         // Delete method.
-        self.DeleteReceiptRow = (item) => {
+        self.DeleteImportedReceiptRow = (item) => {
             item.status(-1);
             console.log(item.status());
-            
+
             @*$.ajax({
                 url: "/SoldCoupon/DeleteEachRowsOfReceipt",
                 type: "GET",
@@ -406,21 +403,21 @@
         //Show data when pressing Update button.
         self.init = () => {
             $.ajax({
-                url: "/SoldCoupon/DetailReceiptEdit",
+                url: "/ImportedCoupon/DetailImportedReceiptEdit",
                 type: "GET",
                 data: { id: model.Id },
                 success: (DetailReceiptData) => {
                     console.log('detail: ', DetailReceiptData);
 
-                    
+
                     $(DetailReceiptData.Many).each(
                         (index, item) => {
-                            var row = new ReceiptRow(item);
-                            self.ReceiptArray.push(row);
-                         
+                            var row = new ImportedReceiptRow(item);
+                            self.ImportedReceiptArray.push(row);
+
                         }
                     )
-                    
+
                 }
             })
         }
@@ -428,23 +425,23 @@
         // Update method
         self.init();
 
-        
-       
+
+
     }
-    
 
 
 
 
-    function initSoldCouponForm(callback) {
 
-        ko.applyBindings(SoldCouponClass, $("#SoldCouponForm")[0]);
+    function initImportedCouponForm(callback) {
 
-        
+        ko.applyBindings(ImportedCouponClass, $("#ImportedCouponForm")[0]);
+
+
         // Save button
-        $('#SoldCouponForm').ultraForm({
+        $('#ImportedCouponForm').ultraForm({
             uiType: 1,
-            action: '/SoldCoupon/SoldCouponEdit',
+            action: '/ImportedCoupon/ImportedCouponEdit',
             actionType: 'ajax',
             props: [
 
@@ -455,10 +452,10 @@
 
 
                 {
-                    name: 'BuyerName', type: 'select2',
+                    name: 'ProviderId', type: 'select2',
                     option: {
                         ajax: {
-                            url: '/Customer/ViewCustomerList',
+                            url: '/Provider/ViewProviderList',
                             type: 'GET',
                             quietMillis:250,
                             data:  function (term, page)  {
@@ -469,7 +466,7 @@
                                     }
 
                             },
-                            results: function (x, page) { console.log("customer: ", x)
+                            results: function (x, page) { console.log("Provider: ", x)
                                 var data = [];
                                 $(x.Many).each(
                                     function () {
@@ -483,29 +480,29 @@
                                 return { results: data };
                             }
 
-                                
+
 
                         }
-                        
+
                     },
                     required: {
                         message: "Thiếu tên khách hàng"
                     },
 
-                    
+
                 },
 
-             
+
 
                 {
-                    name: 'SoldDate',
+                    name: 'ImportedDate',
                     type: 'datetime',
 
                 },
 
                 {
-                    name: 'IsOnlineShop',
-                    type: 'select2',
+                    name: 'Note',
+                    type: 'text',
                     option: {
                     },
 
@@ -536,46 +533,46 @@
             validCallback: (data, btn) => {
                 data = app.formDataToJson(data);
                 console.log(data);
-                console.log('hello: ', ko.toJS( ReceiptArray() ) );
+                console.log('hello: ', ko.toJS( ImportedReceiptArray() ) );
                 var value = btn.attr('value');
 
                 $.ajax({
-                    url: "/SoldCoupon/SoldCouponEdit",
+                    url: "/ImportedCoupon/ImportedCouponEdit",
                     type: "POST",
                     data: {
                         Id: data.Id,
-                        BuyerName: data.BuyerName,
-                        PhoneNumber: data.PhoneNumber,
+                        ProviderId: data.ProviderId,
+                        ImportedDate: data.ImportedDate,
                         Status: value,
-                        AddressBuyer: data.AddressBuyer,
+                        Note: data.Note,
                         detailReceipts: ko.toJS(ReceiptArray()),
                         TotalPrice: ko.toJS(totalprice()),
-                        IsOnlineShop: data.IsOnlineShop,
                         
+
                     },
                     success: () => {
                         callback(data);
                     }
                 });
 
-                
+
             }
         });
 
         if (model.Id > 0) {
             app.setSelect2Data(
-                $('#SoldCouponForm input[name="BuyerName"]'),
+                $('#ImportedCouponForm input[name="ProviderId"]'),
                 {
-                    id: model.ObjNameBuyer.Id,
-                    text: model.ObjNameBuyer.Name
+                    id: model.ObjProviderId.Id,
+                    text: model.ObjProviderId.Name
                 }
 
             )
         }
     }
 
-   
-    
+
+
 </script>
 
 

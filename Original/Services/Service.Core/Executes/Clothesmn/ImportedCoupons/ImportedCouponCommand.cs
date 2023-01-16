@@ -23,10 +23,10 @@ namespace Service.Education.Executes.Base
                     Id = model.Id,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
-                    UpdatedBy = model.CreatedBy,
-                    CreatedBy = model.CreatedBy,
-                    Keyword = model.Keyword,
-                    ImportedDate = model.ImportedDate,
+                    UpdatedBy = model.UpdatedBy,
+                    CreatedBy = model.UpdatedBy,
+                    Keyword = model.Note,
+                    ImportedDate = DateTime.Now,
                     ProviderId = model.ProviderId,
                     Note = model.Note,
                     TotalPrice  = model.TotalPrice
@@ -66,14 +66,69 @@ namespace Service.Education.Executes.Base
             };
 
             d.UpdatedDate = DateTime.Now;
-            d.CreatedDate = model.CreatedDate;
             d.UpdatedBy = model.UpdatedBy;
-            d.CreatedBy = model.CreatedBy;
+            d.CreatedBy = model.UpdatedBy;
             d.Keyword = model.Note;
-            d.ImportedDate = model.ImportedDate;
+            d.ImportedDate = DateTime.Now;
             d.ProviderId = model.ProviderId;
             d.Note = model.Note;
             d.TotalPrice = model.TotalPrice;
+
+            if (model.Status == 1)
+            {
+                for (int i = 0; i < model.detailImportedReceipts.Count; i++)
+                {
+                    var valueid = model.detailImportedReceipts[i].ClothesId;
+                    CheckDbConnect();
+                    var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
+                    if (a == null)
+                        return new CommandResult<ImportedCoupon>("No result!");
+                    a.Amount -= model.detailImportedReceipts[i].Amount;
+                }
+            }
+
+            Context.SaveChanges();
+
+
+            // Update Detail Receipt Rows.
+            var detailreceiptlst = model.detailImportedReceipts.ToList();
+            for (int i = 0; i < detailreceiptlst.Count; i++)
+            {
+                // Add new detail receipt row.
+                if (detailreceiptlst[i].Id == 0)
+                {
+                    var detailReceipt = new DetailImportedReceipt
+                    {
+                        Id = detailreceiptlst[i].Id,
+                        Status = detailreceiptlst[i].Status,
+                        UnitMeasure = detailreceiptlst[i].UnitMeasure,
+                        Amount = detailreceiptlst[i].Amount,
+                        Price = detailreceiptlst[i].Price,
+                        FinalPrice = detailreceiptlst[i].FinalPrice,
+                        ClothesId = detailreceiptlst[i].ClothesId,
+                        CouponId = d.Id
+                    };
+                    Context.DetailImportedReceipts.Add(detailReceipt);
+                    Context.SaveChanges();
+                }
+                else
+                {
+                    // Update detail receipt row
+                    var detailJson = model.detailImportedReceipts[i].Id;
+                    var detail = Context.DetailReceipts.FirstOrDefault(x => x.Id == detailJson);
+                    if (detail == null)
+                        return new CommandResult<ImportedCoupon>("No result!");
+                    detail.Status = detailreceiptlst[i].Status;
+                    detail.UnitMeasure = detailreceiptlst[i].UnitMeasure;
+                    detail.ClothesId = detailreceiptlst[i].ClothesId;
+
+                    detail.CouponId = d.Id;
+                    detail.Price = detailreceiptlst[i].Price;
+                    detail.FinalPrice = detailreceiptlst[i].FinalPrice;
+
+
+                }
+            }
             Context.SaveChanges();
 
             return new CommandResult<ImportedCoupon>(d);
@@ -86,7 +141,12 @@ namespace Service.Education.Executes.Base
             var idStr = string.Join(",", arr);
             Context.Database.ExecuteSqlCommand(
                 "update ImportedCoupons set Status = -1, UpdatedBy = '" + userId + "', UpdatedDate = getdate() " +
-                "where Id in ('" + idStr + "')"); 
+                "where Id in ('" + idStr + "')");
+            Context.Database.ExecuteSqlCommand(
+
+                "UPDATE DetailImportedReceipts set Status = -1 WHERE CouponId in ('" + idStr + "')"
+
+              );
         }
        /* public bool UpdateBrandStatus(int id, int status)
         {

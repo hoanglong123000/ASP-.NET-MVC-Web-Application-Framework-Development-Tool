@@ -23,15 +23,14 @@ namespace Service.Education.Executes.Clothesmn.ImportedCoupons
         
         public EmployeeBaseView ObjUpdatedBy { get; set; }
         public EmployeeBaseView ObjCreatedBy { get; set; }
-        public BaseItem ObjPhoneNumber { get; set; }
-        public BaseItem ObjAddress { get; set; }
-        public BaseItem ObjCountry { get; set; }
         public BaseItem ObjName { get; set; }
+        public BaseItem ObjStatus { get; set; }
         public BaseItem ObjProviderId { get; set; }
     }
 
     public class ImportedCouponEditModel : ImportedCoupon
     {
-        
+        public List<DetailImportedReceipt> detailImportedReceipts { get; set; }
+        public List<ImportedCoupon> ImportedCoupons { get; set; }
     }
 }

@@ -73,6 +73,7 @@
     <Compile Include="Entities\DetailReceipt.cs" />
     <Compile Include="Entities\StudentView.cs" />
     <Compile Include="Entities\Student.cs" />
+    <Compile Include="Entities\TradeHistorie.cs" />
     <Compile Include="Entities\TypeClothe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

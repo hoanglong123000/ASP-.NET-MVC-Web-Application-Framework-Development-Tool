@@ -39,7 +39,7 @@ namespace Web.Student.Controllers.Clothes
         public ActionResult ImportedCouponEdit(int? id)
         {
             var model = id.HasValue ? _educationService.ImportedCouponOne(id.Value) : new ImportedCouponViewModel();
-            ViewData["StatusList"] = _shareService.OptionValueBaseList("ImportedStatusTab");
+            ViewData["StatusImportedList"] = _shareService.OptionValueBaseList("ImportedStatusTab");
        
 
 

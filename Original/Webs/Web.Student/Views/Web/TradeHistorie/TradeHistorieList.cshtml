@@ -1,0 +1,61 @@
+﻿@using Service.Utility.Components
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+}
+
+
+
+
+<div class="p-15" id="TradeHistorie_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <ul class="nav navbar-nav">
+                @AppHelper.NavbarTools(new[] { "add", "reload", "export" })
+                <li>
+
+                    <button class="btn btn-delete-multi btn-default" type="button">
+                        <i class="icon-trash position-left text-danger"></i> XÓA
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="apply-table mt-15"></div>
+</div>
+@BundleHelper.Generate(new List<BundleType>() {
+    BundleType.SummernoteMedia
+})
+
+<script>
+    $(document).ready(function () {
+
+        // Step 1: Fully GET $.ajax({url: "", type: "GET", data: {}, success: function(list) {} });
+         @*$.ajax({
+            url: "/TradeHistorie/ViewTradeHistorieList/",
+            type: "GET",
+            data: {},
+            success: function (list) {
+
+            }
+        })*@
+
+        // Step 2: Shortened of GET $.get( "", function(list) {} )
+        @*                                  ^       ^
+                                            |       |
+                                            |       |
+                                           url   success    *@
+        $.get(
+            "/TradeHistorie/ViewTradeHistorieList/",
+            function(list) {
+                
+            }
+        );
+
+
+    })
+</script>
+
+<script src="~/assets/js/web/Clothmn/TradeHistorie.js">
+
+</script>

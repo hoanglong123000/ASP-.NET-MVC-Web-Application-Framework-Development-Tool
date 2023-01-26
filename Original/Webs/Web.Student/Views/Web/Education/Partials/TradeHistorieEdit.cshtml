@@ -1,0 +1,158 @@
+﻿@using DBServer.Entities
+@using Service.Core.Components
+@using Service.Utility.Components
+@using Service.Utility.Variables
+@model  Service.Education.Executes.Clothesmn.TradeHistories.TradeHistorieViewModel
+
+
+@{
+    @*var groupSize = ViewData["SizeList"] as List<BaseItem>;
+
+    var groupType = new List<TypeClothe>();
+    using (var l = new DBServer.Entities.ServerDBContext())
+    {
+        groupType = l.TypeClothes.Where(x => x.Status >= 0).ToList();
+    }*@
+
+
+    var groupClothesName = new List<Cloth>();
+    using (var l = new DBServer.Entities.ServerDBContext())
+    {
+        groupClothesName = l.Clothes.Where(x => x.Status >= 0).ToList();
+    }
+
+}
+
+
+<form id="TradeHistorieForm" class="form form-horizontal">
+
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+
+            @AppHelper.InputInline(new ControlAttribute()
+        {
+           Title = "Tên hàng hóa",
+           Name = "ClothesId",
+           Value = "",
+           LabelCol = 4,
+           Required = true,
+           HasDefaultOption = true,
+           List = groupClothesName.Select(x => new SelectOption { Text = x.Name, Value = x.Name}).ToList()
+        })
+
+            @AppHelper.InputInline(new ControlAttribute()
+           {
+               Title = "Ngày tháng giao dịch",
+               Name = "TradeTime",
+               Value = Model.TradeTime.FormatDateTime(),
+               LabelCol = 4,
+               Required = true,
+               HasDefaultOption = true,
+              @* List = groupSize.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()*@
+
+           })
+
+
+
+            @AppHelper.InputInline(new ControlAttribute()
+          {
+              Title = "Số lượng tồn",
+              Name = "Amount",
+              Value = Model.Amount.ToString(),
+              LabelCol = 4,
+              Required = true,
+              
+
+          })
+
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
+                <i class="fa fa-remove"></i> THOÁT
+            </button>
+            <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
+                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="1">
+                <i class="fa fa-save"></i> NHẬP VÀO KHO
+            </button>
+
+            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="2"> <i class="fa fa-pencil fa-fw"></i>BÁN</button>
+
+
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+
+    var model = @Html.Raw(Json.Encode(Model));
+    function initTradeHistorieEditForm(callback) {
+        $('#TradeHistorieEditForm').ultraForm({
+            uiType: 1,
+            action: '/TradeHistorie/TradeHistorieEdit',
+            actionType: 'ajax',
+            props: [
+
+                { name: 'Id', type: 'hidden' },
+
+
+
+                {
+                    name: 'ClothesId',
+                    type: 'select2',
+                    option: {
+                    },
+                    required: {
+                        message: 'Hàng hóa không được để trống'
+                    }
+                },
+
+                {
+                    name: "TradeTime",
+                    type: "datetime",
+                    required: { message: 'Thời gian không được để trống'}
+                },
+
+                
+
+
+                {
+                    name: 'Amount',
+                    type: 'number',
+                    option: {
+                        min: 0,
+                        max: 9999999999,
+                    },
+                    required: {
+                        message: 'Số lượng không được để trống'
+                    }
+                },
+
+                
+
+
+
+
+            ],
+            initCallback: function (form) { },
+            beforSubmit: function (form) { },
+            afterSubmit: function (result) {
+                if (result.Success) {
+                    callback(result.Data);
+                } else {
+                    app.notify('warning', result.Message);
+                }
+            }
+        });
+	}
+
+</script>

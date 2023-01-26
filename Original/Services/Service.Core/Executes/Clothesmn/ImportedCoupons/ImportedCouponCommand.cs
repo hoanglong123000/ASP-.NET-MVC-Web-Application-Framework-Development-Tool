@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Linq;
-using System.Text; 
+using System.Text;
 using Service.Utility.Components;
 using Service.Utility.Variables;
 using DBServer.Entities;
@@ -29,11 +29,49 @@ namespace Service.Education.Executes.Base
                     ImportedDate = DateTime.Now,
                     ProviderId = model.ProviderId,
                     Note = model.Note,
-                    TotalPrice  = model.TotalPrice
+                    TotalPrice  = model.TotalPrice,
+                    Status = model.Status
                 };
-               
-                
                 Context.ImportedCoupons.Add(d);
+                Context.SaveChanges();
+
+
+                // When Status == Imported.
+                if (model.Status == 1)
+                {
+                    for (int i = 0; i < model.detailImportedReceipts.Count; i++)
+                    {
+                        var valueid = model.detailImportedReceipts[i].ClothesId;
+                        CheckDbConnect();
+                        var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
+                        if (a == null)
+                            return new CommandResult<ImportedCoupon>("No result!");
+                        a.Amount += model.detailImportedReceipts[i].Amount;
+                    }
+                }
+
+                // Add Detail Receipt.
+                var detailreceiptlst = model.detailImportedReceipts.ToList();
+                for (int key = 0; key < detailreceiptlst.Count; key++)
+                {
+                    var detailReceipt = new DetailImportedReceipt
+                    {
+                        Id = detailreceiptlst[key].Id,
+                        Status = detailreceiptlst[key].Status,
+                        UnitMeasure = detailreceiptlst[key].UnitMeasure,
+                        Amount = detailreceiptlst[key].Amount,
+                        Price = detailreceiptlst[key].Price,
+                        FinalPrice = detailreceiptlst[key].FinalPrice,
+                        ClothesId = detailreceiptlst[key].ClothesId,
+                        CouponId = d.Id
+                    };
+                    Context.DetailImportedReceipts.Add(detailReceipt);
+                    Context.SaveChanges();
+                }
+
+
+
+                
                 Context.SaveChanges();
                 //DeleteCaching 
                 return new CommandResult<ImportedCoupon>(d);
@@ -73,7 +111,10 @@ namespace Service.Education.Executes.Base
             d.ProviderId = model.ProviderId;
             d.Note = model.Note;
             d.TotalPrice = model.TotalPrice;
+            d.Status = model.Status;
 
+
+            // When Status == Imported.
             if (model.Status == 1)
             {
                 for (int i = 0; i < model.detailImportedReceipts.Count; i++)
@@ -83,7 +124,7 @@ namespace Service.Education.Executes.Base
                     var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
                     if (a == null)
                         return new CommandResult<ImportedCoupon>("No result!");
-                    a.Amount -= model.detailImportedReceipts[i].Amount;
+                    a.Amount += model.detailImportedReceipts[i].Amount;
                 }
             }
 
@@ -115,18 +156,18 @@ namespace Service.Education.Executes.Base
                 {
                     // Update detail receipt row
                     var detailJson = model.detailImportedReceipts[i].Id;
-                    var detail = Context.DetailReceipts.FirstOrDefault(x => x.Id == detailJson);
+                    var detail = Context.DetailImportedReceipts.FirstOrDefault(x => x.Id == detailJson);
                     if (detail == null)
                         return new CommandResult<ImportedCoupon>("No result!");
                     detail.Status = detailreceiptlst[i].Status;
                     detail.UnitMeasure = detailreceiptlst[i].UnitMeasure;
                     detail.ClothesId = detailreceiptlst[i].ClothesId;
-
+                    detail.Amount = detailreceiptlst[i].Amount;
                     detail.CouponId = d.Id;
                     detail.Price = detailreceiptlst[i].Price;
                     detail.FinalPrice = detailreceiptlst[i].FinalPrice;
 
-
+                    Context.SaveChanges();
                 }
             }
             Context.SaveChanges();

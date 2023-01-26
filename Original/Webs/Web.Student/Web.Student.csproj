@@ -175,6 +175,7 @@
     <Compile Include="Controllers\Clothes\ProviderController.cs" />
     <Compile Include="Controllers\Clothes\SizeController.cs" />
     <Compile Include="Controllers\Clothes\SoldCouponController.cs" />
+    <Compile Include="Controllers\Clothes\TradeHistorieController.cs" />
     <Compile Include="Controllers\Clothes\TypeController.cs" />
     <Compile Include="Controllers\Education\EducationController.cs" />
     <Compile Include="Controllers\Employee\AuthController.cs" />
@@ -207,6 +208,7 @@
     <Content Include="assets\js\web\Clothmn\Size.js" />
     <Content Include="assets\js\web\Clothmn\SoldCoupon.js" />
     <Content Include="assets\js\web\Clothmn\SoldCouponEdit.js" />
+    <Content Include="assets\js\web\Clothmn\TradeHistorie.js" />
     <Content Include="assets\js\web\Clothmn\Type.js" />
     <Content Include="assets\js\web\general\email-tasks.js" />
     <Content Include="assets\js\web\general\email-template.js" />
@@ -356,6 +358,8 @@
     <Content Include="Views\Web\Education\Partials\ImportedCouponEdit.cshtml" />
     <Content Include="Views\Web\Provider\ProviderList.cshtml" />
     <Content Include="Views\Web\Education\Partials\ProviderEdit.cshtml" />
+    <Content Include="Views\Web\TradeHistorie\TradeHistorieList.cshtml" />
+    <Content Include="Views\Web\Education\Partials\TradeHistorieEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

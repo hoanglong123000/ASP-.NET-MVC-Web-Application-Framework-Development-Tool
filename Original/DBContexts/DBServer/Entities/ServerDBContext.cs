@@ -37,7 +37,7 @@ namespace DBServer.Entities
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<ImportedCoupon> ImportedCoupons { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
-        
+        public virtual DbSet<TradeHistorie> TradeHistories { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //throw new UnintentionalCodeFirstException();

@@ -14,6 +14,7 @@ namespace Service.Education.Executes.Clothesmn.Clothes
         public string Keyword { get; set; }
         public int? SizeId { get; set; }
         public int? BrandId { get; set; }
+        public List<int> Ids { get; set; }
         
     }
 

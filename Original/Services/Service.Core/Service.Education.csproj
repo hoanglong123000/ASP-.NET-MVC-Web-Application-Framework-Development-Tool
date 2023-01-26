@@ -114,7 +114,7 @@
     <Compile Include="Executes\Clothesmn\Customers\CustomerModels.cs" />
     <Compile Include="Executes\Clothesmn\Customers\CustomerOne.cs" />
     <Compile Include="Executes\Clothesmn\DetailImportedReceipts\DetailImportedReceiptCommand.cs" />
-    <Compile Include="Executes\Clothesmn\DetailImportedReceipts\DetailImportedMany.cs" />
+    <Compile Include="Executes\Clothesmn\DetailImportedReceipts\DetailImportedReceiptMany.cs" />
     <Compile Include="Executes\Clothesmn\DetailImportedReceipts\DetailImportedReceiptModels.cs" />
     <Compile Include="Executes\Clothesmn\DetailImportedReceipts\DetailImportedReceiptOne.cs" />
     <Compile Include="Executes\Clothesmn\DetailReceipts\DetailReceiptCommand.cs" />
@@ -137,6 +137,10 @@
     <Compile Include="Executes\Clothesmn\SoldCoupons\SoldCouponMany.cs" />
     <Compile Include="Executes\Clothesmn\SoldCoupons\SoldCouponModels.cs" />
     <Compile Include="Executes\Clothesmn\SoldCoupons\SoldCouponOne.cs" />
+    <Compile Include="Executes\Clothesmn\TradeHistories\TradeHistorieCommand.cs" />
+    <Compile Include="Executes\Clothesmn\TradeHistories\TradeHistorieMany.cs" />
+    <Compile Include="Executes\Clothesmn\TradeHistories\TradeHistorieModels.cs" />
+    <Compile Include="Executes\Clothesmn\TradeHistories\TradeHistorieOne.cs" />
     <Compile Include="Executes\Clothesmn\Types\TypeCommand.cs" />
     <Compile Include="Executes\Clothesmn\Types\TypeMany.cs" />
     <Compile Include="Executes\Clothesmn\Types\TypeModels.cs" />

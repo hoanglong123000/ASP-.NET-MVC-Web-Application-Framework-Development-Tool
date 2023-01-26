@@ -21,7 +21,7 @@
             groupBrand = l.Brands.Where(x => x.Status >= 0).ToList();
         }*@
 
-    var groupStatus = ViewData["StatusList"] as List<BaseItem>;
+    var groupStatus = ViewData["StatusImportedList"] as List<BaseItem>;
     
 
 
@@ -36,7 +36,7 @@
 
 <form id="ImportedCouponForm" class="form form-horizontal">
 
-    <input type="hidden" name="Id" value="@Model.Id" />
+    <input type="hidden" name="id" value="@Model.Id" />
 
     <div class="row">
         <div class="col-md-6">
@@ -50,35 +50,23 @@
                 Required = true,
 
             })
+        </div>
             <div class="col-md-6">
-                @AppHelper.SelectInline(new ControlAttribute()
+                @AppHelper.InputInline(new ControlAttribute()
                 {
                   Title = "Ghi chú",
                   Name = "Note",
                   Value = Model.Note + "",
                   LabelCol = 4,
                   Required = true,
-                  HasDefaultOption = true,
+                  
             
                 })
-
-
-
-                @*  @AppHelper.SelectInline(new ControlAttribute()
-                    {
-                       Title = "Trạng thái",
-                       Name = "Status",
-                       Value = Model.Status.ToString(),
-                       LabelCol = 4,
-                       Required = true,
-                       HasDefaultOption = true,
-                       List = groupStatus.Select(x => new SelectOption { Text = x.Name, Value = x.Code + "" }).ToList()
-
-                    })
-                *@
-
-
             </div>
+
+
+   
+        
 
 
 
@@ -98,19 +86,19 @@
                     </thead>
 
                     <tbody data-bind="foreach: ImportedReceiptArray()">
-                        <tr data-bind="visible: status() == 0">
+                        <tr data-bind="visible: Status() == 0">
                             <td> </td>
-                            <td> <input data-bind="attr: { id: 'selectid_' + guid } " /></td>
-                            <td> <label data-bind="text: unitmeasure" /></td>
-                            <td> <input data-bind="value: ammount" style="width: 90px;" type="number" class="form-control" /> </td>
-                            <td> <label data-bind="text: price" /> </td>
-                            <td> <label data-bind="text: finalprice" /> </td>
-                            <td> <button class="btn btn-success" type="button" data-bind="click: DeleteReceiptRow">XÓA</button></td>
+                            <td> <input data-bind="attr: { Id: 'selectid_' + Guid } " /></td>
+                            <td> <label data-bind="text: UnitMeasure" /></td>
+                            <td> <input data-bind="value: Amount" style="width: 90px;" type="number" min="1" max="99999" step="1" pattern="\d+" onchange="this.value = parseInt(this.value);"/> </td>
+                            <td> <label data-bind="text: Price" /> </td>
+                            <td> <label data-bind="text: FinalPrice" /> </td>
+                            <td> <button class="btn btn-success" type="button" data-bind="click: DeleteImportedReceiptRow">XÓA</button></td>
                         </tr>
                     </tbody>
 
                 </table>
-                <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind="text: totalpricestr"></span> </h3>
+                <h3 class="col-md-offset-8">Tổng tiền hàng: <span data-bind="text: TotalPricestr"></span> </h3>
                 <button class="btn btn-rounded btn-primary" data-bind=" click: ShowTotalPrice"></button>
 
 
@@ -126,13 +114,13 @@
                 </button>
                 <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
                         data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="1">
-                    <i class="fa fa-save"></i> CHỐT ĐƠN
+                    <i class="fa fa-save"></i> CHỐT NHẬP
                 </button>
 
                 <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="2"> <i class="fa fa-pencil fa-fw"></i>LƯU TẠM</button>
             </div>
         </div>
-    </div>
+    
 </form>
 
 <script>
@@ -152,9 +140,9 @@
         // List.
         self.ImportedReceiptArray = ko.observableArray();
 
-        // Summation of each final price rows.
-        self.totalprice = ko.observable();
-        self.totalpricestr = ko.observable("");
+        // Summation of each final Price rows.
+        self.TotalPrice = ko.observable(0);
+        self.TotalPricestr = ko.observable("");
 
         // Clothes's Properties.
         self.clothesname = ko.observableArray();
@@ -188,14 +176,14 @@
                 // Update method.
                 if (item != null)
                 {
-                    sr.guid = app.newGuid();
-                    sr.id = item.Id;
-                    sr.clothesid = ko.observable(item.ClothesId);
-                    sr.unitmeasure = ko.observable(item.UnitMeasure);
-                    sr.ammount = ko.observable(item.Ammount);
-                    sr.price = ko.observable(item.Price);
-                    sr.finalprice = ko.observable(item.FinalPrice);
-                    sr.status = ko.observable(item.Status);
+                    sr.Guid = app.newGuid();
+                    sr.Id = item.Id;
+                    sr.ClothesId = ko.observable(item.ClothesId);
+                    sr.UnitMeasure = ko.observable(item.UnitMeasure);
+                    sr.Amount = ko.observable(item.Amount);
+                    sr.Price = ko.observable(item.Price);
+                    sr.FinalPrice = ko.observable(item.FinalPrice);
+                    sr.Status = ko.observable(item.Status);
 
                     console.log(item);
 
@@ -204,24 +192,24 @@
                 }
                 // Add method.
                 else {
-                    sr.guid = app.newGuid();
-                    sr.id = 0;
-                    sr.clothesid = ko.observable(0);
-                    sr.unitmeasure = ko.observable("Cái");
-                    sr.ammount = ko.observable(0);
-                    sr.price = ko.observable(1);
-                    sr.finalprice = ko.observable();
-                    sr.status = ko.observable(0);
+                    sr.Guid = app.newGuid();
+                    sr.Id = 0;
+                    sr.ClothesId = ko.observable(0);
+                    sr.UnitMeasure = ko.observable("Cái");
+                    sr.Amount = ko.observable(1);
+                    sr.Price = ko.observable(1);
+                    sr.FinalPrice = ko.observable(0);
+                    sr.Status = ko.observable(0);
 
                 }
 
 
-            console.log('Clothesid: ' + sr.clothesid());
+            console.log('ClothesId: ' + sr.ClothesId());
 
             setTimeout(function () {
 
 
-                $('#selectid_' + sr.guid).select2({
+                $('#selectid_' + sr.Guid).select2({
                     width: 200,
                     ajax: {
                         url: "/Clothes/ViewClothList",
@@ -249,18 +237,18 @@
                                                 text: this.Name,
                                                 clothprice: this.Price
                                             });
-                                    @*self.clothesname.push({ id: this.Id, text: this.Name, clothprice: this.Price });*@
+                                    @*self.clothesname.push({ Id: this.Id, text: this.Name, clothPrice: this.Price });*@
                                 }
 
                             );
                                     @*self.clothesname(k.Many);*@
                            @* console.log("Array of Clothes: ", self.clothesname());
-                            console.log("First element of Array of Clothes: ", self.clothesname()[0].id);
+                            console.log("First element of Array of Clothes: ", self.clothesname()[0].Id);
                             console.log("First name of first element of Array of Clothes: ", self.clothesname()[0].text);
-                            console.log("clothesid ", sr.clothesid());
+                            console.log("ClothesId ", sr.ClothesId());
 
                             var b = "";
-                            self.clothesname().forEach(function (value) { if (value.id == sr.clothesid()) { b = value.text + ""; } });
+                            self.clothesname().forEach(function (value) { if (value.Id == sr.ClothesId()) { b = value.text + ""; } });
                                     console.log("value: ", b);*@
                             return { results: clothname };
 
@@ -276,22 +264,22 @@
 
                         }).change(function (v) {
                             console.log('check:', v);
-                            sr.price(v.added.clothprice);
+                            sr.Price(v.added.clothprice);
                             console.log('Id: ', this.id);
                             console.log('v.val: ', v.val);
                             console.log('v.Id: ', v.added.id);
-                            sr.clothesid(v.val);
+                            sr.ClothesId(v.val);
 
                             @*self.clothesname(v.added.name);*@
 
-                            @*if (this.id == v.val) {
-                                sr.price(v.added.clothprice);
+                            @*if (this.Id == v.val) {
+                                sr.Price(v.added.clothPrice);
 
 
                             }*@
                            @* $(clothesname).each(function (item) {
 
-                                console.log("Id cua clothesname: ", this.id);
+                                console.log("Id cua clothesname: ", this.Id);
 
                             }) *@
 
@@ -300,7 +288,7 @@
 
                         })
 
-                        if (sr.id > 0) {
+                        if (sr.Id > 0) {
                             $.getJSON
                             (
                                 "/Clothes/ViewClothList",
@@ -308,12 +296,12 @@
                                 (data) => {
                                     self.clothesname(data.Many);
                                     console.log("Clothes name: ", self.clothesname());
-                                    console.log("Check id : ", sr.clothesid());
+                                    console.log("Check id : ", sr.ClothesId());
                                     var b = "";
                                     console.log("Clothes : ", self.clothesname());
-                                    self.clothesname().forEach(function (value) { if (value.Id == sr.clothesid()) { b = value.Name}; });
+                                    self.clothesname().forEach(function (value) { if (value.Id == sr.ClothesId()) { b = value.Name}; });
                                     console.log("value of b: ", b);
-                                    $("#selectid_" + sr.guid).select2('val', b);
+                                    $("#selectid_" + sr.Guid).select2('val', b);
                                 }
 
                             )
@@ -328,14 +316,14 @@
 
 
 
-            @*sr.clothesid.subscribe(() => {
-                if (typeof sr.clothesid() != "undefined") {
-                    item = self.clothesname().filter(x => x.Id == sr.clothesid().Id);
-                    console.log('>> ', sr.clothesid().Id);
+            @*sr.ClothesId.subscribe(() => {
+                if (typeof sr.ClothesId() != "undefined") {
+                    item = self.clothesname().filter(x => x.Id == sr.ClothesId().Id);
+                    console.log('>> ', sr.ClothesId().Id);
                     console.log('xuat item', item);
                     console.log("Price of cloth: " + item[0].Price);
-                    console.log("Price of cloth array: " + sr.price());
-                    sr.price(item[0].Price);
+                    console.log("Price of cloth array: " + sr.Price());
+                    sr.Price(item[0].Price);
 
                 }
             });*@
@@ -356,21 +344,22 @@
 
         };
 
-        //Calculating total price and final price.
+        //Calculating total Price and final Price.
         self.realtime = ko.computed(
             () => {
                 var Sum = 0;
                 $(self.ImportedReceiptArray()).each(function (index, element) {
                     // Save.
-                    if (element.status() == 0) {
-                        element.finalprice(parseInt(element.ammount() * element.price()));
+                    if (element.Status() == 0) {
+                        element.FinalPrice(parseInt(element.Amount() * element.Price()));
 
 
-                        Sum += parseInt(element.finalprice());
-                        self.totalprice(Sum);
+                        Sum += parseInt(element.FinalPrice());
+                        self.TotalPrice(Sum);
                         app.formatPrice(Sum);
-                        self.totalpricestr(app.formatPrice(Sum));
-                        console.log(element.finalprice());
+                        self.TotalPricestr(app.formatPrice(Sum));
+                        console.log(element.FinalPrice());
+
                     }
 
 
@@ -383,8 +372,8 @@
 
         // Delete method.
         self.DeleteImportedReceiptRow = (item) => {
-            item.status(-1);
-            console.log(item.status());
+            item.Status(-1);
+            console.log(item.Status());
 
             @*$.ajax({
                 url: "/SoldCoupon/DeleteEachRowsOfReceipt",
@@ -396,8 +385,8 @@
 
         // Show Sum.
         self.ShowTotalPrice = () => {
-            console.log(self.totalprice());
-            console.log(ko.toJS(self.ReceiptArray));
+            console.log(self.TotalPrice());
+            console.log(ko.toJS(self.ImportedReceiptArray));
         }
 
         //Show data when pressing Update button.
@@ -406,11 +395,11 @@
                 url: "/ImportedCoupon/DetailImportedReceiptEdit",
                 type: "GET",
                 data: { id: model.Id },
-                success: (DetailReceiptData) => {
-                    console.log('detail: ', DetailReceiptData);
+                success: (DetailImportedReceiptData) => {
+                    console.log('detail: ', DetailImportedReceiptData);
 
 
-                    $(DetailReceiptData.Many).each(
+                    $(DetailImportedReceiptData.Many).each(
                         (index, item) => {
                             var row = new ImportedReceiptRow(item);
                             self.ImportedReceiptArray.push(row);
@@ -545,8 +534,9 @@
                         ImportedDate: data.ImportedDate,
                         Status: value,
                         Note: data.Note,
-                        detailReceipts: ko.toJS(ReceiptArray()),
-                        TotalPrice: ko.toJS(totalprice()),
+                        detailImportedReceipts: ko.toJS(ImportedReceiptArray()),
+                        TotalPrice: ko.toJS(TotalPrice()),
+
                         
 
                     },

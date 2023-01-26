@@ -78,6 +78,16 @@
            })
 
             @AppHelper.InputInline(new ControlAttribute()
+            {
+                Title = "Giá thành",
+                Name = "Price",
+                Value = Model.Price.ToString(),
+                LabelCol = 4,
+                Required = true,
+                HasDefaultOption = true
+            }),
+
+            @AppHelper.InputInline(new ControlAttribute()
           {
               Title = "Số lượng tồn",
               Name = "Amount",
@@ -85,8 +95,10 @@
               LabelCol = 4,
               Required = true,
               HasDefaultOption = true,
-              
+
           })
+
+            
 
 
         </div>
@@ -101,6 +113,8 @@
                     data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing...">
                 <i class="fa fa-save"></i> LƯU
             </button>
+
+            
         </div>
     </div>
 </form>
@@ -123,7 +137,7 @@
 
                 {
                     name: 'Name', type: 'text',
-                   
+
                 },
 
                 {
@@ -132,7 +146,7 @@
                     option: {
                     },
                     required: {
-                        message: 'Kích thước không được để trống'     
+                        message: 'Kích thước không được để trống'
                     }
                 },
 
@@ -145,8 +159,8 @@
                     required: {
                         message: 'Hãng không được để trống'
                     }
-                    
-                    
+
+
                 },
 
                 {
@@ -157,12 +171,28 @@
                     required: {
                         message: 'Loại không được để trống'
                     }
-                    
+
                 },
 
                 {
+                    name: 'Price',
+                    type: 'number',
+                    option: {
+                        min: 0,
+                        max: 99999999999,
+                    },
+                   
+                    required:  'Giá của sản phẩm phải bắt buộc được nhập'
+                },
+
+                
+                {
                     name: 'Amount',
                     type: 'number',
+                    option: {
+                        min: 0,
+                        max: 9999999999,
+                    },
                     required: {
                         message: 'Số lượng không được để trống'
                     }

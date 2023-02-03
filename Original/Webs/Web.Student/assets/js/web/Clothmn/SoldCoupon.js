@@ -1,6 +1,4 @@
-﻿
-
-var table;
+﻿var table;
 
 $(document).ready(function () {
     var panel = '#SoldCoupon_panel';

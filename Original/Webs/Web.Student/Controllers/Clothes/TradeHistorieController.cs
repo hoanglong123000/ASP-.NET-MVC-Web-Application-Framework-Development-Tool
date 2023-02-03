@@ -1,5 +1,4 @@
 ﻿using DBServer.Entities;
-using Service.Education.Executes.Clothesmn.SoldCoupons;
 using Service.Education.Executes.Clothesmn.TradeHistories;
 using Service.Utility.Variables;
 using System;

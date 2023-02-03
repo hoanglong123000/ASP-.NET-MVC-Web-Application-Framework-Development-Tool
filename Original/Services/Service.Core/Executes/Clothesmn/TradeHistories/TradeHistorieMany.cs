@@ -11,6 +11,7 @@ using Service.Education.Executes.Clothesmn.Brands;
 using Service.Education.Executes.Clothesmn.SizeTabs;
 using Service.Education.Executes.Clothesmn.TradeHistories;
 using System;
+using System.CodeDom;
 
 namespace Service.Education.Executes.Base
 {
@@ -19,8 +20,8 @@ namespace Service.Education.Executes.Base
         public QueryResult<TradeHistorieViewModel> TradeHistorieMany(SearchTradeHistorieModel model, OptionResult optionResult)
         {
             /*if (model.Cache)
-            {*/
-                /*var arr = new List<string> { "Brand" };
+            {
+                var arr = new List<string> { "Brand" };
                 if (optionResult.Unlimited)
                 {
                     arr.Add("u");
@@ -31,20 +32,20 @@ namespace Service.Education.Executes.Base
                 if (!string.IsNullOrEmpty(dataStr))
                 {
                     return Serializer.Deserialize<QueryResult<BrandViewModel>>(dataStr);
-                }*//*
+                }
                 var data = StudentData(model, optionResult);
                 Caching.Save(name, "Educations", Serializer.Serialize(data));
-                return data;*/
-           /* }*/
+                return data;
+            }*/
             return TradeHistorieData(model, optionResult);
         }
 
-        private QueryResult<TradeHistorieViewModel> TradeHistorieData(SearchTradeHistorieModel model, OptionResult optionResult)
+        public QueryResult<TradeHistorieViewModel> TradeHistorieData(SearchTradeHistorieModel model, OptionResult optionResult)
         {
             CheckDbConnect();
             IQueryable<TradeHistorie> q = Context.TradeHistories.Where(x => x.Status >= 0);
 
-            if (model.Keyword.HasValue())
+           /* if (model.Keyword.HasValue())
             {
                 var k = model.Keyword.OptimizeKeyword();
                 q = q.Where(x => x.Keyword.Contains(k));
@@ -53,7 +54,7 @@ namespace Service.Education.Executes.Base
             if(model.ClothesId.HasValue)
             {
                 q = q.Where(x => x.ClothesId == model.ClothesId);
-            }
+            }*/
 
            /*if(model.BrandId.HasValue)
             {
@@ -165,9 +166,90 @@ namespace Service.Education.Executes.Base
 
             return result;
         }
-        
+
+
+
+
+        public QueryResult<TradeHistorieViewModel> TradeHistorieSearchList(DateTime datefrom, DateTime dateto, OptionResult optionResult)
+        {
+            CheckDbConnect();
+            IQueryable<TradeHistorie> q = Context.TradeHistories.Where(x => (x.TradeTime >= datefrom) && (x.TradeTime <= dateto));
+
+            
+            var r = q.Select(x => new TradeHistorieViewModel
+            {
+                Id = x.Id,
+                Status = x.Status,
+                Keyword = x.TradeTime.ToString(),
+                ClothesId = x.ClothesId,
+                TradeTime = x.TradeTime,
+                Amount = x.Amount
+
+            });
+
+            r = r.OrderByDescending(x => x.Id);
+
+            var result = new QueryResult<TradeHistorieViewModel>(r, optionResult);
+            
+
+
+
+            if (result.Many.Any())
+            {
+                // LINQ for CRUD operation.
+                /*var ids = result.Many.Select(x => x.UpdatedBy).ToList();
+                ids.AddRange(result.Many.Select(x => x.CreatedBy).ToList());*/
+                var clothesname = result.Many.Select(x => x.ClothesId).ToList();
+                /*var sizeids = result.Many.Select(x => x.SizeId).ToList();
+                var brandids = result.Many.Select(x => x.BrandId).ToList();
+
+                /*ids = ids.Distinct().ToList();*/
+
+                // Using TypeClothes table in SQL Server instead of OptionValue table which is already available in project.
+                var clothesnames = ClothesNameList(new SearchClothModel
+                {
+                    Ids = clothesname
+                });
+                var TradeHistoriestatus = _shareService.OptionValueBaseList("TradeHistorieStatus");
+                
+                /* var brands = ClothBrandList(new SearchBrandModel
+                 {
+                     Ids = brandids
+                 });
+
+                 var emps = _shareService.EmployeeBaseList(new SearchEmployeeModel
+                 {
+                     Ids = ids
+                 });
+ */
+                // Using Brands table in SQL Server instead of OptionValue table which is already available in SQL Server.
+
+
+                // Using OptionValue table that is already available in project instead of SizeTabs table in SQL Sever.
+                /*var sizes = _shareService.OptionValueBaseList("SizeTabs");*/
+
+
+
+
+                foreach (var item in result.Many)
+                {
+                    /* item.ObjUpdatedBy = emps.FirstOrDefault(x => x.Id == item.UpdatedBy);
+                     item.ObjCreatedBy = emps.FirstOrDefault(x => x.Id == item.CreatedBy);
+                     item.ObjBrand = brands.FirstOrDefault(x => x.Id == item.BrandId)*/
+                    ;
+
+                    item.ObjClothesName = clothesnames.FirstOrDefault(x => x.Id == item.ClothesId);
+                    
+                    /* item.ObjType = types.FirstOrDefault(x => x.Id == item.TypeId);*/
+                    item.ObjStatus = TradeHistoriestatus.FirstOrDefault(x => x.Code == item.Status.ToString());
+                }
+            }
+
+            return result;
+        }
+
         // LINQ  ClothTypeList to map into Clothes table in SQL Server.
-        private List<BaseItem> ClothesNameList(SearchClothModel searchClothModel)
+        public List<BaseItem> ClothesNameList(SearchClothModel searchClothModel)
         {
             CheckDbConnect();
             var list = Context.Clothes.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();

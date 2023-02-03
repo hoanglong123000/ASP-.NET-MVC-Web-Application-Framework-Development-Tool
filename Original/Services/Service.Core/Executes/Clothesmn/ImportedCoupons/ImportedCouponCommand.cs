@@ -39,15 +39,32 @@ namespace Service.Education.Executes.Base
                 // When Status == Imported.
                 if (model.Status == 1)
                 {
-                    for (int i = 0; i < model.detailImportedReceipts.Count; i++)
-                    {
-                        var valueid = model.detailImportedReceipts[i].ClothesId;
+
+                        // Them vao lich su giao dich.
+                        var detailreceiptlst1 = model.detailImportedReceipts.ToList();
+                        for (int key = 0; key < detailreceiptlst1.Count; key++)
+                        {
+                            var tradeHistorie = new TradeHistorie
+                            {
+                                Status = 1,
+                                Amount = detailreceiptlst1[key].Amount,
+                                ClothesId = detailreceiptlst1[key].ClothesId,
+                                TradeTime = DateTime.Now
+                            };
+                            Context.TradeHistories.Add(tradeHistorie);
+                            Context.SaveChanges();
+                        }
+
+
+                        // Cong so luong hang ton vao kho.
+                        /*var valueid = model.detailImportedReceipts[i].ClothesId;
                         CheckDbConnect();
                         var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
                         if (a == null)
                             return new CommandResult<ImportedCoupon>("No result!");
-                        a.Amount += model.detailImportedReceipts[i].Amount;
-                    }
+                        
+                        a.Amount += model.detailImportedReceipts[i].Amount;*/
+                    
                 }
 
                 // Add Detail Receipt.
@@ -114,20 +131,41 @@ namespace Service.Education.Executes.Base
             d.Status = model.Status;
 
 
-            // When Status == Imported.
-            if (model.Status == 1)
+           
+                
+            var detailreceiptlst1 = model.detailImportedReceipts.ToList();
+            for (int key = 0; key < detailreceiptlst1.Count; key++)
             {
-                for (int i = 0; i < model.detailImportedReceipts.Count; i++)
-                {
-                    var valueid = model.detailImportedReceipts[i].ClothesId;
-                    CheckDbConnect();
-                    var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
-                    if (a == null)
-                        return new CommandResult<ImportedCoupon>("No result!");
-                    a.Amount += model.detailImportedReceipts[i].Amount;
-                }
-            }
+                    if (detailreceiptlst1[key].Id == 0)
+                    {
+                        var tradeHistorie = new TradeHistorie
+                        {
+                            Status = 1,
+                            Amount = detailreceiptlst1[key].Amount,
+                            ClothesId = detailreceiptlst1[key].ClothesId,
+                            TradeTime = DateTime.Now
+                        };
+                        Context.TradeHistories.Add(tradeHistorie);
+                        Context.SaveChanges();
+                    }
 
+                    else
+                    {
+                        var tradeHistorie1 = new TradeHistorie
+                        { 
+                            Status = 1,
+                            Amount = detailreceiptlst1[key].Amount,
+                            ClothesId = detailreceiptlst1[key].ClothesId,
+                            TradeTime = DateTime.Now
+                        };
+                        Context.TradeHistories.Add(tradeHistorie1);
+                        Context.SaveChanges();
+                }
+
+
+
+            }
+       
             Context.SaveChanges();
 
 

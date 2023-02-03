@@ -176,6 +176,7 @@
     <Compile Include="Controllers\Clothes\SizeController.cs" />
     <Compile Include="Controllers\Clothes\SoldCouponController.cs" />
     <Compile Include="Controllers\Clothes\TradeHistorieController.cs" />
+    <Compile Include="Controllers\Clothes\TradeReportController.cs" />
     <Compile Include="Controllers\Clothes\TypeController.cs" />
     <Compile Include="Controllers\Education\EducationController.cs" />
     <Compile Include="Controllers\Employee\AuthController.cs" />
@@ -237,7 +238,6 @@
     <Folder Include="Views\Brand\" />
     <Folder Include="Views\Education\" />
     <Folder Include="Views\Size\" />
-    <Folder Include="Views\SoulCoupon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -360,6 +360,9 @@
     <Content Include="Views\Web\Education\Partials\ProviderEdit.cshtml" />
     <Content Include="Views\Web\TradeHistorie\TradeHistorieList.cshtml" />
     <Content Include="Views\Web\Education\Partials\TradeHistorieEdit.cshtml" />
+    <Content Include="Views\Web\TradeReport\TradeReport.cshtml" />
+    <Content Include="Views\Web\Education\Partials\TradeHistorieReportEdit.cshtml" />
+    <Content Include="Views\Web\Education\Partials\TradeReportTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DBContexts\DBContext.AuthSharing\DBContext.AuthSharing.csproj">

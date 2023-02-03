@@ -44,14 +44,22 @@ namespace Service.Education.Executes.Base
                 // When Status == Sold.
                 if (model.Status == 1)
                 {
-                    for (int i = 0; i < model.detailReceipts.Count; i++)
+                    // Them vao lich su giao dich.
+                    var detailreceiptlst1 = model.detailReceipts.ToList();
+                    for (int key = 0; key < detailreceiptlst1.Count; key++)
                     {
-                        var valueid = model.detailReceipts[i].ClothesId;
-                        CheckDbConnect();
-                        var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
-                        if (a == null)
-                            return new CommandResult<SoldCoupon>("No result!");
-                        a.Amount -= model.detailReceipts[i].Ammount;
+                        var tradeHistorie = new TradeHistorie
+                        {
+
+                            Status = 0,
+
+                            Amount = detailreceiptlst1[key].Ammount,
+
+                            ClothesId = detailreceiptlst1[key].ClothesId,
+                            TradeTime = DateTime.Now
+                        };
+                        Context.TradeHistories.Add(tradeHistorie);
+                        Context.SaveChanges();
                     }
                 }
 
@@ -125,18 +133,44 @@ namespace Service.Education.Executes.Base
             d.Status = model.Status;
             d.TotalPrice = model.TotalPrice;
 
-            if (model.Status == 1)
-            {
-                for (int i = 0; i < model.detailReceipts.Count; i++)
+            
+                
+                var detailreceiptlst1 = model.detailReceipts.ToList();
+                for (int key = 0; key < detailreceiptlst1.Count; key++)
                 {
-                    var valueid = model.detailReceipts[i].ClothesId;
-                    CheckDbConnect();
-                    var a = Context.Clothes.FirstOrDefault(x => x.Id == valueid);
-                    if (a == null)
-                        return new CommandResult<SoldCoupon>("No result!");
-                    a.Amount -= model.detailReceipts[i].Ammount;
+                    if (detailreceiptlst1[key].Id == 0)
+                    {
+                        var tradeHistorie = new TradeHistorie
+                        {
+
+                            Status = 0,
+                            Amount = detailreceiptlst1[key].Ammount,
+                            ClothesId = detailreceiptlst1[key].ClothesId,
+                            TradeTime = DateTime.Now
+                        };
+                        Context.TradeHistories.Add(tradeHistorie);
+                        Context.SaveChanges();
+                    }
+                    else
+                    {
+                        var tradeHistorie1 = new TradeHistorie
+                        {
+                            Status = 0,
+                            Amount = detailreceiptlst1[key].Ammount,
+                            ClothesId = detailreceiptlst1[key].ClothesId,
+                            TradeTime = DateTime.Now
+                        };
+                        Context.TradeHistories.Add(tradeHistorie1);
+                        Context.SaveChanges();
+                    }
+                    
+
+
+
                 }
-            }
+
+                
+            
 
             Context.SaveChanges();
 

@@ -1,24 +1,22 @@
-﻿
-
-var table;
+﻿var table;
 
 $(document).ready(function () {
-    var panel = '#SoldCoupon_panel';
+    var panel = '#TradeHistorie_panel';
 
     $.ajax({
-        url: "/SoldCoupon/ViewSoldCouponList",
+        url: "/TradeHistorie/ViewTradeHistorieList",
         type: "GET",
         data: {},
-        success: function (SoldCoupon) {
-            console.log(SoldCoupon);
+        success: function (data) {
+            console.log(data);
         }
     })
 
 
     table = $(panel + " .apply-table").advanceGrid({
-        dataUrl: '/SoldCoupon/ViewSoldCouponList',
-        model: "SoldCoupon",
-        editController: '/SoldCoupon',
+        dataUrl: '/TradeHistorie/ViewTradeHistorieList',
+        model: "TradeHistorie",
+        editController: '/TradeHistorie',
         checkAll: true,
         width: {},
         filterable: true,
@@ -28,68 +26,20 @@ $(document).ready(function () {
         modal: {
             type: 1,
             width: '1000px',
-            title: 'PHIẾU BÁN HÀNG'
+            title: 'LỊCH SỬ GIAO DỊCH'
         },
         toolbars: {
             reload: {
                 ele: panel + ' .main-toolbar .btn-reload'
             }
         },
-        contextMenu: [
-            {
-                text: 'Cập nhật',
-                icon: 'icon-pencil7',
-                class: 'menu-capnhat',
-                action: 'capnhat',
-                /*Condition to enable Update button on right-click*/
-                visible: function (row) {
-                    return row.Status == 2;
-                },
-                click: function (tr) {
-                    var id = $(tr).attr('dataid');
-                    console.log(id);
-                    table.showTableLoading();
-                    editSoldCoupon(id,
-                        function () {
-                            table.hideTableLoading();
-                        },
-                        function () {
-                            table.loadData();
-                        },
-                    );
-
-                }
-            },
-            {
-                text: 'Xóa',
-                icon: 'icon-bin',
-                class: 'delete',
-                action: 'delete',
-                /*Condition to enable Delete button on right-click*/
-                visible: function (row) {
-                    return row.Status == 2;
-                },
-                click: function (tr) {
-                    var id = $(tr).attr('dataid');
-                    deleteSoldCoupon(id,
-                        function () {
-                        },
-                        function () {
-                            table.loadData();
-                        },
-                    );
-
-                }
-
-            },
-        ],
         paging: {
             options: [10, 20, 30, 50]
         },
         loadModalCallback: function () {
 
             setTimeout(function () {
-                initSoldCouponForm(function () {
+                initTradeHistorieForm(function () {
                     table.hideModal();
                     table.loadData();
                 });
@@ -119,26 +69,21 @@ $(document).ready(function () {
         },
         head: {
             height: 59,
-            groups: [50, 160, 100, 170, 100, 100, 100, 100, 100, 100],
+            groups: [50, 160, 100, 170, 100],
         },
         skipCols: 3,
         cols: {
             left: [
                 [
-                    { title: 'Mã số' },
-                    { title: 'Họ tên người mua' },
+                    { title: 'Mã số' }, 
+                    { title: 'Tên hàng hóa'},
                 ]
             ],
             right: [
                 [
-                    { title: 'Tổng tiền' },
-                    { title: 'Phương thức mua hàng' },
-                    { title: 'Trạng thái' },
-                    { title: 'Ngày bán' },
-                    { title: 'Người tạo' },
-                    { title: 'Ngày tạo' },
-                    { title: 'Người cập nhật' },
-                    { title: "Ngày cập nhật" }
+                    { title: 'Trạng thái', style: 'height: 59px' },
+                    { title: 'Thời gian giao dịch', style: 'height: 59px' },
+                    { title: 'Số lượng ', style: 'height: 59px' }
 
                 ]
             ]
@@ -147,20 +92,20 @@ $(document).ready(function () {
             { type: 'ai', style: 'text-align: center;' },
 
             {
-                type: 'text', attribute: 'BuyerName',
+                type: 'text', attribute: 'ClothesId',
 
                 /*filter: { type: 'contains', attr: 'keyword' },*/
                 render: function (row) {
-                    if (row.ObjNameBuyer != null)
-                        return row.ObjNameBuyer.Name
+                    if (row.ObjClothesName != null)
+                        return row.ObjClothesName.Name
                     return '';
                 },
-                /*Search Buyer.*/
+                /*Search Cloth.*/
                 filter: {
                     type: 'option',
 
                     ajax: {
-                        url: "/SoldCoupon/SearchBuyerName",
+                        url: "/TradeHistorie/SearchClothesIdList",
                         data: {},
                         attr: { id: "Id", text: "Name" },
 
@@ -169,37 +114,26 @@ $(document).ready(function () {
             },
 
 
-
             {
-                type: 'price', attribute: 'TotalPrice',
-                style: 'text-align: center; '
-            },
-
-
-            {
-                type: 'text', attribute: 'IsOnlineShop',
+                type: 'text', attribute: 'Status',
                 render: function (row) {
-                    if (row.ObjMethodToShop != null)
-                        switch (row.IsOnlineShop) {
+                    if (row.ObjStatus != null)
+                        switch (row.Status) {
                             // Status: Shop.
                             case 0:
-                                return "<span class='label text-pink-800' >" + row.ObjMethodToShop.Name + "</span>";
+                                return "<span class='label text-pink-800' >" + row.ObjStatus.Name + "</span>";
 
                             // Status: Online website.
                             case 1:
-                                return "<span class='label text-teal-600' >" + row.ObjMethodToShop.Name + "</span>";
-
-
-
+                                return "<span class='label text-teal-600' >" + row.ObjStatus.Name + "</span>";
                         }
-                    return row.ObjMethodToShop.Name
                     return '';
                 },
                 /*Filtering list through Method.*/
                 filter: {
                     type: 'option',
                     ajax: {
-                        url: "/SoldCoupon/SearchMethodsToShopList",
+                        url: "/TradeHistorie/SearchStatusList",
                         data: {},
                         attr: { id: "Code", text: "Name" },
                     }
@@ -210,87 +144,23 @@ $(document).ready(function () {
 
             },
 
-            {
-                type: 'text', attribute: 'Status',
-                render: function (row) {
-                    if (row.ObjStatus != null)
-                        switch (row.Status) {
-                            // Status: Cancel.
-                            case 0:
-                                return "<span class='label text-danger-600'>" + row.ObjStatus.Name + "</span>";
-
-                            // Status: Sold.
-                            case 1:
-                                return "<span class='label text-success' style='border-style: solid; border-color: green;'>" + row.ObjStatus.Name + "</span>";
-
-                            // Status: Save Temp.
-                            case 2:
-                                return "<span class='label text-orange-600' >" + row.ObjStatus.Name + "</span>";
-
-                        }
-
-
-                    return '';
-
-
-                },
-                /*Search StatusList.*/
-                filter: {
-                    type: 'option',
-
-                    ajax: {
-                        url: "/SoldCoupon/SearchStatusList",
-                        data: {},
-                        attr: { id: "Code", text: "Name" },
-
-                    }
-                },
-                style: 'text-align: center; '
-            },
+            
 
             {
                 type: 'datetime',
-                attribute: 'SoldDate',
-                style: 'text-align: center; '
-            },
-
-
-
-            /**/
-            {
-                type: 'text',
-                attribute: 'CreatedBy',
-                render: function (row) {
-                    if (row.ObjCreatedBy != null)
-                        return row.ObjCreatedBy.FullName;
-                    return '';
-                },
-                style: 'text-align: center; '
-            },
-
-
-            {
-                type: 'datetime',
-                attribute: 'CreatedDate',
+                attribute: 'TradeTime',
                 style: 'text-align: center; '
             },
 
             {
                 type: 'text',
-                attribute: 'UpdatedBy',
-                render: function (row) {
-                    if (row.ObjUpdatedBy != null)
-                        return row.ObjUpdatedBy.FullName;
-                    return '';
-                },
+                attribute: 'Amount',
                 style: 'text-align: center; '
+            },
 
-            },
-            {
-                type: 'datetime',
-                attribute: 'UpdatedDate',
-                style: 'text-align: center; '
-            },
+
+
+            
         ]
     });
 
@@ -298,7 +168,7 @@ $(document).ready(function () {
     $('.btn-add').click(function () {
         var btn = $(this);
         btn.button('loading');
-        editSoldCoupon(
+        editTradeHistorie(
             null,
             function () {
                 btn.button('reset');
@@ -321,7 +191,7 @@ $(document).ready(function () {
             app.notify('warning', 'Không tìm thấy thông tin');
         } else {
             app.confirmAjax({
-                url: '/SoldCoupon/DeleteSoldCouponByIds',
+                url: '/TradeHistorie/DeleteTradeHistorieByIds',
                 data: {
                     ids: selectedIds
                 },
@@ -335,11 +205,11 @@ $(document).ready(function () {
 });
 
 
-function detailSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+function detailTradeHistorie(id, initCallback, editCallback) {
+    var modalTitle = id != null ? 'LỊCH SỬ GIAO DỊCH' : 'LỊCH SỬ GIAO DỊCH';
+    var mid = 'editTradeHistorieModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/TradeHistorie/TradeHistorieEdit',
         data: {
             id: id
         },
@@ -350,7 +220,7 @@ function detailSoldCoupon(id, initCallback, editCallback) {
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initTradeHistorieForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })
@@ -358,11 +228,11 @@ function detailSoldCoupon(id, initCallback, editCallback) {
 }
 
 // Right-click Update method.
-function editSoldCoupon(id, initCallback, editCallback) {
-    var modalTitle = id != null ? 'PHIẾU BÁN HÀNG' : 'PHIẾU BÁN HÀNG';
-    var mid = 'editSoldCouponModal';
+function editTradeHistorie(id, initCallback, editCallback) {
+    var modalTitle = id != null ? 'LỊCH SỬ GIAO DỊCH' : 'LỊCH SỬ GIAO DỊCH';
+    var mid = 'editTradeHistorieModal';
     app.createPartialModal({
-        url: '/SoldCoupon/SoldCouponEdit',
+        url: '/TradeHistorie/TradeHistorieEdit',
         data: {
             id: id
         },
@@ -373,16 +243,16 @@ function editSoldCoupon(id, initCallback, editCallback) {
         }
     }, function () {
         initCallback();
-        initSoldCouponForm(function () {
+        initTradeHistorieForm(function () {
             $('#' + mid).modal('hide');
             editCallback();
         })
     })
 
 }
-function deleteSoldCoupon(id, initCallback, editCallback) {
+function deleteTradeHistorie(id, initCallback, editCallback) {
     app.confirmAjax({
-        url: '/SoldCoupon/DeleteSoldCouponByIds',
+        url: '/TradeHistorie/DeleteTradeHistorieByIds',
         data: {
             ids: [id]
         },

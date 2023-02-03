@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DBServer.Entities
 {
     public partial class TradeHistorie

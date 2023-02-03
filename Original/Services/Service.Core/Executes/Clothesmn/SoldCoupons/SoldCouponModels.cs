@@ -33,5 +33,6 @@ namespace Service.Education.Executes.Clothesmn.SoldCoupons
     {
         public List<DetailReceipt> detailReceipts { get; set; }
         public List<SoldCoupon> soldCoupons { get; set; }
+        public List<TradeHistorie> tradeHistorie { get; set; }
     }
 }

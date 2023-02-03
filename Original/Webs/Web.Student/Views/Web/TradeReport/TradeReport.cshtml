@@ -1,0 +1,162 @@
+﻿@*Razor Library*@
+@using Service.Utility.Components
+
+@{
+    ViewBag.Title = "BÁO CÁO LỊCH SỬ GIAO DỊCH";
+    Layout = "~/Views/Web/Layouts/Default.cshtml";
+}
+
+<div class="p-15" id="TradeReport_panel">
+    <div class="panel-footer main-toolbar">
+        <div class="heading-elements">
+            <label class="control-label col-md-2 text-primary-800 text-bold " style="font-size: 20px;">Thời gian báo cáo</label>
+            <br />
+            <div class="form-group">
+
+                <div class="col-md-5">
+
+                    @AppHelper.InputInline(new ControlAttribute()
+                    {
+                        Title = "Từ",
+                        Value = DateTime.Now.FormatDate(),
+                        LabelCol = 4,
+                        Name = "datefrom",
+                        Feedback = "icon-calendar2"
+                    })
+
+
+                </div>
+
+
+
+                <div class="col-md-5">
+
+                    @AppHelper.InputInline(new ControlAttribute()
+                    {
+                        Title = "Đến",
+                        Value = DateTime.Now.FormatDate(),
+                        LabelCol = 4,
+                        Name = "dateto",
+                        Feedback = "icon-calendar2"
+                    })
+
+
+                </div>
+            </div>
+
+
+
+
+            <button id="submitResult" type="submit" class="btn btn-submit btn-info btn-float btn-rounded" style="margin-top: 100px; background: #007AFF; padding-bottom: 44px; margin-left: -600px;">
+                <i class="icon-search4"></i>
+                <p>XEM KẾT QUẢ</p>
+            </button>
+
+
+            <div id="resultTable">
+
+            </div>
+
+
+        </div>
+    </div>
+    <div class="apply-table mt-15"></div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var f = "#TradeReport_panel";
+
+        $(f).ultraForm({
+            uiType: 1,
+            action: '/ImportedCoupon/ImportedCouponEdit',
+            actionType: 'ajax',
+            props: [
+
+                {
+                    name: 'datefrom',
+                    type: 'datepicker',
+                    
+                },
+
+                {
+                    name: 'dateto',
+                    type: 'datepicker',
+                    
+                }
+
+
+            ],
+        
+        autoSubmit: false,
+            validCallback: (data1, btn) => {
+                data = app.formDataToJson(data1);
+                console.log('text input: ',data)
+                var value = btn.attr('value');
+
+                $.ajax({
+                    url: '/TradeReport/TradeReportTable',
+                    type: 'GET',
+                    data: { datefrom: moment(data.datefrom).format() , dateto: moment(data.dateto).format() },
+                    success: function (dataTable) {
+                        $('#resultTable').html(dataTable);
+                    }
+                });
+
+
+            }
+    });
+
+
+        })
+    
+    
+    @*var model = @Html.Raw(Json.Encode(Model));
+    var databind = () => {
+
+        self.init = function () {
+            url: "/ImportedCoupon/DetailImportedReceiptEdit",
+            $.ajax({
+                type: "GET",
+                data: { DateFrom1: model.DateFrom1, DateTo1: model.DateTo1},
+                success: (data) => {
+                    console.log('detail: ', DetailImportedReceiptData);
+
+
+                    $(DetailImportedReceiptData.Many).each(
+                        (index, item) => {
+                            var row = new ImportedReceiptRow(item);
+                            self.ImportedReceiptArray.push(row);
+
+                        }
+                    )
+
+                }
+            })
+        }
+
+
+    }*@
+    $(document).ready(function () {
+
+        // Step 1: Fully GET $.ajax({url: "", type: "GET", data: {}, success: function(list) {} });
+         @*$.ajax({
+            url: "/TradeHistorie/ViewTradeHistorieList/",
+            type: "GET",
+            data: {},
+            success: function (list) {
+
+            }
+        })*@
+
+        // Step 2: Shortened of GET $.get( "", function(list) {} )
+        @*                             ^    ^       ^
+                                       |    |       |
+                                       |    |       |
+                               type: "GET" url   success    *@
+
+    })
+</script>
+
+

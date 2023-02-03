@@ -36,7 +36,7 @@
 
 <form id="ImportedCouponForm" class="form form-horizontal">
 
-    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="Id" value="@Model.Id" />
 
     <div class="row">
         <div class="col-md-6">
@@ -296,7 +296,7 @@
                                 (data) => {
                                     self.clothesname(data.Many);
                                     console.log("Clothes name: ", self.clothesname());
-                                    console.log("Check id : ", sr.ClothesId());
+                                    console.log("Check detail id : ", sr.ClothesId());
                                     var b = "";
                                     console.log("Clothes : ", self.clothesname());
                                     self.clothesname().forEach(function (value) { if (value.Id == sr.ClothesId()) { b = value.Name}; });
@@ -389,7 +389,7 @@
             console.log(ko.toJS(self.ImportedReceiptArray));
         }
 
-        //Show data when pressing Update button.
+        //Show data detail when pressing Update button.
         self.init = () => {
             $.ajax({
                 url: "/ImportedCoupon/DetailImportedReceiptEdit",
@@ -437,9 +437,6 @@
                 {
                     name: 'Id', type: 'hidden',
                 },
-
-
-
                 {
                     name: 'ProviderId', type: 'select2',
                     option: {
@@ -519,9 +516,10 @@
             }*@
             @*Delete *@
             autoSubmit: false,
-            validCallback: (data, btn) => {
-                data = app.formDataToJson(data);
-                console.log(data);
+            validCallback: (data1, btn) => {
+                data = app.formDataToJson(data1);
+                console.log('check data: >> ', data);
+                console.log('check form data: >> ', data1)
                 console.log('hello: ', ko.toJS( ImportedReceiptArray() ) );
                 var value = btn.attr('value');
 

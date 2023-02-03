@@ -32,6 +32,7 @@ namespace Service.Education.Executes.Clothesmn.ImportedCoupons
     {
         public List<DetailImportedReceipt> detailImportedReceipts { get; set; }
         public List<ImportedCoupon> ImportedCoupons { get; set; }
+        public List<TradeHistorie> tradeHistories { get; set; }
         
         
     }

@@ -23,7 +23,7 @@ namespace Service.Education.Executes.Base
                     Status = model.Status,
                     Keyword = model.TradeTime.ToString(),
                     ClothesId = model.ClothesId,
-                    TradeTime = DateTime.Now,
+                    TradeTime = DateTime.Today,
                     Amount = model.Amount
                 };
                

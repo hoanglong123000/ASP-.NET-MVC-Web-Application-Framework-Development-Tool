@@ -39,7 +39,7 @@
            LabelCol = 4,
            Required = true,
            HasDefaultOption = true,
-           List = groupClothesName.Select(x => new SelectOption { Text = x.Name, Value = x.Name}).ToList()
+           List = groupClothesName.Select(x => new SelectOption { Text = x.Name, Value = x.Id + ""}).ToList()
         })
 
             @AppHelper.InputInline(new ControlAttribute()
@@ -78,12 +78,8 @@
             <button class="btn btn-sm btn-default form-cancel mr-10 btn-rounded" data-dismiss="modal">
                 <i class="fa fa-remove"></i> THOÁT
             </button>
-            <button class="btn btn-sm btn-fill btn-danger m-r-5 btn-submit btn-rounded" type="button"
-                    data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="1">
-                <i class="fa fa-save"></i> NHẬP VÀO KHO
-            </button>
 
-            <button class="btn btn-sm btn-fill btn-primary m-r-5 btn-submit btn-rounded" type="button" data-loading-text="<i class='icon-spinner4 fa-spin'></i> Processing..." value="2"> <i class="fa fa-pencil fa-fw"></i>BÁN</button>
+           
 
 
         </div>
@@ -95,8 +91,9 @@
 
 
     var model = @Html.Raw(Json.Encode(Model));
-    function initTradeHistorieEditForm(callback) {
-        $('#TradeHistorieEditForm').ultraForm({
+    function initTradeHistorieForm(callback) {
+
+        $('#TradeHistorieForm').ultraForm({
             uiType: 1,
             action: '/TradeHistorie/TradeHistorieEdit',
             actionType: 'ajax',
@@ -107,13 +104,45 @@
 
 
                 {
-                    name: 'ClothesId',
-                    type: 'select2',
+                    name: 'ClothesId', type: 'select2',
                     option: {
+                        ajax: {
+                            url: '/Clothes/ViewClothList',
+                            type: 'GET',
+                            quietMillis: 250,
+                            data: function (term, page) {
+
+                                return {
+                                    keyword: term,
+                                    allStatus: true
+                                }
+
+                            },
+                            results: function (x, page) {
+                                console.log("Cloth: ", x)
+                                var data = [];
+                                $(x.Many).each(
+                                    function () {
+                                        data.push({
+                                            id: this.Id,
+                                            text: this.Name
+                                        });
+
+                                    }
+                                );
+                                return { results: data };
+                            }
+
+
+
+                        }
+
                     },
                     required: {
-                        message: 'Hàng hóa không được để trống'
-                    }
+                        message: "Thiếu tên hàng hóa"
+                    },
+
+
                 },
 
                 {
@@ -122,7 +151,7 @@
                     required: { message: 'Thời gian không được để trống'}
                 },
 
-                
+
 
 
                 {
@@ -137,13 +166,13 @@
                     }
                 },
 
-                
+
 
 
 
 
             ],
-            initCallback: function (form) { },
+            @*initCallback: function (form) { },
             beforSubmit: function (form) { },
             afterSubmit: function (result) {
                 if (result.Success) {
@@ -151,8 +180,49 @@
                 } else {
                     app.notify('warning', result.Message);
                 }
-            }
+            }*@
+            
+
+            autoSubmit: false,
+            validCallback: (data, btn) => {
+                data = app.formDataToJson(data);
+                var value = btn.attr('value');
+
+                $.ajax({
+                    url: "/TradeHistorie/TradeHistorieEdit",
+                    type: "POST",
+                    data: {
+                        Id: data.Id,
+                        Status: value,
+                        ClothesId: data.ClothesId,
+                        TradeTime: data.TradeTime,
+                        Amount: data.Amount
+
+                    },
+                    success: () => {
+                        callback(data);
+                    }
+                });
+
+
+            },
+
+            
+
         });
-	}
+
+        if (model.Id > 0) {
+            app.setSelect2Data(
+                $('#TradeHistorieForm input[name="ClothesId"]'),
+                {
+                    id: model.ObjClothesName.Id,
+                    text: model.ObjClothesName.Name
+                }
+
+            )
+        }
+    }
+
+    
 
 </script>

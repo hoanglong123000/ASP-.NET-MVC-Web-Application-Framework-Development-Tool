@@ -194,8 +194,9 @@ namespace Service.Education.Executes.Base
             }
             return list;
         }
-
         
+
+
         /*public List<BaseItem> StudenBaseList()
         {
             CheckDbConnect();

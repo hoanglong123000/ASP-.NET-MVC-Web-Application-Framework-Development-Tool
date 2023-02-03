@@ -22,86 +22,17 @@ namespace Web.Student.Controllers.Clothes
 
         
 
-        public ActionResult TradeReportTable(DateTime datefrom, DateTime dateto, OptionResult option)
+        public ActionResult TradeReportTable(DateTime datefrom, DateTime dateto, int mode, OptionResult option)
         {
             // Khoi tao cac bien gia tri.
             ViewData["datefrom"] = datefrom.FormatDate("dd/MM/yyyy");
             ViewData["dateto"] = dateto.FormatDate("dd/MM/yyyy");
-            var result = _educationService.TradeHistorieSearchList(datefrom, dateto, option);
 
-            // Khoi tao list de luu tru ma san pham.
-            var list = new List<int>();
-            foreach (var item in result.Many)
-            {
-                list.Add(item.ClothesId);
-                
-            }
-            list = list.Distinct().OrderBy(x => x).ToList();
-
-            // Gan danh sach bao gom ma sp va ten sp tu Clothes.
-            var clothesnames = _educationService.ClothesNameList(new SearchClothModel
-            {
-                Ids = list
-            });
-
-
-
-            // Tinh tong nhap, xuat.
-            var resultData = new List<TradeReport>();
-            for (int i = 0; i < list.Count(); i++)
-            {
-                var ImportedSum = 0;
-                var ExportedSum = 0;
-                var ImportedSumBefore = 0;
-                var ExportedSumBefore = 0;
-                // Tinh so ton dau ky (TDK).
-                _educationService.CheckDbConnect();
-                int idClo = list[i];
-                var before = _educationService.Context.TradeHistories.Where(x => ((x.ClothesId == idClo) && (x.TradeTime < datefrom))).ToList();
-
-
-                foreach(var item in before)
-                {
-                    if (item.Status == 1 && item.ClothesId == idClo)
-                    {
-                        ImportedSumBefore += item.Amount;
-                    }
-                    if (item.Status == 0 && item.ClothesId == idClo)
-                    {
-                        ExportedSumBefore += item.Amount;
-                    }
-                }
-                var TCKBefore = ImportedSumBefore - ExportedSumBefore;
-
-                
-                foreach (var item in result.Many)
-                {
-                    if (item.Status == 1 && item.ClothesId == idClo)
-                    {
-                        ImportedSum += item.Amount;
-                    }
-                    if(item.Status == 0 && item.ClothesId == idClo)
-                    {
-                        ExportedSum += item.Amount;
-                    }
-
-                }
+            var result = _educationService.TradeHistorieSearchList(datefrom, dateto.AddDays(1).AddSeconds(-1), option);
+            var resultData = _educationService.ProcessData(datefrom, mode, result);
                  
-               // var name = new BaseItem;
-                
-
-
-                // Assign value to TradeReport.
-                resultData.Add(new TradeReport {
-                    ObjClothes = clothesnames.FirstOrDefault(x => x.Id == idClo),
-                    TDK = TCKBefore,
-                    AmountImported = ImportedSum,
-                    AmountExported = ExportedSum,
-                    TCK = TCKBefore + ImportedSum - ExportedSum,
-                    Id = idClo,
-                   
-            });
-            }
+                    
+                    
             return PartialView("~/Views/" + _browser + "/Education/Partials/TradeReportTable.cshtml", resultData);
         }
     }

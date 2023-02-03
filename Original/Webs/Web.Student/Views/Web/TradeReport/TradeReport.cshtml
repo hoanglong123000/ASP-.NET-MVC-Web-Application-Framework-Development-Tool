@@ -45,12 +45,17 @@
             </div>
 
 
+            <button type="submit" class="btn btn-submit btn-danger btn-float btn-rounded" style="margin-top: 100px; background: rgb(226, 50, 50); padding-bottom: 44px; margin-left: -200px; " mode ="2">
+                
+                <p>TỔNG KẾT NGÀY</p>
+            </button>
 
-
-            <button id="submitResult" type="submit" class="btn btn-submit btn-info btn-float btn-rounded" style="margin-top: 100px; background: #007AFF; padding-bottom: 44px; margin-left: -600px;">
+            <button type="submit" class="btn btn-submit btn-info btn-float btn-rounded" style="margin-top: 100px; background: #007AFF; padding-bottom: 44px; margin-left: -600px;" mode = "1">
                 <i class="icon-search4"></i>
                 <p>XEM KẾT QUẢ</p>
             </button>
+
+
 
 
             <div id="resultTable">
@@ -93,16 +98,32 @@
             validCallback: (data1, btn) => {
                 data = app.formDataToJson(data1);
                 console.log('text input: ',data)
-                var value = btn.attr('value');
-
-                $.ajax({
-                    url: '/TradeReport/TradeReportTable',
-                    type: 'GET',
-                    data: { datefrom: moment(data.datefrom).format() , dateto: moment(data.dateto).format() },
-                    success: function (dataTable) {
-                        $('#resultTable').html(dataTable);
-                    }
-                });
+                var value = parseInt(btn.attr('mode'));
+                console.log('check mode: ', value)
+                switch (value) {
+                    case 1: {
+                        $.ajax({
+                            url: '/TradeReport/TradeReportTable',
+                            type: 'GET',
+                            data: { datefrom: moment(data.datefrom).format(), dateto: moment(data.dateto).format(), mode: value },
+                            success: function (dataTable) {
+                                $('#resultTable').html(dataTable);
+                            }
+                        });
+                    } break;
+                    case 2: 
+                    {
+                            $.ajax({
+                                url: '/TradeReport/TradeReportTable',
+                                type: 'GET',
+                                data: { datefrom: moment().format("YYYY-MM-DDT00:00:00"), dateto: moment().format("YYYY-MM-DDT00:00:00"), mode: value },
+                                success: function (dataTable) {
+                                    $('#resultTable').html(dataTable);
+                                }
+                            });
+                    } break;
+                }
+                
 
 
             }

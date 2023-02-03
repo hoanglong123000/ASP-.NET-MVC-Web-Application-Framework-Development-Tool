@@ -253,16 +253,95 @@ namespace Service.Education.Executes.Base
         {
             CheckDbConnect();
             var list = Context.Clothes.Select(x => new BaseItem { Id = x.Id, Name = x.Name }).ToList();
-            foreach (var item in list)
-            {
-                var a = item.Name;
-            }
+            
             return list;
         }
+        public List<TradeReport> ProcessData(DateTime from, int mode, QueryResult<TradeHistorieViewModel> result)
+        {
+            // Khoi tao list de luu tru ma san pham.
+            var list = new List<int>();
+            //    foreach (var item in result.Many)
+            //   {
+            //       list.Add(item.ClothesId);
 
-        
+            //  }
+            //   list = list.Distinct().OrderBy(x => x).ToList();
 
-        
+            // Gan danh sach bao gom ma sp va ten sp tu Clothes.
+            var clothesnames = ClothesNameList(new SearchClothModel());
+            foreach (var idItem in clothesnames)
+            {
+                list.Add(idItem.Id);
+            }
+
+
+            // Tinh tong nhap, xuat.
+            var resultData = new List<TradeReport>();
+            for (int i = 0; i < list.Count(); i++)
+            {
+                var ImportedSum = 0;
+                var ExportedSum = 0;
+                var ImportedSumBefore = 0;
+                var ExportedSumBefore = 0;
+                // Tinh so ton dau ky (TDK).
+                CheckDbConnect();
+                int idClo = list[i];
+                var before = Context.TradeHistories.Where(x => ((x.ClothesId == idClo) && (x.TradeTime < from))).ToList();
+
+
+                foreach (var item in before)
+                {
+                    if (item.Status == 1 && item.ClothesId == idClo)
+                    {
+                        ImportedSumBefore += item.Amount;
+                    }
+                    if (item.Status == 0 && item.ClothesId == idClo)
+                    {
+                        ExportedSumBefore += item.Amount;
+                    }
+                }
+                var TCKBefore = ImportedSumBefore - ExportedSumBefore;
+                
+
+                foreach (var item in result.Many)
+                {
+                    if (item.Status == 1 && item.ClothesId == idClo)
+                    {
+                        ImportedSum += item.Amount;
+                    }
+                    if (item.Status == 0 && item.ClothesId == idClo)
+                    {
+                        ExportedSum += item.Amount;
+                    }
+
+                }
+
+                // var name = new BaseItem;
+
+
+
+                // Assign value to TradeReport.
+                resultData.Add(new TradeReport
+                {
+                    ObjClothes = clothesnames.FirstOrDefault(x => x.Id == idClo),
+                    TDK = TCKBefore,
+                    AmountImported = ImportedSum,
+                    AmountExported = ExportedSum,
+                    TCK = TCKBefore + ImportedSum - ExportedSum,
+                    Id = idClo,
+                });
+                if (mode == 2)
+                {
+                    var d = Context.Clothes.FirstOrDefault(x => x.Id == idClo);
+                    d.Amount = TCKBefore + ImportedSum - ExportedSum;
+                    Context.SaveChanges();
+                }
+            }
+            return resultData;
+        }
+
+
+
         /*public List<BaseItem> StudenBaseList()
         {
             CheckDbConnect();
